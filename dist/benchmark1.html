@@ -1,69 +1,638 @@
-<h3>Name: Underworld Mayhem</h3>
-<h3>INTRODUCTION:</h3>
-<p>This document describes a game called Underworld Mayhem, which is designed to be a 2D Top-Down&nbsp; Action Survival Game.</p>
-<h3>TECHNOLOGY: Underworld Mayhem will be developed for the Windows Platform using the McKilla's Gorilla game engine, which is a bare-bones engine developed by <a href="http://www.cs.sunysb.edu/~richard" target="_blank" rel="noopener">Richard McKenna</a> for rapid prototyping 2D games. DirectX will be used as the underlying rendering technology.&nbsp;</h3>
-<p>FL studio will be used for the audio:</p>
-<p>Various tools such a Tiled,paint and photoshop will be used to create the tileset and the artwork</p>
-<h3>BACK STORY:&nbsp;</h3>
-<p>You&rsquo;re a retired veteran. You found out that your dearest comrade-in-arms has committed a misunderstood sin and ends up in hell. Knowing this, you end up trying to break through the barriers of hell to find [insert person] and drag him out.As you kill more demon spawns from hell, the barrier into hell weakens, allowing you to progress through hell and getting you closer to your [insert your goal]</p>
-<h3>OBJECTIVE</h3>
-<p>Your task is to enter the 9 circles of hells and fight your way to your comrade. On your journey there, you will encounter demon spawns that will hinder your progress. You will have to kill them and collect power ups.</p>
-<h3>GAMEPLAY</h3>
-<p>You start with a small view of your area, every enemy that you slay has provides experience points and upon leveling up you will be able to choose a powerup and your view of the world will expand. Once you level up enough and exit to the next level will become available.&nbsp;</p>
-<h3>CONTROLS</h3>
-<ul>
-    <li>WASD to move</li>
-    <li>Mouse click to shoot</li>
-    <li>Projectiles are shot in the direction of the mouse cursor</li>
-</ul>
-<h3>GRAPHICAL USER INTERFACE ARTWORK</h3>
-<p><strong>All artwork in the game will be original. The following needs to be created:</strong></p>
-<ul>
-    <li><strong>Character - </strong>our character will be dressed in soldier gear</li>
-</ul>
-<ul>
-    <li>Character with Weapon</li>
-    <li>Walking Left</li>
-    <li>Walking Right</li>
-    <li>Walking Up</li>
-    <li>Walking Down</li>
-    <li>Taking Damage</li>
-    <li>Dying</li>
-    <li>Shooting</li>
-    <li>Collecting Buff</li>
-</ul>
-<ul>
-    <li><strong>Demon - </strong>red demons with horns</li>
-</ul>
-<ul>
-    <li>Running Towards Player</li>
-    <li>Dying</li>
-    <li>Taking Damage</li>
-    <li>Attacking</li>
-</ul>
-<ul>
-    <li><strong>Potentially a Boss Monster if time permits.</strong></li>
-    <li><strong>Floor and Wall Tiles - </strong>The map will consist of collidable barriers and floors that present the hell atmosphere</li>
-    <li><strong>Buffs - </strong>buffs that can be collected</li>
-</ul>
-<ul>
-    <li>Attack Speed</li>
-    <li>Attack Damage</li>
-    <li>Speed</li>
-    <li>Health Buff</li>
-</ul>
-<h3>SOUND EFFECTS</h3>
-<p><strong>All sound effects will be original. Sounds must be made to coincide with each of the following events:</strong></p>
-<ul>
-    <li>Player Attack</li>
-    <li>Player Taking Damage</li>
-    <li>Player Death</li>
-    <li>Demon Attack</li>
-    <li>Demon Taking Damage</li>
-    <li>Demon Death</li>
-    <li>Picking up Buffs</li>
-    <li>Level Up</li>
-    <li>Finished Level</li>
-</ul>
-<h3>MUSIC:</h3>
-<p>TBD, but the music theme can be related to something heavy metal type to represent your bloodbath through hell</p>
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+h3
+	{margin-top:16.0pt;
+	margin-right:0in;
+	margin-bottom:4.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Arial",sans-serif;
+	color:#434343;
+	font-weight:normal;}
+.MsoChpDefault
+	{font-family:"Arial",sans-serif;}
+.MsoPapDefault
+	{line-height:115%;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_q1n0b0ad6lum"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>Name: Underworld Mayhem</span></b></h3>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_7xnorye5ako0"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>INTRODUCTION:</span></b></h3>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in'><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>This document describes a game called
+Underworld Mayhem, which is designed to be a 2D Top-Down  Action Survival Game.</span></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in'><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_n64wcz1xx8dg"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>TECHNOLOGY: </span></b><span lang=EN style='font-size:12.0pt;
+line-height:115%;font-family:"Calibri",sans-serif;color:black'>Underworld
+Mayhem will be developed for the Windows Platform using the McKilla's Gorilla
+game engine, which is a bare-bones engine developed by </span><span lang=EN><a
+href="http://www.cs.sunysb.edu/~richard"><span style='font-size:12.0pt;
+line-height:115%;font-family:"Calibri",sans-serif;color:#1155CC'>Richard
+McKenna</span></a></span><span lang=EN style='font-size:12.0pt;line-height:
+115%;font-family:"Calibri",sans-serif;color:black'> for rapid prototyping 2D
+games. DirectX will be used as the underlying rendering technology. </span></h3>
+
+<p class=MsoNormal><span lang=EN style='font-family:"Calibri",sans-serif'>FL
+studio will be used for the audio:</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-family:"Calibri",sans-serif'>Various
+tools such a Tiled,paint and photoshop will be used to create the tileset and
+the artwork</span></p>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_bcmum5cjsbb3"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>BACK STORY: </span></b></h3>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>You’re a retired veteran. You found out that
+your dearest comrade-in-arms has committed a misunderstood sin and ends up in
+hell. Knowing this, you end up trying to break through the barriers of hell to
+find [insert person] and drag him out.As you kill more demon spawns from hell,
+the barrier into hell weakens, allowing you to progress through hell and
+getting you closer to your [insert your goal]</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_u3mtliki1358"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>OBJECTIVE</span></b></h3>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>Your task is to enter the 9 circles of hells
+and fight your way to your comrade. On your journey there, you will encounter
+demon spawns that will hinder your progress. You will have to kill them and
+collect power ups.</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_n1ectkccq0r9"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>GAMEPLAY</span></b></h3>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>You start with a small view of your area,
+every enemy that you slay has provides experience points and upon leveling up
+you will be able to choose a powerup and your view of the world will expand.
+Once you level up enough and exit to the next level will become available. </span></p>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_xjbwzl9turtc"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>CONTROLS</span></b></h3>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>WASD
+to move</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Mouse
+click to shoot</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Projectiles
+are shot in the direction of the mouse cursor</span></p>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_u20bh06n0ebl"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>GRAPHICAL USER INTERFACE ARTWORK</span></b></h3>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in'><b><span lang=EN style='font-size:12.0pt;line-height:
+115%;font-family:"Calibri",sans-serif'>All artwork in the game will be
+original. The following needs to be created:</span></b></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Character
+- </span></b><span lang=EN style='font-family:"Calibri",sans-serif'>our
+character will be dressed in soldier gear</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Character
+with Weapon</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Walking
+Left</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Walking
+Right</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Walking Up</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Walking
+Down</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Taking
+Damage</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Dying</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Shooting</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Collecting
+Buff</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><b><span
+lang=EN style='font-family:"Calibri",sans-serif'>Demon - </span></b><span
+lang=EN style='font-family:"Calibri",sans-serif'>red demons with horns</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Running
+Towards Player</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Dying</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Taking
+Damage</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Attacking</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><b><span lang=EN style='font-family:"Calibri",sans-serif'>Potentially
+a Boss Monster if time permits.</span></b></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><b><span
+lang=EN style='font-family:"Calibri",sans-serif'>Floor and Wall Tiles - </span></b><span
+lang=EN style='font-family:"Calibri",sans-serif'>The map will consist of
+collidable barriers and floors that present the hell atmosphere</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><b><span
+lang=EN style='font-family:"Calibri",sans-serif'>Buffs - </span></b><span
+lang=EN style='font-family:"Calibri",sans-serif'>buffs that can be collected</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Attack
+Speed</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Attack
+Damage</span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in'><span lang=EN
+style='font-family:"Calibri",sans-serif'>&#10070;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-family:"Calibri",sans-serif'>Speed</span></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:12.0pt;
+margin-left:1.0in;text-indent:-.25in'><span lang=EN style='font-family:"Calibri",sans-serif'>&#10070;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-family:"Calibri",sans-serif'>Health Buff</span></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:.5in'><span lang=EN style='font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_49mfe1tknift"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>SOUND EFFECTS</span></b></h3>
+
+<p class=MsoNormal><b><span lang=EN style='font-family:"Calibri",sans-serif'>All
+sound effects will be original. Sounds must be made to coincide with each of
+the following events:</span></b></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Player
+Attack</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Player
+Taking Damage</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Player
+Death</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Demon
+Attack</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Demon
+Taking Damage</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Demon
+Death</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Picking
+up Buffs</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Level
+Up</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>&#9679;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif'>Finished
+Level</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<h3 style='margin-top:14.0pt;page-break-after:auto'><a name="_qbuyasldbjpo"></a><b><span
+lang=EN style='font-size:12.0pt;line-height:115%;font-family:"Calibri",sans-serif;
+color:black'>MUSIC:</span></b></h3>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>TBD, but the music theme can be related to
+something heavy metal type to represent your bloodbath through hell</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:30.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><u><span lang=EN
+style='font-size:30.0pt;line-height:115%;font-family:"Calibri",sans-serif'>UI
+Mockup</span></u></p>
+
+<p class=MsoNormal><b><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>Splash Screen </span></b><span lang=EN
+style='font-size:20.0pt;line-height:115%;font-family:"Calibri",sans-serif'>-
+will add an animation or graphic, click to continue to main menu</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'><img border=0 width=624 height=460
+id=image4.png src="benchmark1_files/image001.gif"></span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>Main Menu</span></b><span lang=EN
+style='font-size:20.0pt;line-height:115%;font-family:"Calibri",sans-serif'> -
+Select Level, Controls, Help Screen</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'><img border=0 width=624 height=463
+id=image2.png src="benchmark1_files/image002.gif"></span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>Level Selection Screen</span></b><span
+lang=EN style='font-size:20.0pt;line-height:115%;font-family:"Calibri",sans-serif'>
+- 9 levels 9 rings</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'><img border=0 width=624 height=463
+id=image6.png src="benchmark1_files/image003.gif"></span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>Controls Screen</span></b><span lang=EN
+style='font-size:20.0pt;line-height:115%;font-family:"Calibri",sans-serif'> -
+list controls in the game</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'><img border=0 width=624 height=446
+id=image5.png src="benchmark1_files/image004.gif"></span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>Help Screen -</span></b><span lang=EN
+style='font-size:20.0pt;line-height:115%;font-family:"Calibri",sans-serif'>
+backstory, developers, and cheat codes</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'><img border=0 width=624 height=461
+id=image3.png src="benchmark1_files/image005.gif"></span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>In Game Screen</span></b><span lang=EN
+style='font-size:20.0pt;line-height:115%;font-family:"Calibri",sans-serif'> -
+Weapon Display, HP, Damage, Buffs, Play and Pause button, Plus is buffs, flag
+is endpoint, angry face are enemies, chess king is the player</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:20.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'><img border=0 width=624 height=469
+id=image1.png src="benchmark1_files/image006.gif"></span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%;
+font-family:"Calibri",sans-serif'>&nbsp;</span></p>
+
+</div>
+
+</body>
+
+</html>

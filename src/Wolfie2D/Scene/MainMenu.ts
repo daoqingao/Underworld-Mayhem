@@ -210,6 +210,133 @@ export default class MainMenu extends Scene {
     );
     selectHeader.textColor = Color.WHITE;
 
+    ///buttons for all the levels
+    const level1 = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x, center.y - 150),
+        text: "Level 1",
+      }
+    );
+    level1.size.set(200, 50);
+    level1.borderWidth = 2;
+    level1.borderColor = Color.WHITE;
+    level1.backgroundColor = Color.TRANSPARENT;
+    level1.onClickEventId = "chooselevel";
+
+    const level2 = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x + 100, center.y - 90),
+        text: "Level 2",
+      }
+    );
+    level2.size.set(200, 50);
+    level2.borderWidth = 2;
+    level2.borderColor = Color.WHITE;
+    level2.backgroundColor = Color.TRANSPARENT;
+    level2.onClickEventId = "chooselevel";
+
+    const level3 = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x + 200, center.y - 30),
+        text: "Level 3",
+      }
+    );
+    level3.size.set(200, 50);
+    level3.borderWidth = 2;
+    level3.borderColor = Color.WHITE;
+    level3.backgroundColor = Color.TRANSPARENT;
+    level3.onClickEventId = "chooselevel";
+
+    const level4 = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x + 150, center.y + 30),
+        text: "Level 4",
+      }
+    );
+    level4.size.set(200, 50);
+    level4.borderWidth = 2;
+    level4.borderColor = Color.WHITE;
+    level4.backgroundColor = Color.TRANSPARENT;
+    level4.onClickEventId = "chooselevel";
+
+    const level5 = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x + 75, center.y + 90),
+        text: "Level 5",
+      }
+    );
+    level5.size.set(200, 50);
+    level5.borderWidth = 2;
+    level5.borderColor = Color.WHITE;
+    level5.backgroundColor = Color.TRANSPARENT;
+    level5.onClickEventId = "chooselevel";
+
+    const level6 = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x - 100, center.y + 90),
+        text: "Level 6",
+      }
+    );
+    level6.size.set(200, 50);
+    level6.borderWidth = 2;
+    level6.borderColor = Color.WHITE;
+    level6.backgroundColor = Color.TRANSPARENT;
+    level6.onClickEventId = "chooselevel";
+
+    const level7 = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x - 150, center.y + 30),
+        text: "Level 7",
+      }
+    );
+    level7.size.set(200, 50);
+    level7.borderWidth = 2;
+    level7.borderColor = Color.WHITE;
+    level7.backgroundColor = Color.TRANSPARENT;
+    level7.onClickEventId = "chooselevel";
+
+    const level8 = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x - 200, center.y - 30),
+        text: "Level 8",
+      }
+    );
+    level8.size.set(200, 50);
+    level8.borderWidth = 2;
+    level8.borderColor = Color.WHITE;
+    level8.backgroundColor = Color.TRANSPARENT;
+    level8.onClickEventId = "chooselevel";
+
+    const level9 = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x - 100, center.y - 90),
+        text: "Level 9",
+      }
+    );
+    level9.size.set(200, 50);
+    level9.borderWidth = 2;
+    level9.borderColor = Color.WHITE;
+    level9.backgroundColor = Color.TRANSPARENT;
+    level9.onClickEventId = "chooselevel";
+
     // Subscribe to the button events
     this.receiver.subscribe("play");
     this.receiver.subscribe("help");
@@ -217,6 +344,7 @@ export default class MainMenu extends Scene {
     this.receiver.subscribe("control");
     this.receiver.subscribe("clicktoplay");
     this.receiver.subscribe("selectlevel");
+    this.receiver.subscribe("chooselevel");
   }
 
   updateScene() {
@@ -230,6 +358,9 @@ export default class MainMenu extends Scene {
         // this.sceneManager.changeToScene(mainScene, {});
         this.mainMenu.setHidden(true);
         this.selectLevelScreen.setHidden(false);
+      }
+      if (event.type === "chooselevel") {
+        this.sceneManager.changeToScene(mainScene, {});
       }
 
       if (event.type === "help") {

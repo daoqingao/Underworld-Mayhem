@@ -7,6 +7,8 @@ has death screen
 
 
 TODO:
-
-add controls screen in the main menu and stuff
-remove the second player
+Add Shooting Mosue
+Movement WASD
+Level Select, Controls, and Help screens
+One Level
+Put Character IN

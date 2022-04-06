@@ -7,96 +7,63 @@ import Label from "../Nodes/UIElements/Label";
 import mainScene from "./MainScene";
 
 export default class MainMenu extends Scene {
-  // Layers, for multiple main menu screens
+  // Layers, for multiple main menu screens\
+  private splashScreen: Layer;
   private mainMenu: Layer;
-  private about: Layer;
+  private help: Layer;
   private control: Layer;
+  private selectLevel: Layer;
 
   loadScene() {}
 
   startScene() {
     const center = this.viewport.getCenter();
 
-    // The main menu
+    ////################## The Splash Screen
+
+    this.splashScreen = this.addUILayer("splashScreen");
+
+    //Button for clicking to menu
+    const mainMenu = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {
+      position: new Vec2(center.x, center.y + 200),
+      text: "Click to Play",
+    });
+    mainMenu.size.set(200, 50);
+    mainMenu.borderWidth = 2;
+    mainMenu.borderColor = Color.WHITE;
+    mainMenu.backgroundColor = Color.TRANSPARENT;
+    mainMenu.onClickEventId = "menu";
+
+    //################The Menu Screen
     this.mainMenu = this.addUILayer("mainMenu");
+    this.mainMenu.setHidden(true);
 
     // Add play button, and give it an event to emit on press
-    const play = this.add.uiElement(UIElementType.BUTTON, "mainMenu", {
+
+    const selectLevel = this.add.uiElement(UIElementType.BUTTON, "mainMenu", {
       position: new Vec2(center.x, center.y - 100),
-      text: "Play",
+      text: "Select Level",
     });
-    play.size.set(200, 50);
-    play.borderWidth = 2;
-    play.borderColor = Color.WHITE;
-    play.backgroundColor = Color.TRANSPARENT;
-    play.onClickEventId = "play";
+    selectLevel.size.set(200, 50);
+    selectLevel.borderWidth = 2;
+    selectLevel.borderColor = Color.WHITE;
+    selectLevel.backgroundColor = Color.TRANSPARENT;
+    selectLevel.onClickEventId = "selectLevel";
 
-    // Add about button
-    const about = this.add.uiElement(UIElementType.BUTTON, "mainMenu", {
+    // Add help button
+    const help = this.add.uiElement(UIElementType.BUTTON, "mainMenu", {
       position: new Vec2(center.x, center.y + 100),
-      text: "About",
+      text: "Help",
     });
-    about.size.set(200, 50);
-    about.borderWidth = 2;
-    about.borderColor = Color.WHITE;
-    about.backgroundColor = Color.TRANSPARENT;
-    about.onClickEventId = "about";
+    help.size.set(200, 50);
+    help.borderWidth = 2;
+    help.borderColor = Color.WHITE;
+    help.backgroundColor = Color.TRANSPARENT;
+    help.onClickEventId = "help";
 
-    /* ########## ABOUT SCREEN ########## */
-    this.about = this.addUILayer("about");
-    this.about.setHidden(true);
-
-    const aboutHeader = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "about",
-      {
-        position: new Vec2(center.x, center.y - 250),
-        text: "About",
-      }
-    );
-    aboutHeader.textColor = Color.WHITE;
-
-    const text1 = "Game masfafasfasasdasdafasade by Rob, Dao and Lin";
-    const text2 =
-      "using the Wolfie2D game engine, a TypeScript game engine created by";
-    const text3 = "Joe Weaver and Richard McKenna.";
-
-    const line1 = <Label>this.add.uiElement(UIElementType.LABEL, "about", {
-      position: new Vec2(center.x, center.y - 50),
-      text: text1,
-    });
-    const line2 = <Label>this.add.uiElement(UIElementType.LABEL, "about", {
-      position: new Vec2(center.x, center.y),
-      text: text2,
-    });
-    const line3 = <Label>this.add.uiElement(UIElementType.LABEL, "about", {
-      position: new Vec2(center.x, center.y + 50),
-      text: text3,
-    });
-
-    line1.textColor = Color.WHITE;
-    line2.textColor = Color.WHITE;
-    line3.textColor = Color.WHITE;
-
-    const aboutBack = this.add.uiElement(UIElementType.BUTTON, "about", {
-      position: new Vec2(center.x, center.y + 250),
-      text: "Back",
-    });
-    aboutBack.size.set(200, 50);
-    aboutBack.borderWidth = 2;
-    aboutBack.borderColor = Color.WHITE;
-    aboutBack.backgroundColor = Color.TRANSPARENT;
-    aboutBack.onClickEventId = "menu";
-
-    // Subscribe to the button events
-    this.receiver.subscribe("play");
-    this.receiver.subscribe("about");
-    this.receiver.subscribe("menu");
-    this.receiver.subscribe("control");
-
-    //THIS IS OUR controls button in the mains screen of the game
+    // //THIS IS OUR controls button in the mains screen of the game
     const control = this.add.uiElement(UIElementType.BUTTON, "mainMenu", {
-      position: new Vec2(center.x, center.y + 200),
+      position: new Vec2(center.x, center.y),
       text: "Controls",
     });
     control.size.set(200, 50);
@@ -105,7 +72,56 @@ export default class MainMenu extends Scene {
     control.backgroundColor = Color.TRANSPARENT;
     control.onClickEventId = "control";
 
-    /* ########## ABOUT SCREEN ########## */
+    /* ########## HELP SCREEN ########## */
+    this.help = this.addUILayer("help");
+    this.help.setHidden(true);
+
+    const helpHeader = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
+      position: new Vec2(center.x, center.y - 250),
+      text: "Help",
+    });
+    helpHeader.textColor = Color.WHITE;
+
+    // const text1 = "Game made by Rob, Dao and Lin";
+    // const text2 =
+    //   "using the Wolfie2D game engine, a TypeScript game engine created by";
+    // const text3 = "Joe Weaver and Richard McKenna.";
+
+    // const line1 = <Label>this.add.uiElement(UIElementType.LABEL, "about", {
+    //   position: new Vec2(center.x, center.y - 50),
+    //   text: text1,
+    // });
+    // const line2 = <Label>this.add.uiElement(UIElementType.LABEL, "about", {
+    //   position: new Vec2(center.x, center.y),
+    //   text: text2,
+    // });
+    // const line3 = <Label>this.add.uiElement(UIElementType.LABEL, "about", {
+    //   position: new Vec2(center.x, center.y + 50),
+    //   text: text3,
+    // });
+
+    // line1.textColor = Color.WHITE;
+    // line2.textColor = Color.WHITE;
+    // line3.textColor = Color.WHITE;
+
+    const helpBack = this.add.uiElement(UIElementType.BUTTON, "help", {
+      position: new Vec2(center.x, center.y + 250),
+      text: "Back",
+    });
+    helpBack.size.set(200, 50);
+    helpBack.borderWidth = 2;
+    helpBack.borderColor = Color.WHITE;
+    helpBack.backgroundColor = Color.TRANSPARENT;
+    helpBack.onClickEventId = "menu";
+
+    // Subscribe to the button events
+    this.receiver.subscribe("play");
+    this.receiver.subscribe("help");
+    this.receiver.subscribe("menu");
+    this.receiver.subscribe("control");
+    this.receiver.subscribe("clicktoplay");
+
+    /* ########## CONTROL SCREEN ########## */
     this.control = this.addUILayer("control");
     this.control.setHidden(true);
 
@@ -113,23 +129,20 @@ export default class MainMenu extends Scene {
       UIElementType.LABEL,
       "control",
       {
-        position: new Vec2(center.x, center.y - 250),
+        position: new Vec2(center.x, center.y - 200),
         text: "Controls",
       }
     );
     controlHeader.textColor = Color.WHITE;
 
     const controlText1 = "WASD to move";
-    const controlText2 = "Q to drop an item";
-    const controlText3 = "E to pick up an item";
-    const controlText4 = "Click to use current item";
-    const controlText5 = "1&2 to change items";
+    const controlText2 = "Left Click to Shoot";
 
     const controlLine1 = <Label>this.add.uiElement(
       UIElementType.LABEL,
       "control",
       {
-        position: new Vec2(center.x, center.y - 200),
+        position: new Vec2(center.x, center.y),
         text: controlText1,
       }
     );
@@ -137,40 +150,13 @@ export default class MainMenu extends Scene {
       UIElementType.LABEL,
       "control",
       {
-        position: new Vec2(center.x, center.y - 150),
-        text: controlText2,
-      }
-    );
-    const controlLine3 = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "control",
-      {
-        position: new Vec2(center.x, center.y - 50),
-        text: controlText3,
-      }
-    );
-    const controlLine4 = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "control",
-      {
-        position: new Vec2(center.x, center.y),
-        text: controlText4,
-      }
-    );
-    const controlLine5 = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "control",
-      {
         position: new Vec2(center.x, center.y + 50),
-        text: controlText5,
+        text: controlText2,
       }
     );
 
     controlLine1.textColor = Color.WHITE;
     controlLine2.textColor = Color.WHITE;
-    controlLine3.textColor = Color.WHITE;
-    controlLine4.textColor = Color.WHITE;
-    controlLine5.textColor = Color.WHITE;
 
     const controlBack = this.add.uiElement(UIElementType.BUTTON, "control", {
       position: new Vec2(center.x, center.y + 250),
@@ -181,6 +167,10 @@ export default class MainMenu extends Scene {
     controlBack.borderColor = Color.WHITE;
     controlBack.backgroundColor = Color.TRANSPARENT;
     controlBack.onClickEventId = "menu";
+
+    //Select Levels Screen
+    this.selectLevel = this.addUILayer("selectLevel");
+    this.selectLevel.setHidden(false);
   }
 
   updateScene() {
@@ -190,19 +180,24 @@ export default class MainMenu extends Scene {
 
       console.log(event);
 
-      if (event.type === "play") {
-        this.sceneManager.changeToScene(mainScene, {});
+      if (event.type === "selectlevel") {
+        // this.sceneManager.changeToScene(mainScene, {});
+        this.mainMenu.setHidden(true);
+        this.selectLevel.setHidden(false);
       }
 
-      if (event.type === "about") {
-        this.about.setHidden(false);
+      if (event.type === "help") {
+        this.help.setHidden(false);
         this.mainMenu.setHidden(true);
       }
 
       if (event.type === "menu") {
+        console.log("logging menu");
         this.mainMenu.setHidden(false);
-        this.about.setHidden(true);
+        this.help.setHidden(true);
         this.control.setHidden(true);
+        this.splashScreen.setHidden(true);
+        this.selectLevel.setHidden(true);
       }
       if (event.type === "control") {
         this.mainMenu.setHidden(true);

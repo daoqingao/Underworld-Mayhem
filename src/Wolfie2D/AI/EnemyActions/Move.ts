@@ -1,8 +1,8 @@
-import StateMachineGoapAI from "../../../Wolfie2D/AI/StateMachineGoapAI";
-import GoapAction from "../../../Wolfie2D/DataTypes/Interfaces/GoapAction";
-import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
-import Emitter from "../../../Wolfie2D/Events/Emitter";
-import NavigationPath from "../../../Wolfie2D/Pathfinding/NavigationPath";
+import StateMachineGoapAI from "../StateMachineGoapAI";
+import GoapAction from "../../DataTypes/Interfaces/GoapAction";
+import Vec2 from "../../DataTypes/Vec2";
+import Emitter from "../../Events/Emitter";
+import NavigationPath from "../../Pathfinding/NavigationPath";
 import EnemyAI from "../EnemyAI";
 
 export default class Move extends GoapAction {

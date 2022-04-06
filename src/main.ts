@@ -1,9 +1,9 @@
 import Game from "./Wolfie2D/Loop/Game";
-import hw4_scene from "./hw4/Scenes/hw4_scene";
+import mainScene from "./Wolfie2D/Scene/MainScene";
 import RegistryManager from "./Wolfie2D/Registry/RegistryManager";
-import WeaponTemplateRegistry from "./hw4/Registry/WeaponRegistry";
-import WeaponTypeRegistry from "./hw4/Registry/WeaponTypeRegistry";
-import MainMenu from "./hw4/Scenes/MainMenu";
+import WeaponTemplateRegistry from "./Wolfie2D/Registry/WeaponRegistry";
+import WeaponTypeRegistry from "./Wolfie2D/Registry/WeaponTypeRegistry";
+import MainMenu from "./Wolfie2D/Scene/MainMenu";
 import GoapActionPlanner from "./Wolfie2D/AI/GoapActionPlanner";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.

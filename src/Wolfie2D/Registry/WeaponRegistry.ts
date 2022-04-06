@@ -1,9 +1,9 @@
-import Registry from "../../Wolfie2D/Registry/Registries/Registry";
-import ResourceManager from "../../Wolfie2D/ResourceManager/ResourceManager";
-import LaserGun from "../GameSystems/items/WeaponTypes/LaserGun";
-import SemiAutoGun from "../GameSystems/items/WeaponTypes/SemiAutoGun";
-import Slice from "../GameSystems/items/WeaponTypes/Slice";
-import WeaponType from "../GameSystems/items/WeaponTypes/WeaponType";
+import Registry from "./Registries/Registry";
+import ResourceManager from "../ResourceManager/ResourceManager";
+import LaserGun from "../../hw4/GameSystems/items/WeaponTypes/LaserGun";
+import SemiAutoGun from "../../hw4/GameSystems/items/WeaponTypes/SemiAutoGun";
+import Slice from "../../hw4/GameSystems/items/WeaponTypes/Slice";
+import WeaponType from "../../hw4/GameSystems/items/WeaponTypes/WeaponType";
 
 export default class WeaponTemplateRegistry extends Registry<WeaponConstructor> {
     

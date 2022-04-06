@@ -3,7 +3,7 @@ import Emitter from "../../../Wolfie2D/Events/Emitter";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import Timer from "../../../Wolfie2D/Timing/Timer";
-import { hw4_Events } from "../../hw4_constants";
+import { hw4_Events } from "../../../Wolfie2D/constants";
 import BattleManager from "../BattleManager";
 import Item from "./Item";
 import WeaponType from "./WeaponTypes/WeaponType";

@@ -1,8 +1,8 @@
-import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
-import GameEvent from "../../../Wolfie2D/Events/GameEvent";
-import GameNode from "../../../Wolfie2D/Nodes/GameNode";
-import NavigationPath from "../../../Wolfie2D/Pathfinding/NavigationPath";
-import { hw4_Events, hw4_Names } from "../../hw4_constants";
+import Vec2 from "../../DataTypes/Vec2";
+import GameEvent from "../../Events/GameEvent";
+import GameNode from "../../Nodes/GameNode";
+import NavigationPath from "../../Pathfinding/NavigationPath";
+import { hw4_Events, hw4_Names } from "../../constants";
 import EnemyAI, { EnemyStates } from "../EnemyAI";
 import EnemyState from "./EnemyState";
 

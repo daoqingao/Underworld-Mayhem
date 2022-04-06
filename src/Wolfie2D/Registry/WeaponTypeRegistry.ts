@@ -1,5 +1,5 @@
-import Registry from "../../Wolfie2D/Registry/Registries/Registry";
-import WeaponType from "../GameSystems/items/WeaponTypes/WeaponType";
+import Registry from "./Registries/Registry";
+import WeaponType from "../../hw4/GameSystems/items/WeaponTypes/WeaponType";
 
 export default class WeaponTypeRegistry extends Registry<WeaponType> {
     

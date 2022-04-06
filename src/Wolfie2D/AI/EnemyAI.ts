@@ -1,18 +1,18 @@
-import GoapActionPlanner from "../../Wolfie2D/AI/GoapActionPlanner";
-import StateMachineAI from "../../Wolfie2D/AI/StateMachineAI";
-import StateMachineGoapAI from "../../Wolfie2D/AI/StateMachineGoapAI";
-import GoapAction from "../../Wolfie2D/DataTypes/Interfaces/GoapAction";
-import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
-import Stack from "../../Wolfie2D/DataTypes/Stack";
-import State from "../../Wolfie2D/DataTypes/State/State";
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import GameNode from "../../Wolfie2D/Nodes/GameNode";
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
-import NavigationPath from "../../Wolfie2D/Pathfinding/NavigationPath";
-import Weapon from "../GameSystems/items/Weapon";
-import { hw4_Events, hw4_Names, hw4_Statuses } from "../hw4_constants";
+import GoapActionPlanner from "./GoapActionPlanner";
+import StateMachineAI from "./StateMachineAI";
+import StateMachineGoapAI from "./StateMachineGoapAI";
+import GoapAction from "../DataTypes/Interfaces/GoapAction";
+import AABB from "../DataTypes/Shapes/AABB";
+import Stack from "../DataTypes/Stack";
+import State from "../DataTypes/State/State";
+import Vec2 from "../DataTypes/Vec2";
+import GameEvent from "../Events/GameEvent";
+import GameNode from "../Nodes/GameNode";
+import AnimatedSprite from "../Nodes/Sprites/AnimatedSprite";
+import OrthogonalTilemap from "../Nodes/Tilemaps/OrthogonalTilemap";
+import NavigationPath from "../Pathfinding/NavigationPath";
+import Weapon from "../../hw4/GameSystems/items/Weapon";
+import { hw4_Events, hw4_Names, hw4_Statuses } from "../constants";
 import BattlerAI from "./BattlerAI";
 import Alert from "./EnemyStates/Alert";
 import Active from "./EnemyStates/Active";
@@ -78,8 +78,6 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
         this.weapon = options.weapon;
 
         this.player1 = options.player1;
-
-        this.player2 = options.player2;
 
         this.inRange = options.inRange;
 
@@ -172,30 +170,12 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
         //Get the position of the closest player in sight
         let pos = this.player1.position;
         let position1 = this.isPlayerVisible(pos);
-        
-        pos = this.player2.position;
-        let position2 = this.isPlayerVisible(pos);
 
         // Determine which player position to return
-        if (position1 == null && position2 == null){
+        if (position1 == null){
             return null;
         }
-        else if (position1 == null){
-            return position2;
-        }
-        else if (position2 == null){
-            return position1;
-        }
-
-        // If both are in sight, pick the closet one
-        let distance1 = Math.sqrt(Math.pow(this.owner.position.x - position1.x, 2) + Math.pow(this.owner.position.y - position1.y, 2));
-        let distance2 = Math.sqrt(Math.pow(this.owner.position.x - position2.x, 2) + Math.pow(this.owner.position.y - position2.y, 2));
-        if (distance1 < distance2){
-            return position1;
-        }
-        else{
-            return position2;
-        }
+        return position1;
     }
 
     update(deltaT: number){

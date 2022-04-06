@@ -1,5 +1,5 @@
 import GameNode from "../../Wolfie2D/Nodes/GameNode";
-import BattlerAI from "../AI/BattlerAI";
+import BattlerAI from "../../Wolfie2D/AI/BattlerAI";
 import Weapon from "./items/Weapon";
 
 export default class BattleManager {

@@ -1,11 +1,11 @@
-import AABB from "../../../Wolfie2D/DataTypes/Shapes/AABB";
-import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
-import GameEvent from "../../../Wolfie2D/Events/GameEvent";
-import GameNode from "../../../Wolfie2D/Nodes/GameNode";
-import OrthogonalTilemap from "../../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
-import NavigationPath from "../../../Wolfie2D/Pathfinding/NavigationPath";
-import Timer from "../../../Wolfie2D/Timing/Timer";
-import { hw4_Names, hw4_Statuses } from "../../hw4_constants";
+import AABB from "../../DataTypes/Shapes/AABB";
+import Vec2 from "../../DataTypes/Vec2";
+import GameEvent from "../../Events/GameEvent";
+import GameNode from "../../Nodes/GameNode";
+import OrthogonalTilemap from "../../Nodes/Tilemaps/OrthogonalTilemap";
+import NavigationPath from "../../Pathfinding/NavigationPath";
+import Timer from "../../Timing/Timer";
+import { hw4_Names, hw4_Statuses } from "../../constants";
 import EnemyAI, { EnemyStates } from "../EnemyAI";
 import EnemyState from "./EnemyState";
 

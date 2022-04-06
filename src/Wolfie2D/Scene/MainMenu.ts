@@ -12,7 +12,7 @@ export default class MainMenu extends Scene {
   private mainMenu: Layer;
   private help: Layer;
   private control: Layer;
-  private selectLevel: Layer;
+  private selectLevelScreen: Layer;
 
   loadScene() {}
 
@@ -48,7 +48,7 @@ export default class MainMenu extends Scene {
     selectLevel.borderWidth = 2;
     selectLevel.borderColor = Color.WHITE;
     selectLevel.backgroundColor = Color.TRANSPARENT;
-    selectLevel.onClickEventId = "selectLevel";
+    selectLevel.onClickEventId = "selectlevel";
 
     // Add help button
     const help = this.add.uiElement(UIElementType.BUTTON, "mainMenu", {
@@ -82,27 +82,47 @@ export default class MainMenu extends Scene {
     });
     helpHeader.textColor = Color.WHITE;
 
-    // const text1 = "Game made by Rob, Dao and Lin";
-    // const text2 =
-    //   "using the Wolfie2D game engine, a TypeScript game engine created by";
-    // const text3 = "Joe Weaver and Richard McKenna.";
+    const text1header = "Backstory";
+    const text1 =
+      "You’re a retired veteran. You found out that your dearest comrade-in-arms has committed a misunderstood sin and ends up in hell. Knowing this, you end up trying to break through the barriers of hell to find [insert person] and drag him out.As you kill more demon spawns from hell, the barrier into hell weakens, allowing you to progress through hell and getting you closer to your [insert your goal]";
+    const text2header = "Developers";
+    const text2 = "Underworld Mayhem was developed by Lin, Dao, Rob";
+    const text3header = "Cheat Codes";
+    const text3 = "INVINCIBLE SKIP [NUMBER] UPGRADE [BUFF]";
 
-    // const line1 = <Label>this.add.uiElement(UIElementType.LABEL, "about", {
-    //   position: new Vec2(center.x, center.y - 50),
-    //   text: text1,
-    // });
-    // const line2 = <Label>this.add.uiElement(UIElementType.LABEL, "about", {
-    //   position: new Vec2(center.x, center.y),
-    //   text: text2,
-    // });
-    // const line3 = <Label>this.add.uiElement(UIElementType.LABEL, "about", {
-    //   position: new Vec2(center.x, center.y + 50),
-    //   text: text3,
-    // });
+    const line1header = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
+      position: new Vec2(center.x, center.y - 150),
+      text: text1header,
+    });
+    const line1 = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
+      position: new Vec2(center.x, center.y - 100),
+      text: text1,
+    });
+    const line2header = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
+      position: new Vec2(center.x, center.y - 50),
+      text: text2header,
+    });
+    const line2 = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
+      position: new Vec2(center.x, center.y),
+      text: text2,
+    });
+    const line3header = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
+      position: new Vec2(center.x, center.y + 50),
+      text: text3header,
+    });
+    const line3 = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
+      position: new Vec2(center.x, center.y + 100),
+      text: text3,
+    });
 
-    // line1.textColor = Color.WHITE;
-    // line2.textColor = Color.WHITE;
-    // line3.textColor = Color.WHITE;
+    line1.textColor = Color.WHITE;
+    line1.fontSize = 10;
+    line2.textColor = Color.WHITE;
+    line3.textColor = Color.WHITE;
+
+    line1header.textColor = Color.WHITE;
+    line2header.textColor = Color.WHITE;
+    line3header.textColor = Color.WHITE;
 
     const helpBack = this.add.uiElement(UIElementType.BUTTON, "help", {
       position: new Vec2(center.x, center.y + 250),
@@ -113,13 +133,6 @@ export default class MainMenu extends Scene {
     helpBack.borderColor = Color.WHITE;
     helpBack.backgroundColor = Color.TRANSPARENT;
     helpBack.onClickEventId = "menu";
-
-    // Subscribe to the button events
-    this.receiver.subscribe("play");
-    this.receiver.subscribe("help");
-    this.receiver.subscribe("menu");
-    this.receiver.subscribe("control");
-    this.receiver.subscribe("clicktoplay");
 
     /* ########## CONTROL SCREEN ########## */
     this.control = this.addUILayer("control");
@@ -142,7 +155,7 @@ export default class MainMenu extends Scene {
       UIElementType.LABEL,
       "control",
       {
-        position: new Vec2(center.x, center.y),
+        position: new Vec2(center.x, center.y - 50),
         text: controlText1,
       }
     );
@@ -168,9 +181,42 @@ export default class MainMenu extends Scene {
     controlBack.backgroundColor = Color.TRANSPARENT;
     controlBack.onClickEventId = "menu";
 
-    //Select Levels Screen
-    this.selectLevel = this.addUILayer("selectLevel");
-    this.selectLevel.setHidden(false);
+    //###########Select Levels Screen
+    this.selectLevelScreen = this.addUILayer("selectLevelScreen");
+    this.selectLevelScreen.setHidden(true);
+
+    //add button to go back
+    const selectLevelBack = this.add.uiElement(
+      UIElementType.BUTTON,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x, center.y + 250),
+        text: "Back",
+      }
+    );
+    selectLevelBack.size.set(200, 50);
+    selectLevelBack.borderWidth = 2;
+    selectLevelBack.borderColor = Color.WHITE;
+    selectLevelBack.backgroundColor = Color.TRANSPARENT;
+    selectLevelBack.onClickEventId = "menu";
+    ///header for select level
+    const selectHeader = <Label>this.add.uiElement(
+      UIElementType.LABEL,
+      "selectLevelScreen",
+      {
+        position: new Vec2(center.x, center.y - 250),
+        text: "Select Level",
+      }
+    );
+    selectHeader.textColor = Color.WHITE;
+
+    // Subscribe to the button events
+    this.receiver.subscribe("play");
+    this.receiver.subscribe("help");
+    this.receiver.subscribe("menu");
+    this.receiver.subscribe("control");
+    this.receiver.subscribe("clicktoplay");
+    this.receiver.subscribe("selectlevel");
   }
 
   updateScene() {
@@ -183,7 +229,7 @@ export default class MainMenu extends Scene {
       if (event.type === "selectlevel") {
         // this.sceneManager.changeToScene(mainScene, {});
         this.mainMenu.setHidden(true);
-        this.selectLevel.setHidden(false);
+        this.selectLevelScreen.setHidden(false);
       }
 
       if (event.type === "help") {
@@ -197,7 +243,7 @@ export default class MainMenu extends Scene {
         this.help.setHidden(true);
         this.control.setHidden(true);
         this.splashScreen.setHidden(true);
-        this.selectLevel.setHidden(true);
+        this.selectLevelScreen.setHidden(true);
       }
       if (event.type === "control") {
         this.mainMenu.setHidden(true);

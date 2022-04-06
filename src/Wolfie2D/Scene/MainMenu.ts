@@ -56,7 +56,7 @@ export default class MainMenu extends Scene {
     );
     aboutHeader.textColor = Color.WHITE;
 
-    const text1 = "Game masfafasfasfasade by Rob, Dao and Lin";
+    const text1 = "Game masfafasfasasdasdafasade by Rob, Dao and Lin";
     const text2 =
       "using the Wolfie2D game engine, a TypeScript game engine created by";
     const text3 = "Joe Weaver and Richard McKenna.";

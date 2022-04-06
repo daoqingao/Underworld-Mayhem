@@ -1,0 +1,12 @@
+List of things that are done and to do
+
+DONE:
+converted some of the hw4 files to regular files within the wolfie2d folder
+converted 2 player to 1 player game
+has death screen
+
+
+TODO:
+
+add controls screen in the main menu and stuff
+remove the second player

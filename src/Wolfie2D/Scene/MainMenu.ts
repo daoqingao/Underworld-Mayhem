@@ -43,8 +43,8 @@ export default class MainMenu extends Scene {
         const aboutHeader = <Label>this.add.uiElement(UIElementType.LABEL, "about", {position: new Vec2(center.x, center.y - 250), text: "About"});
         aboutHeader.textColor = Color.WHITE;
 
-        // HOMEWORK 4 - TODO: Give yourself credit and add your name to the about page!
-        const text1 = "This game was created by Zachary Grandison, and Richard McKenna";
+
+        const text1 = "Game made by Rob, Dao and Lin";
         const text2 = "using the Wolfie2D game engine, a TypeScript game engine created by";
         const text3 = "Joe Weaver and Richard McKenna.";
 
@@ -69,27 +69,54 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe("menu");
         this.receiver.subscribe("control");
 
-        // HOMEWORK 4 - TODO
-        /*
-            Add a controls screen here.
-            Use the About screen as inspiration for how to do so.
-            The controls screen should list all controls:
+        //THIS IS OUR controls button in the mains screen of the game
+        const control = this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x, center.y + 200), text: "Controls"});
+        control.size.set(200, 50);
+        control.borderWidth = 2;
+        control.borderColor = Color.WHITE;
+        control.backgroundColor = Color.TRANSPARENT;
+        control.onClickEventId = "control";
 
-            WASD to move
-            Q to drop an item
-            E to pick up an item
-            Click to use current item
-            1&2 to change items
-            Z to switch to player 1
-            X to switch to player 2
+        /* ########## ABOUT SCREEN ########## */
+        this.control = this.addUILayer("control");
+        this.control.setHidden(true);
 
-            You should also include a back button to return to the main menu.
+        const controlHeader = <Label>this.add.uiElement(UIElementType.LABEL, "control", {position: new Vec2(center.x, center.y - 250), text: "Controls"});
+        controlHeader.textColor = Color.WHITE;
 
-            Additionally, on the main menu, you should be able to press a button to reach the controls screen.
-        */
+
+        const controlText1  = "WASD to move"
+        const controlText2  = "Q to drop an item"
+        const controlText3  = "E to pick up an item"
+        const controlText4  = "Click to use current item"
+        const controlText5  = "1&2 to change items"
+
+        const controlLine1  = <Label>this.add.uiElement(UIElementType.LABEL, "control", {position: new Vec2(center.x, center.y - 200), text:  controlText1});
+        const controlLine2  = <Label>this.add.uiElement(UIElementType.LABEL, "control", {position: new Vec2(center.x, center.y - 150), text:  controlText2});
+        const controlLine3  = <Label>this.add.uiElement(UIElementType.LABEL, "control", {position: new Vec2(center.x, center.y - 50), text:   controlText3});
+        const controlLine4  = <Label>this.add.uiElement(UIElementType.LABEL, "control", {position: new Vec2(center.x, center.y ),        text:   controlText4});
+        const controlLine5  = <Label>this.add.uiElement(UIElementType.LABEL, "control", {position: new Vec2(center.x, center.y + 50), text:   controlText5});
+
+        controlLine1.textColor = Color.WHITE;
+        controlLine2.textColor = Color.WHITE;
+        controlLine3.textColor = Color.WHITE;
+        controlLine4.textColor = Color.WHITE;
+        controlLine5.textColor = Color.WHITE;
+
+
+
+        const controlBack = this.add.uiElement(UIElementType.BUTTON, "control", {position: new Vec2(center.x, center.y + 250), text: "Back"});
+        controlBack.size.set(200, 50);
+        controlBack.borderWidth = 2;
+        controlBack.borderColor = Color.WHITE;
+        controlBack.backgroundColor = Color.TRANSPARENT;
+        controlBack.onClickEventId = "menu";
+
+
     }
 
     updateScene(){
+        //TODO: going to about to back makes the screen frozen
         while(this.receiver.hasNextEvent()){
             let event = this.receiver.getNextEvent();
 
@@ -113,6 +140,7 @@ export default class MainMenu extends Scene {
                 this.mainMenu.setHidden(true);
                 this.control.setHidden(false);
             }
+
 
         }
     }

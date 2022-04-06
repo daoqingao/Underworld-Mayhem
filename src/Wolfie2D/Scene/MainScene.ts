@@ -311,7 +311,7 @@ export default class mainScene extends Scene {
     initializePlayer(): void {
         // Create the inventory
         let inventory = new InventoryManager(this, 2, "inventorySlot", new Vec2(16, 16), 4, "slots1", "items1");
-        let startingWeapon = this.createWeapon("knife");
+        let startingWeapon = this.createWeapon("weak_pistol");
         inventory.addItem(startingWeapon);
 
         // Create the players
@@ -322,18 +322,15 @@ export default class mainScene extends Scene {
         this.mainPlayer.addAI(PlayerController,
             {
                 speed: 100,
-                health: 100, //original was 25 //
+                health: 1000, //original was 25 //
                 inventory: inventory,
                 items: this.items,
                 inputEnabled: true,
-                range: 30
+                range: 100 //weak pistol range
             });
         this.mainPlayer.animation.play("IDLE");
+        (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);
 
-
-        inventory = new InventoryManager(this, 2, "inventorySlot", new Vec2(16, 32), 4, "slots2", "items2");
-        startingWeapon = this.createWeapon("weak_pistol");
-        inventory.addItem(startingWeapon);
 
         // //Second player is ranged based, long range and starts with pistol
         // this.playerCharacters[1] = this.add.animatedSprite("player2", "primary");
@@ -351,7 +348,7 @@ export default class mainScene extends Scene {
         // this.playerCharacters[1].animation.play("IDLE");
 
         //Set inventory UI highlight
-        (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);
+
         //(<PlayerController>this.playerCharacters[1]._ai).inventory.setActive(false);
     }
 

@@ -27,7 +27,7 @@
             "displayName": "WeakPistol",
             "spriteKey": "pistol",
             "damage": 1,
-            "cooldown": 1000,
+            "cooldown": 2,
             "useVolume": 320,
             "color": "#FFEEDD"
         },

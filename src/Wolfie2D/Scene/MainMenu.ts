@@ -5,6 +5,7 @@ import Scene from "./Scene";
 import Color from "../Utils/Color";
 import Label from "../Nodes/UIElements/Label";
 import mainScene from "./MainScene";
+import Sprite from "../Nodes/Sprites/Sprite";
 
 export default class MainMenu extends Scene {
   // Layers, for multiple main menu screens\
@@ -13,15 +14,24 @@ export default class MainMenu extends Scene {
   private help: Layer;
   private control: Layer;
   private selectLevelScreen: Layer;
+  private bg: Sprite;
 
-  loadScene() {}
-
+  loadScene() {
+    this.load.image("splash", "hw4_assets/background/splash.jpg ");
+  }
   startScene() {
     const center = this.viewport.getCenter();
 
     ////################## The Splash Screen
 
     this.splashScreen = this.addUILayer("splashScreen");
+    this.addParallaxLayer("bg", new Vec2(0.5, 1), -1);
+    this.bg = this.add.sprite("splash", "bg");
+    this.bg.size = new Vec2(1200, 800);
+    this.bg.position.set(
+      this.viewport.getHalfSize().x,
+      this.viewport.getHalfSize().y
+    );
 
     //Button for clicking to menu
     const mainMenu = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {
@@ -34,10 +44,9 @@ export default class MainMenu extends Scene {
     mainMenu.backgroundColor = Color.TRANSPARENT;
     mainMenu.onClickEventId = "menu";
 
-
     //*################# TODO: dao added this, quick play, remove later// starts at first level immediately
     const quickPlay = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {
-      position: new Vec2(center.x, center.y ),
+      position: new Vec2(center.x, center.y),
       text: "Quick Start to LV 1",
     });
     quickPlay.size.set(200, 50);
@@ -45,7 +54,6 @@ export default class MainMenu extends Scene {
     quickPlay.borderColor = Color.WHITE;
     quickPlay.backgroundColor = Color.TRANSPARENT;
     quickPlay.onClickEventId = "chooselevel";
-
 
     //################The Menu Screen
     this.mainMenu = this.addUILayer("mainMenu");
@@ -284,7 +292,7 @@ export default class MainMenu extends Scene {
       UIElementType.BUTTON,
       "selectLevelScreen",
       {
-        position: new Vec2(center.x + 75, center.y + 90),
+        position: new Vec2(center.x + 100, center.y + 90),
         text: "Level 5",
       }
     );
@@ -388,6 +396,7 @@ export default class MainMenu extends Scene {
         this.control.setHidden(true);
         this.splashScreen.setHidden(true);
         this.selectLevelScreen.setHidden(true);
+        this.bg.visible = false;
       }
       if (event.type === "control") {
         this.mainMenu.setHidden(true);

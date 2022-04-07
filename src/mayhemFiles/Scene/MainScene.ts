@@ -1,39 +1,39 @@
 import PlayerController from "../AI/PlayerController";
-import Vec2 from "../DataTypes/Vec2";
-import AnimatedSprite from "../Nodes/Sprites/AnimatedSprite";
-import Scene from "./Scene";
-import { GraphicType } from "../Nodes/Graphics/GraphicTypes";
-import OrthogonalTilemap from "../Nodes/Tilemaps/OrthogonalTilemap";
-import PositionGraph from "../DataTypes/Graphs/PositionGraph";
-import Navmesh from "../Pathfinding/Navmesh";
-import { hw4_Events, hw4_Names, hw4_Statuses } from "../constants";
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Scene from "../../Wolfie2D/Scene/Scene";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
+import PositionGraph from "../../Wolfie2D/DataTypes/Graphs/PositionGraph";
+import Navmesh from "../../Wolfie2D/Pathfinding/Navmesh";
+import { hw4_Events, hw4_Names, hw4_Statuses } from "../../Wolfie2D/constants";
 import EnemyAI from "../AI/EnemyAI";
-import WeaponType from "../../hw4/GameSystems/items/WeaponTypes/WeaponType";
-import RegistryManager from "../Registry/RegistryManager";
-import Weapon from "../../hw4/GameSystems/items/Weapon";
-import Healthpack from "../../hw4/GameSystems/items/Healthpack";
-import InventoryManager from "../../hw4/GameSystems/InventoryManager";
-import Item from "../../hw4/GameSystems/items/Item";
-import AABB from "../DataTypes/Shapes/AABB";
-import BattleManager from "../../hw4/GameSystems/BattleManager";
+import WeaponType from "../GameSystems/items/WeaponTypes/WeaponType";
+import RegistryManager from "../../Wolfie2D/Registry/RegistryManager";
+import Weapon from "../GameSystems/items/Weapon";
+import Healthpack from "../GameSystems/items/Healthpack";
+import InventoryManager from "../GameSystems/InventoryManager";
+import Item from "../GameSystems/items/Item";
+import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
+import BattleManager from "../GameSystems/BattleManager";
 import BattlerAI from "../AI/BattlerAI";
-import Label from "../Nodes/UIElements/Label";
-import { UIElementType } from "../Nodes/UIElements/UIElementTypes";
-import Color from "../Utils/Color";
-import Input from "../Input/Input";
+import Label from "../../Wolfie2D/Nodes/UIElements/Label";
+import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Color from "../../Wolfie2D/Utils/Color";
+import Input from "../../Wolfie2D/Input/Input";
 import GameOver from "./GameOver";
-import AttackAction from "../AI/EnemyActions/AttackAction";
-import Move from "../AI/EnemyActions/Move";
-import Retreat from "../AI/EnemyActions/Retreat";
-import { TweenableProperties } from "../Nodes/GameNode";
-import Line from "../Nodes/Graphics/Line";
-import { EaseFunctionType } from "../Utils/EaseFunctions";
-import GoapAction from "../DataTypes/Interfaces/GoapAction";
-import GoapActionPlanner from "../AI/GoapActionPlanner";
-import Map from "../DataTypes/Map";
-import Stack from "../DataTypes/Stack";
-import Berserk from "../AI/EnemyActions/Berserk";
-import Button from "../Nodes/UIElements/Button";
+import AttackAction from "../../Wolfie2D/AI/EnemyActions/AttackAction";
+import Move from "../../Wolfie2D/AI/EnemyActions/Move";
+import Retreat from "../../Wolfie2D/AI/EnemyActions/Retreat";
+import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
+import Line from "../../Wolfie2D/Nodes/Graphics/Line";
+import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import GoapAction from "../../Wolfie2D/DataTypes/Interfaces/GoapAction";
+import GoapActionPlanner from "../../Wolfie2D/AI/GoapActionPlanner";
+import Map from "../../Wolfie2D/DataTypes/Map";
+import Stack from "../../Wolfie2D/DataTypes/Stack";
+import Berserk from "../../Wolfie2D/AI/EnemyActions/Berserk";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
 export default class mainScene extends Scene {
   // The player
@@ -68,37 +68,40 @@ export default class mainScene extends Scene {
     // Load the player and enemy spritesheets
 
     //there will only be one player
-    this.load.spritesheet("player1", "hw4_assets/spritesheets/player1.json");
+    this.load.spritesheet("player1", "mayhemAssets/spritesheets/player1.json");
 
     this.load.spritesheet(
       "gun_enemy",
-      "hw4_assets/spritesheets/gun_enemy.json"
+      "mayhemAssets/spritesheets/gun_enemy.json"
     );
     this.load.spritesheet(
       "knife_enemy",
-      "hw4_assets/spritesheets/knife_enemy.json"
+      "mayhemAssets/spritesheets/knife_enemy.json"
     );
     this.load.spritesheet(
       "custom_enemy1",
-      "hw4_assets/spritesheets/custom_enemy1.json"
+      "mayhemAssets/spritesheets/custom_enemy1.json"
     );
     this.load.spritesheet(
       "custom_enemy2",
-      "hw4_assets/spritesheets/custom_enemy2.json"
+      "mayhemAssets/spritesheets/custom_enemy2.json"
     );
 
-    this.load.spritesheet("slice", "hw4_assets/spritesheets/slice.json");
-    this.load.tilemap("level", "hw4_assets/tilemaps/cse380_hw4_tilejson.json");
-    this.load.object("weaponData", "hw4_assets/data/weaponData.json");
-    this.load.object("navmesh", "hw4_assets/data/navmesh.json");
-    this.load.object("enemyData", "hw4_assets/data/enemy.json");
-    this.load.object("itemData", "hw4_assets/data/items.json");
+    this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
+    this.load.tilemap(
+      "level",
+      "mayhemAssets/tilemaps/cse380_hw4_tilejson.json"
+    );
+    this.load.object("weaponData", "mayhemAssets/data/weaponData.json");
+    this.load.object("navmesh", "mayhemAssets/data/navmesh.json");
+    this.load.object("enemyData", "mayhemAssets/data/enemy.json");
+    this.load.object("itemData", "mayhemAssets/data/items.json");
     //item objects
-    this.load.image("healthpack", "hw4_assets/sprites/healthpack.png");
-    this.load.image("inventorySlot", "hw4_assets/sprites/inventory.png");
-    this.load.image("knife", "hw4_assets/sprites/knife.png");
-    this.load.image("laserGun", "hw4_assets/sprites/laserGun.png");
-    this.load.image("pistol", "hw4_assets/sprites/pistol.png");
+    this.load.image("healthpack", "mayhemAssets/sprites/healthpack.png");
+    this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
+    this.load.image("knife", "mayhemAssets/sprites/knife.png");
+    this.load.image("laserGun", "mayhemAssets/sprites/laserGun.png");
+    this.load.image("pistol", "mayhemAssets/sprites/pistol.png");
   }
 
   startScene() {
@@ -188,7 +191,9 @@ export default class mainScene extends Scene {
       "attack",
       {
         position: new Vec2(150, 16),
-        text: "Attack: " + " *Current Damage*",
+        text:
+          "Attack: " +
+          (<PlayerController>this.mainPlayer._ai).weapon.type.damage,
       }
     );
     this.attackDisplays.textColor = Color.WHITE;
@@ -409,6 +414,7 @@ export default class mainScene extends Scene {
       items: this.items,
       inputEnabled: true,
       range: 100, //weak pistol range
+      weapon: startingWeapon,
     });
     this.mainPlayer.animation.play("IDLE");
     (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);

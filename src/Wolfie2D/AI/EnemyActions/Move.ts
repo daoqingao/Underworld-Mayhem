@@ -3,7 +3,7 @@ import GoapAction from "../../DataTypes/Interfaces/GoapAction";
 import Vec2 from "../../DataTypes/Vec2";
 import Emitter from "../../Events/Emitter";
 import NavigationPath from "../../Pathfinding/NavigationPath";
-import EnemyAI from "../EnemyAI";
+import EnemyAI from "../../../mayhemFiles/AI/EnemyAI";
 
 export default class Move extends GoapAction {
     private inRange: number;

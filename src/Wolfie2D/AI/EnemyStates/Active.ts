@@ -6,7 +6,7 @@ import OrthogonalTilemap from "../../Nodes/Tilemaps/OrthogonalTilemap";
 import NavigationPath from "../../Pathfinding/NavigationPath";
 import Timer from "../../Timing/Timer";
 import { hw4_Names, hw4_Statuses } from "../../constants";
-import EnemyAI, { EnemyStates } from "../EnemyAI";
+import EnemyAI, { EnemyStates } from "../../../mayhemFiles/AI/EnemyAI";
 import EnemyState from "./EnemyState";
 
 export default class Active extends EnemyState {

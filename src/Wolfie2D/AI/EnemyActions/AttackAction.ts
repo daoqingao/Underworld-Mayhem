@@ -3,7 +3,7 @@ import GoapAction from "../../DataTypes/Interfaces/GoapAction";
 import Vec2 from "../../DataTypes/Vec2";
 import Emitter from "../../Events/Emitter";
 import GameNode from "../../Nodes/GameNode";
-import EnemyAI from "../EnemyAI";
+import EnemyAI from "../../../mayhemFiles/AI/EnemyAI";
 
 export default class AttackAction extends GoapAction {
     protected emitter: Emitter;

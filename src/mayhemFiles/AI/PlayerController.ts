@@ -1,15 +1,15 @@
-import Vec2 from "../DataTypes/Vec2";
-import GameEvent from "../Events/GameEvent";
-import Receiver from "../Events/Receiver";
-import Input from "../Input/Input";
-import AnimatedSprite from "../Nodes/Sprites/AnimatedSprite";
-import NavigationPath from "../Pathfinding/NavigationPath";
-import Timer from "../Timing/Timer";
-import InventoryManager from "../../hw4/GameSystems/InventoryManager";
-import Healthpack from "../../hw4/GameSystems/items/Healthpack";
-import Item from "../../hw4/GameSystems/items/Item";
-import Weapon from "../../hw4/GameSystems/items/Weapon";
-import { hw4_Events, hw4_Names } from "../constants";
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import Receiver from "../../Wolfie2D/Events/Receiver";
+import Input from "../../Wolfie2D/Input/Input";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import NavigationPath from "../../Wolfie2D/Pathfinding/NavigationPath";
+import Timer from "../../Wolfie2D/Timing/Timer";
+import InventoryManager from "../GameSystems/InventoryManager";
+import Healthpack from "../GameSystems/items/Healthpack";
+import Item from "../GameSystems/items/Item";
+import Weapon from "../GameSystems/items/Weapon";
+import { hw4_Events, hw4_Names } from "../../Wolfie2D/constants";
 import BattlerAI from "./BattlerAI";
 
 
@@ -44,6 +44,10 @@ export default class PlayerController implements BattlerAI {
     private receiver: Receiver;
 
 
+    buffBar: InventoryManager;
+    weapon: Weapon;
+    buffActiveStatus: Array<String>
+
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
         this.lookDirection = Vec2.ZERO;
@@ -57,6 +61,9 @@ export default class PlayerController implements BattlerAI {
 
         this.receiver = new Receiver();
         this.receiver.subscribe(hw4_Events.SWAP_PLAYER);
+
+        this.buffBar = options.buffBar
+        this.weapon = options.weapon
     }
 
     activate(options: Record<string, any>): void { }
@@ -74,29 +81,46 @@ export default class PlayerController implements BattlerAI {
             }
         }
     }
+
+    //this is use to shoot
     handleUseItem():void{
         let item = this.inventory.getItem();
         // If there is an item in the current slot, use it
         if (item) {
             item.use(this.owner, "player", this.lookDirection);
             this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
-            if (item instanceof Healthpack) {
-                // Destroy the used healthpack
-                this.inventory.removeItem();
-                item.sprite.visible = false;
-            }
         }
 
     }
 
+    handleApplyBuffEffect(item: Item): void{
+        this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown*0.01);
+    }
     handlePickUpItem():void{ //what if the pick up was the buff activation itself
         for (let item of this.items) {
-            if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
-                // We overlap it, try to pick it up
-                this.inventory.addItem(item);
+            if (this.owner.collisionShape.overlaps(item.sprite.boundary))
+            {
+                if((item instanceof Healthpack)){
+                    // We overlap it, try to pick it up
+                    // let activeBuffIndex = this.buffBar.getSlot();
+                    // let maxSize =         this.buffBar.getSize();
+                    //
+                    // this.inventory.changeSlot(activeBuffIndex+1)
+                    // this.buffBar.addItem(item);
+                    //
 
-                // console.log(this.inventory)
-                break;
+                    this.handleApplyBuffEffect(item);
+
+                    // console.log(this.inventory)
+                    break;
+                }
+                // else{
+                //     // let activeInvIndex = this.inventory.getSlot();
+                //     // let maxSize =         this.inventory.getSize();
+                //     // this.inventory.changeSlot(activeInvIndex+1)
+                //     // this.inventory.addItem(item);
+                // }
+
             }
         }
     }

@@ -1,23 +1,23 @@
-import GoapActionPlanner from "./GoapActionPlanner";
-import StateMachineAI from "./StateMachineAI";
-import StateMachineGoapAI from "./StateMachineGoapAI";
-import GoapAction from "../DataTypes/Interfaces/GoapAction";
-import AABB from "../DataTypes/Shapes/AABB";
-import Stack from "../DataTypes/Stack";
-import State from "../DataTypes/State/State";
-import Vec2 from "../DataTypes/Vec2";
-import GameEvent from "../Events/GameEvent";
-import GameNode from "../Nodes/GameNode";
-import AnimatedSprite from "../Nodes/Sprites/AnimatedSprite";
-import OrthogonalTilemap from "../Nodes/Tilemaps/OrthogonalTilemap";
-import NavigationPath from "../Pathfinding/NavigationPath";
-import Weapon from "../../hw4/GameSystems/items/Weapon";
-import { hw4_Events, hw4_Names, hw4_Statuses } from "../constants";
+import GoapActionPlanner from "../../Wolfie2D/AI/GoapActionPlanner";
+import StateMachineAI from "../../Wolfie2D/AI/StateMachineAI";
+import StateMachineGoapAI from "../../Wolfie2D/AI/StateMachineGoapAI";
+import GoapAction from "../../Wolfie2D/DataTypes/Interfaces/GoapAction";
+import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
+import Stack from "../../Wolfie2D/DataTypes/Stack";
+import State from "../../Wolfie2D/DataTypes/State/State";
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import GameNode from "../../Wolfie2D/Nodes/GameNode";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
+import NavigationPath from "../../Wolfie2D/Pathfinding/NavigationPath";
+import Weapon from "../GameSystems/items/Weapon";
+import { hw4_Events, hw4_Names, hw4_Statuses } from "../../Wolfie2D/constants";
 import BattlerAI from "./BattlerAI";
-import Alert from "./EnemyStates/Alert";
-import Active from "./EnemyStates/Active";
-import Guard from "./EnemyStates/Guard";
-import Patrol from "./EnemyStates/Patrol";
+import Alert from "../../Wolfie2D/AI/EnemyStates/Alert";
+import Active from "../../Wolfie2D/AI/EnemyStates/Active";
+import Guard from "../../Wolfie2D/AI/EnemyStates/Guard";
+import Patrol from "../../Wolfie2D/AI/EnemyStates/Patrol";
 
 
 export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {

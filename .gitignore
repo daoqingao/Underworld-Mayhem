@@ -9,7 +9,7 @@ node_modules
 !dist/builtin/
 
 # Include the hw1 assets
-!dist/hw4_assets/
+!dist/mayhemAssets/
 
 ### IF YOU ARE MAKING A PROJECT, YOU MAY WANT TO UNCOMMENT THIS LINE ###
 # !dist/assets/

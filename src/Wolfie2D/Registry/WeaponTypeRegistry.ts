@@ -1,5 +1,5 @@
 import Registry from "./Registries/Registry";
-import WeaponType from "../../hw4/GameSystems/items/WeaponTypes/WeaponType";
+import WeaponType from "../../mayhemFiles/GameSystems/items/WeaponTypes/WeaponType";
 
 export default class WeaponTypeRegistry extends Registry<WeaponType> {
     

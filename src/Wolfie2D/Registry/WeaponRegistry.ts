@@ -1,9 +1,9 @@
 import Registry from "./Registries/Registry";
 import ResourceManager from "../ResourceManager/ResourceManager";
-import LaserGun from "../../hw4/GameSystems/items/WeaponTypes/LaserGun";
-import SemiAutoGun from "../../hw4/GameSystems/items/WeaponTypes/SemiAutoGun";
-import Slice from "../../hw4/GameSystems/items/WeaponTypes/Slice";
-import WeaponType from "../../hw4/GameSystems/items/WeaponTypes/WeaponType";
+import LaserGun from "../../mayhemFiles/GameSystems/items/WeaponTypes/LaserGun";
+import SemiAutoGun from "../../mayhemFiles/GameSystems/items/WeaponTypes/SemiAutoGun";
+import Slice from "../../mayhemFiles/GameSystems/items/WeaponTypes/Slice";
+import WeaponType from "../../mayhemFiles/GameSystems/items/WeaponTypes/WeaponType";
 
 export default class WeaponTemplateRegistry extends Registry<WeaponConstructor> {
     
@@ -11,12 +11,12 @@ export default class WeaponTemplateRegistry extends Registry<WeaponConstructor> 
         const rm = ResourceManager.getInstance();
 
         // Load sprites
-        rm.image("pistol", "hw4_assets/sprites/pistol.png");
-        rm.image("knife", "hw4_assets/sprites/knife.png");
-        rm.image("laserGun", "hw4_assets/sprites/laserGun.png")
+        rm.image("pistol", "mayhemAssets/sprites/pistol.png");
+        rm.image("knife", "mayhemAssets/sprites/knife.png");
+        rm.image("laserGun", "mayhemAssets/sprites/laserGun.png")
 
         // Load spritesheets
-        rm.spritesheet("slice", "hw4_assets/spritesheets/slice.json");
+        rm.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
 
         // Register default types
         this.registerItem("slice", Slice);

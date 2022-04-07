@@ -3,7 +3,7 @@ import GoapAction from "../../../Wolfie2D/DataTypes/Interfaces/GoapAction";
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import Emitter from "../../../Wolfie2D/Events/Emitter";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
-import EnemyAI from "../EnemyAI";
+import EnemyAI from "../../../mayhemFiles/AI/EnemyAI";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 
 

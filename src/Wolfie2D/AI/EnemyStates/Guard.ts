@@ -3,7 +3,7 @@ import GameEvent from "../../Events/GameEvent";
 import GameNode from "../../Nodes/GameNode";
 import NavigationPath from "../../Pathfinding/NavigationPath";
 import { hw4_Events, hw4_Names } from "../../constants";
-import EnemyAI, { EnemyStates } from "../EnemyAI";
+import EnemyAI, { EnemyStates } from "../../../mayhemFiles/AI/EnemyAI";
 import EnemyState from "./EnemyState";
 
 export default class Guard extends EnemyState {

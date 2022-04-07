@@ -1,9 +1,9 @@
 import Game from "./Wolfie2D/Loop/Game";
-import mainScene from "./Wolfie2D/Scene/MainScene";
+import mainScene from "./mayhemFiles/Scene/MainScene";
 import RegistryManager from "./Wolfie2D/Registry/RegistryManager";
 import WeaponTemplateRegistry from "./Wolfie2D/Registry/WeaponRegistry";
 import WeaponTypeRegistry from "./Wolfie2D/Registry/WeaponTypeRegistry";
-import MainMenu from "./Wolfie2D/Scene/MainMenu";
+import MainMenu from "./mayhemFiles/Scene/MainMenu";
 import GoapActionPlanner from "./Wolfie2D/AI/GoapActionPlanner";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.

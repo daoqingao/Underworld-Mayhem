@@ -1,15 +1,15 @@
-import Vec2 from "../DataTypes/Vec2";
-import GameEvent from "../Events/GameEvent";
-import Receiver from "../Events/Receiver";
-import Input from "../Input/Input";
-import AnimatedSprite from "../Nodes/Sprites/AnimatedSprite";
-import NavigationPath from "../Pathfinding/NavigationPath";
-import Timer from "../Timing/Timer";
-import InventoryManager from "../../hw4/GameSystems/InventoryManager";
-import Healthpack from "../../hw4/GameSystems/items/Healthpack";
-import Item from "../../hw4/GameSystems/items/Item";
-import Weapon from "../../hw4/GameSystems/items/Weapon";
-import { hw4_Events, hw4_Names } from "../constants";
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import Receiver from "../../Wolfie2D/Events/Receiver";
+import Input from "../../Wolfie2D/Input/Input";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import NavigationPath from "../../Wolfie2D/Pathfinding/NavigationPath";
+import Timer from "../../Wolfie2D/Timing/Timer";
+import InventoryManager from "../GameSystems/InventoryManager";
+import Healthpack from "../GameSystems/items/Healthpack";
+import Item from "../GameSystems/items/Item";
+import Weapon from "../GameSystems/items/Weapon";
+import { hw4_Events, hw4_Names } from "../../Wolfie2D/constants";
 import BattlerAI from "./BattlerAI";
 
 
@@ -103,21 +103,23 @@ export default class PlayerController implements BattlerAI {
             {
                 if(!(item instanceof Weapon)){
                     // We overlap it, try to pick it up
-                    let activeBuffIndex = this.buffBar.getSlot();
-                    let maxSize =         this.buffBar.getSize();
+                    // let activeBuffIndex = this.buffBar.getSlot();
+                    // let maxSize =         this.buffBar.getSize();
+                    //
+                    // this.inventory.changeSlot(activeBuffIndex+1)
+                    // this.buffBar.addItem(item);
+                    //
 
-                    this.inventory.changeSlot(activeBuffIndex+1)
-                    this.buffBar.addItem(item);
+                    //this.handleApplyBuffEffect(item);
 
-                    this.handleApplyBuffEffect(item);
                     // console.log(this.inventory)
                     break;
                 }
                 else{
-                    let activeInvIndex = this.inventory.getSlot();
-                    let maxSize =         this.inventory.getSize();
-                    this.inventory.changeSlot(activeInvIndex+1)
-                    this.inventory.addItem(item);
+                    // let activeInvIndex = this.inventory.getSlot();
+                    // let maxSize =         this.inventory.getSize();
+                    // this.inventory.changeSlot(activeInvIndex+1)
+                    // this.inventory.addItem(item);
                 }
 
             }

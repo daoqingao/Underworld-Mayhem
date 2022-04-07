@@ -1,6 +1,6 @@
-import AI from "../DataTypes/Interfaces/AI";
-import GameEvent from "../Events/GameEvent";
-import GameNode from "../Nodes/GameNode";
+import AI from "../../Wolfie2D/DataTypes/Interfaces/AI";
+import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import GameNode from "../../Wolfie2D/Nodes/GameNode";
 
 /** */
 export default abstract class ControllerAI implements AI {

@@ -1,11 +1,11 @@
-import Vec2 from "../DataTypes/Vec2";
-import { UIElementType } from "../Nodes/UIElements/UIElementTypes";
-import Layer from "./Layer";
-import Scene from "./Scene";
-import Color from "../Utils/Color";
-import Label from "../Nodes/UIElements/Label";
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Layer from "../../Wolfie2D/Scene/Layer";
+import Scene from "../../Wolfie2D/Scene/Scene";
+import Color from "../../Wolfie2D/Utils/Color";
+import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import mainScene from "./MainScene";
-import Sprite from "../Nodes/Sprites/Sprite";
+import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 
 export default class MainMenu extends Scene {
   // Layers, for multiple main menu screens\
@@ -17,7 +17,7 @@ export default class MainMenu extends Scene {
   private bg: Sprite;
 
   loadScene() {
-    this.load.image("splash", "hw4_assets/background/splash.jpg ");
+    this.load.image("splash", "mayhemAssets/background/splash.jpg ");
   }
   startScene() {
     const center = this.viewport.getCenter();

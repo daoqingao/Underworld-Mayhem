@@ -4,7 +4,7 @@ import GameNode from "../../Nodes/GameNode";
 import NavigationPath from "../../Pathfinding/NavigationPath";
 import Timer from "../../Timing/Timer";
 import { hw4_Names } from "../../constants";
-import EnemyAI, { EnemyStates } from "../EnemyAI";
+import EnemyAI, { EnemyStates } from "../../../mayhemFiles/AI/EnemyAI";
 import EnemyState from "./EnemyState";
 
 /** When an enemy has seen a player recently, it will move to the last known location they saw them, giving up after a certain time */

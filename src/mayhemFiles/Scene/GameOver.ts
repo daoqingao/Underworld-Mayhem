@@ -1,9 +1,9 @@
-import Vec2 from "../DataTypes/Vec2";
-import Input from "../Input/Input";
-import Label from "../Nodes/UIElements/Label";
-import { UIElementType } from "../Nodes/UIElements/UIElementTypes";
-import Scene from "./Scene";
-import Color from "../Utils/Color";
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import Input from "../../Wolfie2D/Input/Input";
+import Label from "../../Wolfie2D/Nodes/UIElements/Label";
+import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Scene from "../../Wolfie2D/Scene/Scene";
+import Color from "../../Wolfie2D/Utils/Color";
 
 export default class GameOver extends Scene {
 

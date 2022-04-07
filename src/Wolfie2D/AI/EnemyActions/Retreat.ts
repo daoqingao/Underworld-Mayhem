@@ -5,7 +5,7 @@ import Emitter from "../../Events/Emitter";
 import GameNode from "../../Nodes/GameNode";
 import NavigationPath from "../../Pathfinding/NavigationPath";
 import { hw4_Names } from "../../constants";
-import EnemyAI from "../EnemyAI";
+import EnemyAI from "../../../mayhemFiles/AI/EnemyAI";
 
 export default class Retreat extends GoapAction {
     private retreatDistance: number;

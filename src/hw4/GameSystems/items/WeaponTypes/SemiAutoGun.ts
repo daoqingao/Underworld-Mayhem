@@ -56,7 +56,7 @@ export default class SemiAutoGun extends WeaponType {
                     let hit = collider.intersectSegment(start, delta, Vec2.ZERO);
 
                     if(hit !== null && start.distanceSqTo(hit.pos) < start.distanceSqTo(end)){
-                        console.log("Found hit");
+                        //onsole.log("Found hit");
                         end = hit.pos;
                     }
                 }

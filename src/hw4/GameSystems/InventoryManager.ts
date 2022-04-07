@@ -100,6 +100,9 @@ export default class InventoryManager {
             return null;
         }
     }
+    getSize():Number{
+        return this.items.length;
+}
 
     setActive(active: boolean) {
         if (active){

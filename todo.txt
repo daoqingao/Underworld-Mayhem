@@ -12,3 +12,14 @@ Movement WASD
 Level Select, Controls, and Help screens
 One Level
 Put Character IN
+
+*the playercontroller is where pickup happens.
+And i created a function called handlepickup, when that happens
+an item is picked up from the floor and goes straight to the inventory
+so i was thinking maybe there can be 2 inventory system:
+1 for weapons and
+1 for buffs
+buffs can be placed into a inventory(uses array), and once it is picked up,
+it just immediately grants a buff (as a status) to the player
+(we can set a timer on the elements of the array(buffs) and when they expire,
+we just remove the buff status)

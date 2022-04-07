@@ -35,7 +35,7 @@ export default class MainMenu extends Scene {
     mainMenu.onClickEventId = "menu";
 
 
-    //*################# dao added this, quick play, remove later// starts at first level immediately
+    //*################# TODO: dao added this, quick play, remove later// starts at first level immediately
     const quickPlay = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {
       position: new Vec2(center.x, center.y ),
       text: "Quick Start to LV 1",

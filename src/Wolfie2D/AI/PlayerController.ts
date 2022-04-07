@@ -74,6 +74,32 @@ export default class PlayerController implements BattlerAI {
             }
         }
     }
+    handleUseItem():void{
+        let item = this.inventory.getItem();
+        // If there is an item in the current slot, use it
+        if (item) {
+            item.use(this.owner, "player", this.lookDirection);
+            this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
+            if (item instanceof Healthpack) {
+                // Destroy the used healthpack
+                this.inventory.removeItem();
+                item.sprite.visible = false;
+            }
+        }
+
+    }
+
+    handlePickUpItem():void{ //what if the pick up was the buff activation itself
+        for (let item of this.items) {
+            if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
+                // We overlap it, try to pick it up
+                this.inventory.addItem(item);
+
+                // console.log(this.inventory)
+                break;
+            }
+        }
+    }
 
     update(deltaT: number): void {
         while(this.receiver.hasNextEvent()){
@@ -82,7 +108,9 @@ export default class PlayerController implements BattlerAI {
         if (this.inputEnabled && this.health > 0) {
             //Check right click
             if (Input.isMouseJustPressed(2)) {
-                this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, Input.getGlobalMousePosition(), true);
+                this.owner.position = Input.getGlobalMousePosition();
+                //this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, Input.getGlobalMousePosition(), true);
+
                 // console.log(this.owner.position)
                 // console.log(Input.getGlobalMousePosition())
             }
@@ -119,16 +147,18 @@ export default class PlayerController implements BattlerAI {
                 // const velocity = direction.scale(speed);
                 // this.owner.position.add(velocity);
 
-                if (this.path != null) {
-                    if (this.path.isDone()) {
-                        this.path = null;
-                    }
-                    else {
-                        this.owner.moveOnPath(this.speed * deltaT, this.path);
-                        this.owner.rotation = Vec2.UP.angleToCCW(this.path.getMoveDirection(this.owner));
-                    }
-                }
+                // if (this.path != null) {
+                //     if (this.path.isDone()) {
+                //         this.path = null;
+                //     }
+                //     else {
+                //         this.owner.moveOnPath(this.speed * deltaT, this.path);
+                //         this.owner.rotation = Vec2.UP.angleToCCW(this.path.getMoveDirection(this.owner));
+                //     }
+                // }
                 // Finally, adjust the position of the player
+
+
             }
 
 
@@ -141,17 +171,17 @@ export default class PlayerController implements BattlerAI {
             } else if (Input.isJustPressed("slot2")) {
                 this.inventory.changeSlot(1);
             }
-
-            if (Input.isJustPressed("pickup")) {
-                // Check if there is an item to pick up
-                for (let item of this.items) {
-                    if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
-                        // We overlap it, try to pick it up
-                        this.inventory.addItem(item);
-                        break;
-                    }
-                }
-            }
+            // if (Input.isJustPressed("pickup"))
+            // {
+            //     // Check if there is an item to pick up
+            //     for (let item of this.items) {
+            //         if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
+            //             // We overlap it, try to pick it up
+            //             this.inventory.addItem(item);
+            //             break;
+            //         }
+            //     }
+            // }
 
             if (Input.isJustPressed("drop")) {
                 // Check if we can drop our current item
@@ -176,24 +206,16 @@ export default class PlayerController implements BattlerAI {
                 this.owner.moveOnPath(this.speed * deltaT, this.path);
                 this.owner.rotation = Vec2.UP.angleToCCW(this.path.getMoveDirection(this.owner));
             }
+            this.handlePickUpItem()
         }
         else {
             //Target an enemy and attack
             if (this.target != null) {
-                let item = this.inventory.getItem();
+
                 this.lookDirection = this.owner.position.dirTo(this.target);
 
-                // If there is an item in the current slot, use it
-                if (item) {
-                    item.use(this.owner, "player", this.lookDirection);
-                    this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
+                this.handleUseItem()
 
-                    if (item instanceof Healthpack) {
-                        // Destroy the used healthpack
-                        this.inventory.removeItem();
-                        item.sprite.visible = false;
-                    }
-                }
             }
         }
     }

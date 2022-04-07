@@ -310,7 +310,7 @@ export default class mainScene extends Scene {
      */
     initializePlayer(): void {
         // Create the inventory
-        let inventory = new InventoryManager(this, 2, "inventorySlot", new Vec2(16, 16), 4, "slots1", "items1");
+        let inventory = new InventoryManager(this, 10, "inventorySlot", new Vec2(16, 16), 2, "slots1", "items1");
         let startingWeapon = this.createWeapon("weak_pistol");
         inventory.addItem(startingWeapon);
 

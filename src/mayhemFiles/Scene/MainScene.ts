@@ -34,6 +34,7 @@ import Map from "../../Wolfie2D/DataTypes/Map";
 import Stack from "../../Wolfie2D/DataTypes/Stack";
 import Berserk from "../../Wolfie2D/AI/EnemyActions/Berserk";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import MaxHealth from "../GameSystems/items/MaxHealth";
 
 export default class mainScene extends Scene {
   // The player
@@ -98,6 +99,7 @@ export default class mainScene extends Scene {
     this.load.object("itemData", "mayhemAssets/data/items.json");
     //item objects
     this.load.image("healthpack", "mayhemAssets/sprites/healthpack.png");
+    this.load.image("healthmax", "mayhemAssets/sprites/healthmax.png");
     this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
     this.load.image("knife", "mayhemAssets/sprites/knife.png");
     this.load.image("laserGun", "mayhemAssets/sprites/laserGun.png");
@@ -276,6 +278,8 @@ export default class mainScene extends Scene {
 
     // Update health gui
     this.healthDisplays.text = "Health: " + health;
+    this.attackDisplays.text =
+      "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
 
     // Debug mode graph
     if (Input.isKeyJustPressed("g")) {
@@ -322,6 +326,10 @@ export default class mainScene extends Scene {
         this.createHealthpack(
           new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
+      } else if (item.type === "healthmax") {
+        this.createMaxhealth(
+          new Vec2(item.position[0] / 2, item.position[1] / 2)
+        );
       } else {
         let weapon = this.createWeapon(item.weaponType);
         weapon.moveSprite(new Vec2(item.position[0] / 2, item.position[1] / 2));
@@ -354,6 +362,13 @@ export default class mainScene extends Scene {
     let healthpack = new Healthpack(sprite);
     healthpack.moveSprite(position);
     this.items.push(healthpack);
+  }
+
+  createMaxhealth(position: Vec2): void {
+    let sprite = this.add.sprite("healthmax", "primary");
+    let maxhealth = new MaxHealth(sprite);
+    maxhealth.moveSprite(position);
+    this.items.push(maxhealth);
   }
 
   /**
@@ -410,6 +425,7 @@ export default class mainScene extends Scene {
     this.mainPlayer.addAI(PlayerController, {
       speed: 100,
       health: 1000, //original was 25 //
+      maxHealth: 1200, //adding maxhealth
       inventory: inventory,
       items: this.items,
       inputEnabled: true,
@@ -418,25 +434,6 @@ export default class mainScene extends Scene {
     });
     this.mainPlayer.animation.play("IDLE");
     (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);
-
-    // //Second player is ranged based, long range and starts with pistol
-    // this.playerCharacters[1] = this.add.animatedSprite("player2", "primary");
-    // this.playerCharacters[1].position.set(2*8, 62*8);
-    // this.playerCharacters[1].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
-    // this.playerCharacters[1].addAI(PlayerController,
-    //     {
-    //         speed: 100,
-    //         health: 10,
-    //         inventory: inventory,
-    //         items: this.items,
-    //         inputEnabled: false,
-    //         range: 100
-    //     });
-    // this.playerCharacters[1].animation.play("IDLE");
-
-    //Set inventory UI highlight
-
-    //(<PlayerController>this.playerCharacters[1]._ai).inventory.setActive(false);
   }
 
   /**

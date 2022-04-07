@@ -188,7 +188,7 @@ export default class mainScene extends Scene {
       "attack",
       {
         position: new Vec2(150, 16),
-        text: "Attack: " + " *Current Damage*",
+        text: "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage
       }
     );
     this.attackDisplays.textColor = Color.WHITE;
@@ -408,7 +408,9 @@ export default class mainScene extends Scene {
       inventory: inventory,
       items: this.items,
       inputEnabled: true,
-      range: 100, //weak pistol range
+      range: 100,
+      weapon: startingWeapon,
+
     });
     this.mainPlayer.animation.play("IDLE");
     (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);
@@ -485,27 +487,7 @@ export default class mainScene extends Scene {
     this.navManager.addNavigableEntity(hw4_Names.NAVMESH, navmesh);
   }
 
-  // HOMEWORK 4 - TODO
-  /**
-   * Here is where we initalize all enemies that are spawned in the scene, based off the enemy.json you'll create based on your own tilemap.
-   * The format for the json file is:
-   * {
-   *       "position": [x, y], // x and y start positions
-   *       "mode": "guard" or "patrol", // choose whether this enemy is guarding one position or moving on a route
-   *       "route": [11, 2, 5, ...], // if mode is patrol, set the route of nodes the enemy will take
-   *       "guardPosition": [968, 472], // if mode is guard, set the guardPosition
-   *       "health": 5, // health value
-   *       "type": "gun_enemy" // enemy type, which can be gun_enemy, knife_enemy, custom_enemy1, and custom_enemy2.
-   *  }
-   *
-   * After setting up the json, you'll have to properly assign AI behaviors using our GOAP AI system.
-   * In this framework, AI are given actions they can perform with different costs to denote priority, along with preconditions
-   * to perform certain actions, status effects that those actions give after completion, and goals to be reached.
-   * Once you have your actions and goals defined, you can let your AI interact with the environment,
-   * having different behavior patterns based on whether certain statuses are met.
-   *
-   * Here you'll use a simple version of this GOAP system to give different behaviors to enemies, just by modifying costs and preconditions.
-   */
+
   initializeEnemies() {
     // Get the enemy data
     const enemyData = this.load.getObject("enemyData");
@@ -513,39 +495,7 @@ export default class mainScene extends Scene {
     // Create an enemies array
     this.enemies = new Array(enemyData.numEnemies);
 
-    // HOMEWORK 4 - TODO
-    /**
-     * Here we have the current actions that are given to the two existing enemy types, the gun enemy and knife enemy.
-     * Both AI will look to move towards a player and attack once in range at the start, trying to get the
-     * best path to REACHED_GOAL, a ending status that signifies the AI has reached it's goal and should start over to look
-     * for a new plan.
-     *
-     * However, their behavior differs once they reach low health:
-     *
-     * The gun enemy will immediately retreat once low health as the best path to REACHED_GOAL, while the knife enemy will keep attacking if they're still
-     * in range, only retreating if the player moves away from them.
-     *
-     * Once you implement the berserk action, you'll also have to add them here as a possible action both enemies can take.
-     * The behaviors each enemy should have with berserk are as follows:
-     *
-     * Knife enemy: Should berserk immediately once low health, even if they're close enough to attack.
-     *
-     * Gun enemy: Should berserk immediately after they succesfully retreat from the player and have been low health. (The enemy will technically be full
-     * health after succefully retreating, but the status low health won't be removed). This should have higher priority than moving to attack or attacking if in range.
-     *
-     * For both enemies, you can only use berserk once, just like retreat.
-     *
-     * /////////////////
-     *
-     * You'll also have to create two new enemies that have completely different behaviors from the existing two enemy types.
-     * You can be as creative as you want with how your new enemies will act. Maybe an enemy immediately berserks once seeing the player,
-     * or they retreat after trying to attack once, there's no restrictions on what preconditions or effects an action can have.
-     *
-     * The only restriction is that your created enemies must have all 4 actions given to them, you cannot remove an action to easily get a different behavior.
-     * I'd also avoid creating situations where different paths to REACHED_GOAL have the same cost, it won't break anything, but it will always
-     * choose one of those paths due to how the path selection is implemented, there won't be any randomness given two or more equally valid paths.
-     *
-     */
+
 
     let actionKnife = [
       new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
@@ -605,39 +555,7 @@ export default class mainScene extends Scene {
     let customEnemyAction1 = actionsLongRange;
     let customEnemyAction2 = actionsTanky;
 
-    // HOMEWORK 4 - TODO
-    /**
-     * To help facillate testing the proper sequence of actions that your AI should take, since it can be hard visually,
-     *  I've created some test methods you can use to determine whether your AI is behaving correctly.
-     *
-     * generateGoapPlans will generate all possible action sequences your enemy will taken based on every possible status combination. Use
-     * this to generate the plans given the actions you've set up and all possible statuses an enemy can have.
-     *
-     * testGoapPlans will actually test whether the plans you've created from generateGoapPlans match with the expected behavior patterns.
-     * You'll see that there's long strings giving the expected output for the gun enemy and knife enemy. If you see no failed assertions
-     * after running this method, that means you've implemented your berserk action for the gun enemy and knife enemy correctly.
-     *
-     * Also, testGoapPlans can verify whether your custom two enemies are different from the existing enemy types and from each other.
-     *
-     * Use these functions below to make sure your AI are taking the proper actions given certain situations.
-     */
 
-    // let resultGun = this.generateGoapPlans(actionsGun, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-    // let resultKnife = this.generateGoapPlans(actionKnife, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-    //
-    //
-    // let resultLongRange = null;
-    // let resultTanky = null
-    // resultLongRange= this.generateGoapPlans(actionsLongRange, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-    // resultTanky = this.generateGoapPlans(actionsTanky, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-    //
-    //
-    // this.testGoapPlans(resultGun, resultKnife, resultLongRange, resultTanky);
-    //
-    // console.log("test goap goals plan")
-    //this.testGoapPlans(resultGun,resultKnife)
-
-    // Initialize the enemies
     for (let i = 0; i < enemyData.numEnemies; i++) {
       let data = enemyData.enemies[i];
 
@@ -673,14 +591,7 @@ export default class mainScene extends Scene {
       let weapon;
       let actions;
       let range;
-      // HOMEWORK 4 - TODO
-      /**
-       * Once you've set up the actions for your custom enemy types, assign them here so they'll be spawned in your game.
-       * They can have any weapons you want.
-       *
-       * Your game in the end should have an equal amount of each enemy type (Around 25% of each type of enemy), and at least 20 enemies in
-       * total. Also, half the enemies should patrol while the other half guard.
-       */
+
       if (data.type === "gun_enemy") {
         weapon = this.createWeapon("weak_pistol");
         actions = actionsGun;

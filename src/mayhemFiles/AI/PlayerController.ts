@@ -48,6 +48,8 @@ export default class PlayerController implements BattlerAI {
     weapon: Weapon;
     buffActiveStatus: Array<String>
 
+    attackDamage: Number;
+
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
         this.lookDirection = Vec2.ZERO;
@@ -62,8 +64,9 @@ export default class PlayerController implements BattlerAI {
         this.receiver = new Receiver();
         this.receiver.subscribe(hw4_Events.SWAP_PLAYER);
 
-        this.buffBar = options.buffBar
+        // this.buffBar = options.buffBar
         this.weapon = options.weapon
+        this.attackDamage = this.weapon.type.damage;
     }
 
     activate(options: Record<string, any>): void { }

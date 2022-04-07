@@ -60,9 +60,9 @@ export default class mainScene extends Scene {
   // Player Damage
   private attackDisplays: Label;
 
-  private pause: Button;
+  private pauseButton: Button;
 
-  private play: Button;
+  private playButton: Button;
 
   loadScene() {
     // Load the player and enemy spritesheets
@@ -155,10 +155,7 @@ export default class mainScene extends Scene {
     this.initializeEnemies();
 
     // Send the player and enemies to the battle manager
-    this.battleManager.setPlayers([
-      <BattlerAI>this.mainPlayer._ai,
-      <BattlerAI>this.mainPlayer._ai,
-    ]);
+    this.battleManager.setPlayers([<BattlerAI>this.mainPlayer._ai]);
     this.battleManager.setEnemies(
       this.enemies.map((enemy) => <BattlerAI>enemy._ai)
     );
@@ -198,7 +195,7 @@ export default class mainScene extends Scene {
 
     this.addUILayer("pause");
     this.addUILayer("play");
-    const pauseButton = <Button>this.add.uiElement(
+    this.pauseButton = <Button>this.add.uiElement(
       UIElementType.BUTTON,
       "pause",
       {
@@ -206,23 +203,19 @@ export default class mainScene extends Scene {
         text: "Pause",
       }
     );
-    pauseButton.size.set(200, 50);
-    pauseButton.borderColor = Color.TRANSPARENT;
-    pauseButton.backgroundColor = Color.TRANSPARENT;
-    pauseButton.onClickEventId = "pause";
+    this.pauseButton.size.set(200, 50);
+    this.pauseButton.borderColor = Color.TRANSPARENT;
+    this.pauseButton.backgroundColor = Color.TRANSPARENT;
+    this.pauseButton.onClickEventId = "pause";
 
-    const playButton = <Button>this.add.uiElement(
-      UIElementType.BUTTON,
-      "play",
-      {
-        position: new Vec2(220, 16),
-        text: "Play",
-      }
-    );
-    playButton.size.set(200, 50);
-    playButton.borderColor = Color.TRANSPARENT;
-    playButton.backgroundColor = Color.TRANSPARENT;
-    playButton.onClickEventId = "pause";
+    this.playButton = <Button>this.add.uiElement(UIElementType.BUTTON, "play", {
+      position: new Vec2(220, 16),
+      text: "Play",
+    });
+    this.playButton.size.set(200, 50);
+    this.playButton.borderColor = Color.TRANSPARENT;
+    this.playButton.backgroundColor = Color.TRANSPARENT;
+    this.playButton.onClickEventId = "pause";
 
     this.receiver.subscribe("pause");
     this.receiver.subscribe("play");
@@ -231,11 +224,54 @@ export default class mainScene extends Scene {
     // this.healthDisplays[1] = <Label>this.add.uiElement(UIElementType.LABEL, "health", {position: new Vec2(70, 32), text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health});
     // this.healthDisplays[1].textColor = Color.WHITE;
   }
+  lockPlayer(viewportCenter: Vec2, viewportSize: Vec2): void {
+    //REMOVE
+    // Your code goes here:
+    ///lock up and down
+    console.log(this.mainPlayer.position);
+    // if (
+    //   this.mainPlayer.position.y >
+    //   viewportCenter.y + viewportSize.y - this.mainPlayer.sizeWithZoom.y
+    // ) {
+    //   this.mainPlayer.position.set(
+    //     this.mainPlayer.position.x,
+    //     viewportCenter.y + viewportSize.y - this.mainPlayer.sizeWithZoom.y
+    //   );
+    // }
+    // if (
+    //   this.mainPlayer.position.y <
+    //   viewportCenter.y - viewportSize.y + this.mainPlayer.sizeWithZoom.y
+    // ) {
+    //   this.mainPlayer.position.set(
+    //     this.mainPlayer.position.x,
+    //     viewportCenter.y - viewportSize.y + this.mainPlayer.sizeWithZoom.y
+    //   );
+    // }
+    // ///lock left and
+    // if (
+    //   this.mainPlayer.position.x >
+    //   viewportCenter.x + viewportSize.x - this.mainPlayer.sizeWithZoom.x
+    // ) {
+    //   this.mainPlayer.position.set(
+    //     viewportCenter.x + viewportSize.x - this.mainPlayer.sizeWithZoom.x,
+    //     this.mainPlayer.position.y
+    //   );
+    // }
+    // if (
+    //   this.mainPlayer.position.x <
+    //   viewportCenter.x - viewportSize.x + this.mainPlayer.sizeWithZoom.x
+    // ) {
+    //   this.mainPlayer.position.set(
+    //     viewportCenter.x - viewportSize.x + this.mainPlayer.sizeWithZoom.x,
+    //     this.mainPlayer.position.y
+    //   );
+    // }
+  }
 
   updateScene(deltaT: number): void {
     while (this.receiver.hasNextEvent()) {
       let event = this.receiver.getNextEvent();
-      console.log(event);
+      this.lockPlayer(this.viewport.getCenter(), this.viewport.getHalfSize());
       if (event.isType("healthpack")) {
         this.createHealthpack(event.data.get("position"));
       }
@@ -256,11 +292,9 @@ export default class mainScene extends Scene {
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {
         //console.log(event.data);
         let asset = this.sceneGraph.getNode(event.data.get("node"));
-
         asset.destroy();
       }
     }
-
     // check health of each player
     let health = (<BattlerAI>this.mainPlayer._ai).health;
 

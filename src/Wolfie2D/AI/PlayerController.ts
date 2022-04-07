@@ -44,6 +44,10 @@ export default class PlayerController implements BattlerAI {
     private receiver: Receiver;
 
 
+    buffBar: InventoryManager;
+    weapon: Weapon;
+    buffActiveStatus: Array<String>
+
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
         this.lookDirection = Vec2.ZERO;
@@ -57,6 +61,9 @@ export default class PlayerController implements BattlerAI {
 
         this.receiver = new Receiver();
         this.receiver.subscribe(hw4_Events.SWAP_PLAYER);
+
+        this.buffBar = options.buffBar
+        this.weapon = options.weapon
     }
 
     activate(options: Record<string, any>): void { }
@@ -74,29 +81,45 @@ export default class PlayerController implements BattlerAI {
             }
         }
     }
+
+    //this is use to shoot
     handleUseItem():void{
         let item = this.inventory.getItem();
         // If there is an item in the current slot, use it
         if (item) {
             item.use(this.owner, "player", this.lookDirection);
             this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
-            if (item instanceof Healthpack) {
-                // Destroy the used healthpack
-                this.inventory.removeItem();
-                item.sprite.visible = false;
-            }
         }
 
     }
 
+    handleApplyBuffEffect(item: Item): void{
+        this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown*0.1);
+
+    }
     handlePickUpItem():void{ //what if the pick up was the buff activation itself
         for (let item of this.items) {
-            if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
-                // We overlap it, try to pick it up
-                this.inventory.addItem(item);
+            if (this.owner.collisionShape.overlaps(item.sprite.boundary))
+            {
+                if(!(item instanceof Weapon)){
+                    // We overlap it, try to pick it up
+                    let activeBuffIndex = this.buffBar.getSlot();
+                    let maxSize =         this.buffBar.getSize();
 
-                // console.log(this.inventory)
-                break;
+                    this.inventory.changeSlot(activeBuffIndex+1)
+                    this.buffBar.addItem(item);
+
+                    this.handleApplyBuffEffect(item);
+                    // console.log(this.inventory)
+                    break;
+                }
+                else{
+                    let activeInvIndex = this.inventory.getSlot();
+                    let maxSize =         this.inventory.getSize();
+                    this.inventory.changeSlot(activeInvIndex+1)
+                    this.inventory.addItem(item);
+                }
+
             }
         }
     }

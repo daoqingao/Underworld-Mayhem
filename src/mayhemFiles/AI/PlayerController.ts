@@ -86,15 +86,15 @@ export default class PlayerController implements BattlerAI {
     }
   }
 
-  //this is use to shoot
-  //   handleUseItem(): void {
-  //     let item = this.inventory.getItem();
-  //     // If there is an item in the current slot, use it
-  //     if (item) {
-  //       item.use(this.owner, "player", this.lookDirection);
-  //       this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
-  //     }
-  //   }
+  //   this is use to shoot
+  handleUseItem(): void {
+    let item = this.inventory.getItem();
+    // If there is an item in the current slot, use it
+    if (item) {
+      item.use(this.owner, "player", this.lookDirection);
+      this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
+    }
+  }
 
   ///after picking up apply the buff and destroy the item
   handleApplyBuffEffect(item: Item): void {
@@ -144,7 +144,6 @@ export default class PlayerController implements BattlerAI {
       }
     }
   }
-
   update(deltaT: number): void {
     while (this.receiver.hasNextEvent()) {
       this.handleEvent(this.receiver.getNextEvent());
@@ -175,10 +174,10 @@ export default class PlayerController implements BattlerAI {
           (Input.isKeyPressed("w") ? -1 : 0) +
           (Input.isKeyPressed("s") ? 1 : 0);
 
-        // if(Input.isMousePressed(0) ){
-        //     direction.x=1;
-        //     direction.y=-1;
-        // }
+        if (Input.isMousePressed(0)) {
+          direction.x = 1;
+          direction.y = -1;
+        }
         direction.normalize();
         let newPos = playerPos.clone().add(direction.scale(3));
         // console.log(playerPos)
@@ -252,8 +251,7 @@ export default class PlayerController implements BattlerAI {
       //Target an enemy and attack
       if (this.target != null) {
         this.lookDirection = this.owner.position.dirTo(this.target);
-
-        // this.handleUseItem();
+        this.handleUseItem();
       }
     }
   }

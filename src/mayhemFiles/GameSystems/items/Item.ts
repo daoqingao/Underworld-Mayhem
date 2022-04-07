@@ -1,8 +1,12 @@
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
+import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 
 export default abstract class Item {
+  use(owner: AnimatedSprite, arg1: string, lookDirection: Vec2) {
+    throw new Error("Method not implemented.");
+  }
   /** The sprite that represents this weapon in the world or in an inventory */
   sprite: Sprite;
 

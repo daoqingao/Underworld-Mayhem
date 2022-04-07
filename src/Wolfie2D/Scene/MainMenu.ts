@@ -5,6 +5,7 @@ import Scene from "./Scene";
 import Color from "../Utils/Color";
 import Label from "../Nodes/UIElements/Label";
 import mainScene from "./MainScene";
+import Sprite from "../Nodes/Sprites/Sprite";
 
 export default class MainMenu extends Scene {
   // Layers, for multiple main menu screens\
@@ -13,9 +14,10 @@ export default class MainMenu extends Scene {
   private help: Layer;
   private control: Layer;
   private selectLevelScreen: Layer;
+  private bg: Sprite;
 
   loadScene() {
-    // this.load.image("splash", "./splash.jpg");
+    this.load.image("splash", "hw4_assets/background/splash.jpg ");
   }
   startScene() {
     const center = this.viewport.getCenter();
@@ -23,9 +25,13 @@ export default class MainMenu extends Scene {
     ////################## The Splash Screen
 
     this.splashScreen = this.addUILayer("splashScreen");
-    // this.addParallaxLayer("bg", new Vec2(0.5, 1), -1);
-    // let bg = this.add.sprite("splash", "bg");
-    // bg.position.set(bg.size.x / 2, bg.size.y / 2);
+    this.addParallaxLayer("bg", new Vec2(0.5, 1), -1);
+    this.bg = this.add.sprite("splash", "bg");
+    this.bg.size = new Vec2(1200, 800);
+    this.bg.position.set(
+      this.viewport.getHalfSize().x,
+      this.viewport.getHalfSize().y
+    );
 
     //Button for clicking to menu
     const mainMenu = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {
@@ -390,6 +396,7 @@ export default class MainMenu extends Scene {
         this.control.setHidden(true);
         this.splashScreen.setHidden(true);
         this.selectLevelScreen.setHidden(true);
+        this.bg.visible = false;
       }
       if (event.type === "control") {
         this.mainMenu.setHidden(true);

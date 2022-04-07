@@ -224,54 +224,10 @@ export default class mainScene extends Scene {
     // this.healthDisplays[1] = <Label>this.add.uiElement(UIElementType.LABEL, "health", {position: new Vec2(70, 32), text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health});
     // this.healthDisplays[1].textColor = Color.WHITE;
   }
-  lockPlayer(viewportCenter: Vec2, viewportSize: Vec2): void {
-    //REMOVE
-    // Your code goes here:
-    ///lock up and down
-    console.log(this.mainPlayer.position);
-    // if (
-    //   this.mainPlayer.position.y >
-    //   viewportCenter.y + viewportSize.y - this.mainPlayer.sizeWithZoom.y
-    // ) {
-    //   this.mainPlayer.position.set(
-    //     this.mainPlayer.position.x,
-    //     viewportCenter.y + viewportSize.y - this.mainPlayer.sizeWithZoom.y
-    //   );
-    // }
-    // if (
-    //   this.mainPlayer.position.y <
-    //   viewportCenter.y - viewportSize.y + this.mainPlayer.sizeWithZoom.y
-    // ) {
-    //   this.mainPlayer.position.set(
-    //     this.mainPlayer.position.x,
-    //     viewportCenter.y - viewportSize.y + this.mainPlayer.sizeWithZoom.y
-    //   );
-    // }
-    // ///lock left and
-    // if (
-    //   this.mainPlayer.position.x >
-    //   viewportCenter.x + viewportSize.x - this.mainPlayer.sizeWithZoom.x
-    // ) {
-    //   this.mainPlayer.position.set(
-    //     viewportCenter.x + viewportSize.x - this.mainPlayer.sizeWithZoom.x,
-    //     this.mainPlayer.position.y
-    //   );
-    // }
-    // if (
-    //   this.mainPlayer.position.x <
-    //   viewportCenter.x - viewportSize.x + this.mainPlayer.sizeWithZoom.x
-    // ) {
-    //   this.mainPlayer.position.set(
-    //     viewportCenter.x - viewportSize.x + this.mainPlayer.sizeWithZoom.x,
-    //     this.mainPlayer.position.y
-    //   );
-    // }
-  }
 
   updateScene(deltaT: number): void {
     while (this.receiver.hasNextEvent()) {
       let event = this.receiver.getNextEvent();
-      this.lockPlayer(this.viewport.getCenter(), this.viewport.getHalfSize());
       if (event.isType("healthpack")) {
         this.createHealthpack(event.data.get("position"));
       }
@@ -320,17 +276,6 @@ export default class mainScene extends Scene {
     if (Input.isKeyJustPressed("g")) {
       this.getLayer("graph").setHidden(!this.getLayer("graph").isHidden());
     }
-
-    //Swap characters
-    // if(Input.isKeyJustPressed("z")){
-    //     this.emitter.fireEvent(hw4_Events.SWAP_PLAYER, {id: this.playerCharacters[0].id});
-    //     this.viewport.follow(this.playerCharacters[0]);
-    // }
-    //
-    // if(Input.isKeyJustPressed("x")){
-    //     this.emitter.fireEvent(hw4_Events.SWAP_PLAYER, {id: this.playerCharacters[1].id});
-    //     this.viewport.follow(this.playerCharacters[1]);
-    // }
   }
 
   getClosestEnemy(playerPos: Vec2, range: number): Vec2 {

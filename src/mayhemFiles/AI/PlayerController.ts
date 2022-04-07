@@ -94,14 +94,13 @@ export default class PlayerController implements BattlerAI {
     }
 
     handleApplyBuffEffect(item: Item): void{
-        this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown*0.1);
-
+        this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown*0.01);
     }
     handlePickUpItem():void{ //what if the pick up was the buff activation itself
         for (let item of this.items) {
             if (this.owner.collisionShape.overlaps(item.sprite.boundary))
             {
-                if(!(item instanceof Weapon)){
+                if((item instanceof Healthpack)){
                     // We overlap it, try to pick it up
                     // let activeBuffIndex = this.buffBar.getSlot();
                     // let maxSize =         this.buffBar.getSize();
@@ -110,17 +109,17 @@ export default class PlayerController implements BattlerAI {
                     // this.buffBar.addItem(item);
                     //
 
-                    //this.handleApplyBuffEffect(item);
+                    this.handleApplyBuffEffect(item);
 
                     // console.log(this.inventory)
                     break;
                 }
-                else{
-                    // let activeInvIndex = this.inventory.getSlot();
-                    // let maxSize =         this.inventory.getSize();
-                    // this.inventory.changeSlot(activeInvIndex+1)
-                    // this.inventory.addItem(item);
-                }
+                // else{
+                //     // let activeInvIndex = this.inventory.getSlot();
+                //     // let maxSize =         this.inventory.getSize();
+                //     // this.inventory.changeSlot(activeInvIndex+1)
+                //     // this.inventory.addItem(item);
+                // }
 
             }
         }

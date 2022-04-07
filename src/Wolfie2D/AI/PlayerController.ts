@@ -83,7 +83,57 @@ export default class PlayerController implements BattlerAI {
             //Check right click
             if (Input.isMouseJustPressed(2)) {
                 this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, Input.getGlobalMousePosition(), true);
+                // console.log(this.owner.position)
+                // console.log(Input.getGlobalMousePosition())
             }
+
+
+            if(
+                // Input.isMouseJustPressed(0)
+                (   Input.isKeyPressed("a"))
+                ||(Input.isKeyPressed("w"))
+                ||(Input.isKeyPressed("s"))
+                ||(Input.isKeyPressed("d"))
+            )
+            {
+
+                let playerPos = this.owner.position.clone();
+                const direction = Vec2.ZERO;
+                direction.x = (Input.isKeyPressed("a") ? -1 : 0) + (
+                               Input.isKeyPressed("d") ? 1 : 0);
+                direction.y = (Input.isKeyPressed("w") ? -1 : 0) + (
+                               Input.isKeyPressed("s") ? 1 : 0);
+
+                // if(Input.isMousePressed(0) ){
+                //     direction.x=1;
+                //     direction.y=-1;
+                // }
+                direction.normalize();
+                let newPos = playerPos.clone().add(direction.scale(3));
+                // console.log(playerPos)
+                // console.log(newPos)
+                this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, newPos, true)
+                // Scale our direction to speed
+
+                // const speed = 100 * deltaT;
+                // const velocity = direction.scale(speed);
+                // this.owner.position.add(velocity);
+
+                if (this.path != null) {
+                    if (this.path.isDone()) {
+                        this.path = null;
+                    }
+                    else {
+                        this.owner.moveOnPath(this.speed * deltaT, this.path);
+                        this.owner.rotation = Vec2.UP.angleToCCW(this.path.getMoveDirection(this.owner));
+                    }
+                }
+                // Finally, adjust the position of the player
+            }
+
+
+
+
 
             // Check for slot change
             if (Input.isJustPressed("slot1")) {

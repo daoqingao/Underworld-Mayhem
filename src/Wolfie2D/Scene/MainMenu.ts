@@ -14,14 +14,18 @@ export default class MainMenu extends Scene {
   private control: Layer;
   private selectLevelScreen: Layer;
 
-  loadScene() {}
-
+  loadScene() {
+    // this.load.image("splash", "./splash.jpg");
+  }
   startScene() {
     const center = this.viewport.getCenter();
 
     ////################## The Splash Screen
 
     this.splashScreen = this.addUILayer("splashScreen");
+    // this.addParallaxLayer("bg", new Vec2(0.5, 1), -1);
+    // let bg = this.add.sprite("splash", "bg");
+    // bg.position.set(bg.size.x / 2, bg.size.y / 2);
 
     //Button for clicking to menu
     const mainMenu = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {

@@ -215,7 +215,7 @@ export default class mainScene extends Scene {
     this.playButton.size.set(200, 50);
     this.playButton.borderColor = Color.TRANSPARENT;
     this.playButton.backgroundColor = Color.TRANSPARENT;
-    this.playButton.onClickEventId = "pause";
+    this.playButton.onClickEventId = "play";
 
     this.receiver.subscribe("pause");
     this.receiver.subscribe("play");
@@ -239,10 +239,10 @@ export default class mainScene extends Scene {
           (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
       }
-      if (event.type == "pause") {
+      if (event.isType("pause")) {
         console.log("Pausing Game");
       }
-      if (event.type == "play") {
+      if (event.isType("play")) {
         console.log("Resume Game");
       }
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {

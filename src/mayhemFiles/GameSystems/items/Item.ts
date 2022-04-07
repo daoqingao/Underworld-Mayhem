@@ -2,12 +2,11 @@ import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 
-export default abstract class Item extends GameNode {
+export default abstract class Item {
   /** The sprite that represents this weapon in the world or in an inventory */
   sprite: Sprite;
 
   constructor(sprite: Sprite) {
-    super();
     this.sprite = sprite;
   }
 
@@ -24,6 +23,4 @@ export default abstract class Item extends GameNode {
     // Move the sprite
     this.sprite.position.copy(position);
   }
-
-  abstract use(user: GameNode, ...args: any): void;
 }

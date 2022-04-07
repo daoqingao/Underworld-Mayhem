@@ -61,6 +61,8 @@ export default class mainScene extends Scene {
   // Player Damage
   private attackDisplays: Label;
 
+  private maxhealthDisplays: Label;
+
   private pauseButton: Button;
 
   private playButton: Button;
@@ -180,11 +182,24 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "health",
       {
-        position: new Vec2(70, 16),
+        position: new Vec2(60, 16),
         text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health,
       }
     );
     this.healthDisplays.textColor = Color.WHITE;
+
+    this.addUILayer("maxhealth");
+
+    this.maxhealthDisplays = <Label>this.add.uiElement(
+      UIElementType.LABEL,
+      "maxhealth",
+      {
+        position: new Vec2(130, 16),
+        text:
+          "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth,
+      }
+    );
+    this.maxhealthDisplays.textColor = Color.WHITE;
 
     this.addUILayer("attack");
 
@@ -192,14 +207,13 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "attack",
       {
-        position: new Vec2(150, 16),
+        position: new Vec2(190, 16),
         text:
           "Attack: " +
           (<PlayerController>this.mainPlayer._ai).weapon.type.damage,
       }
     );
     this.attackDisplays.textColor = Color.WHITE;
-
     this.addUILayer("pause");
     this.addUILayer("play");
     this.pauseButton = <Button>this.add.uiElement(
@@ -280,6 +294,8 @@ export default class mainScene extends Scene {
     this.healthDisplays.text = "Health: " + health;
     this.attackDisplays.text =
       "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
+    this.maxhealthDisplays.text =
+      "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
 
     // Debug mode graph
     if (Input.isKeyJustPressed("g")) {

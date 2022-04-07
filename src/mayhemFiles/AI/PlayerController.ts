@@ -87,17 +87,17 @@ export default class PlayerController implements BattlerAI {
   }
 
   //this is use to shoot
-  handleUseItem(): void {
-    let item = this.inventory.getItem();
-    // If there is an item in the current slot, use it
-    if (item) {
-      item.use(this.owner, "player", this.lookDirection);
-      this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
-    }
-  }
+  //   handleUseItem(): void {
+  //     let item = this.inventory.getItem();
+  //     // If there is an item in the current slot, use it
+  //     if (item) {
+  //       item.use(this.owner, "player", this.lookDirection);
+  //       this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
+  //     }
+  //   }
 
+  ///after picking up apply the buff and destroy the item
   handleApplyBuffEffect(item: Item): void {
-    console.log(item);
     if (item instanceof Healthpack) {
       (<BattlerAI>this.owner._ai).maxHealth += 5;
     }
@@ -116,6 +116,7 @@ export default class PlayerController implements BattlerAI {
         )).maxHealth;
       }
     }
+    item.moveSprite(new Vec2(9999, 9999));
   }
   handlePickUpItem(): void {
     //what if the pick up was the buff activation itself
@@ -252,7 +253,7 @@ export default class PlayerController implements BattlerAI {
       if (this.target != null) {
         this.lookDirection = this.owner.position.dirTo(this.target);
 
-        this.handleUseItem();
+        // this.handleUseItem();
       }
     }
   }

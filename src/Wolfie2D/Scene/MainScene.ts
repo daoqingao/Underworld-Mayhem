@@ -206,7 +206,9 @@ export default class mainScene extends Scene {
         text: "Pause",
       }
     );
-    pauseButton.textColor = Color.WHITE;
+    pauseButton.size.set(200, 50);
+    pauseButton.borderColor = Color.TRANSPARENT;
+    pauseButton.backgroundColor = Color.TRANSPARENT;
     pauseButton.onClickEventId = "pause";
 
     const playButton = <Button>this.add.uiElement(
@@ -217,9 +219,10 @@ export default class mainScene extends Scene {
         text: "Play",
       }
     );
-    playButton.textColor = Color.WHITE;
-    playButton.onClickEventId = "play";
-    playButton.textColor = Color.WHITE;
+    playButton.size.set(200, 50);
+    playButton.borderColor = Color.TRANSPARENT;
+    playButton.backgroundColor = Color.TRANSPARENT;
+    playButton.onClickEventId = "pause";
 
     this.receiver.subscribe("pause");
     this.receiver.subscribe("play");
@@ -232,7 +235,7 @@ export default class mainScene extends Scene {
   updateScene(deltaT: number): void {
     while (this.receiver.hasNextEvent()) {
       let event = this.receiver.getNextEvent();
-
+      console.log(event);
       if (event.isType("healthpack")) {
         this.createHealthpack(event.data.get("position"));
       }

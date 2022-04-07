@@ -34,10 +34,9 @@ export default class MainMenu extends Scene {
     mainMenu.backgroundColor = Color.TRANSPARENT;
     mainMenu.onClickEventId = "menu";
 
-
     //*################# TODO: dao added this, quick play, remove later// starts at first level immediately
     const quickPlay = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {
-      position: new Vec2(center.x, center.y ),
+      position: new Vec2(center.x, center.y),
       text: "Quick Start to LV 1",
     });
     quickPlay.size.set(200, 50);
@@ -45,7 +44,6 @@ export default class MainMenu extends Scene {
     quickPlay.borderColor = Color.WHITE;
     quickPlay.backgroundColor = Color.TRANSPARENT;
     quickPlay.onClickEventId = "chooselevel";
-
 
     //################The Menu Screen
     this.mainMenu = this.addUILayer("mainMenu");
@@ -284,7 +282,7 @@ export default class MainMenu extends Scene {
       UIElementType.BUTTON,
       "selectLevelScreen",
       {
-        position: new Vec2(center.x + 75, center.y + 90),
+        position: new Vec2(center.x + 100, center.y + 90),
         text: "Level 5",
       }
     );

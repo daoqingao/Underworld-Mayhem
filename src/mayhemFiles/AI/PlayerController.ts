@@ -18,8 +18,16 @@ import MaxHealth from "../GameSystems/items/MaxHealth";
 import AttackDamage from "../GameSystems/items/AttackDamage";
 import AttackSpeed from "../GameSystems/items/AttackSpeed";
 import Speed from "../GameSystems/items/Speed";
+import Checkpoint from "../GameSystems/items/Checkpoint";
+import Scene from "../../Wolfie2D/Scene/Scene";
+import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
+import Emitter from "../../Wolfie2D/Events/Emitter";
+import StateMachineGoapAI from "../../Wolfie2D/AI/StateMachineGoapAI";
 
-export default class PlayerController implements BattlerAI {
+export default class PlayerController
+  extends StateMachineGoapAI
+  implements BattlerAI
+{
   // Fields from BattlerAI
   health: number;
 
@@ -49,11 +57,10 @@ export default class PlayerController implements BattlerAI {
   private lookDirection: Vec2;
   private path: NavigationPath;
 
-  private receiver: Receiver;
-
   buffBar: InventoryManager;
   weapon: Weapon;
   buffActiveStatus: Array<String>;
+  emitter: Emitter;
 
   initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
     this.owner = owner;
@@ -66,9 +73,6 @@ export default class PlayerController implements BattlerAI {
 
     this.items = options.items;
     this.inventory = options.inventory;
-
-    this.receiver = new Receiver();
-    this.receiver.subscribe(hw4_Events.SWAP_PLAYER);
 
     this.buffBar = options.buffBar;
     this.weapon = options.weapon;
@@ -125,7 +129,14 @@ export default class PlayerController implements BattlerAI {
         )).maxHealth;
       }
     }
-    item.moveSprite(new Vec2(9999, 9999));
+    if (item instanceof Checkpoint) {
+      this.emitter.fireEvent("checkpoint_cleared", {
+        position: new Vec2(item.sprite.position.x, item.sprite.position.y),
+      });
+    }
+    if (!(item instanceof CheckpointCleared)) {
+      item.moveSprite(new Vec2(9999, 9999));
+    }
   }
   handlePickUpItem(): void {
     //what if the pick up was the buff activation itself

@@ -38,6 +38,8 @@ import MaxHealth from "../GameSystems/items/MaxHealth";
 import Speed from "../GameSystems/items/Speed";
 import AttackSpeed from "../GameSystems/items/AttackSpeed";
 import AttackDamage from "../GameSystems/items/AttackDamage";
+import Checkpoint from "../GameSystems/items/Checkpoint";
+import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
 
 export default class mainScene extends Scene {
   // The player
@@ -108,6 +110,11 @@ export default class mainScene extends Scene {
     this.load.image("attackspeed", "mayhemAssets/sprites/attackspeed.png");
     this.load.image("attackdamage", "mayhemAssets/sprites/attackdamage.png");
     this.load.image("speed", "mayhemAssets/sprites/speed.png");
+    this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint.png");
+    this.load.image(
+      "checkpointcleared",
+      "mayhemAssets/sprites/checkpointcleared.png"
+    );
 
     this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
     this.load.image("knife", "mayhemAssets/sprites/knife.png");
@@ -177,6 +184,7 @@ export default class mainScene extends Scene {
     // Subscribe to relevant events
     this.receiver.subscribe("healthpack");
     this.receiver.subscribe("enemyDied");
+    this.receiver.subscribe("checkpoint_cleared");
     this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
 
     // Spawn items into the world
@@ -266,6 +274,12 @@ export default class mainScene extends Scene {
         this.battleManager.enemies = this.battleManager.enemies.filter(
           (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
+      }
+      if (event.isType("checkpoint_cleared")) {
+        let sprite = this.add.sprite("checkpointcleared", "primary");
+        let checkpointcleared = new CheckpointCleared(sprite);
+        console.log(event.data.get("position"));
+        checkpointcleared.moveSprite(event.data.get("position"));
       }
       if (event.isType("pause")) {
         console.log("Pausing Game");
@@ -363,6 +377,10 @@ export default class mainScene extends Scene {
         );
       } else if (item.type === "speed") {
         this.createSpeed(new Vec2(item.position[0] / 2, item.position[1] / 2));
+      } else if (item.type === "checkpoint") {
+        this.createCheckpoint(
+          new Vec2(item.position[0] / 2, item.position[1] / 2)
+        );
       }
     }
   }
@@ -417,6 +435,13 @@ export default class mainScene extends Scene {
     let attackspeed = new AttackSpeed(sprite);
     attackspeed.moveSprite(position);
     this.items.push(attackspeed);
+  }
+
+  createCheckpoint(position: Vec2) {
+    let sprite = this.add.sprite("checkpoint", "primary");
+    let checkpoint = new Checkpoint(sprite);
+    checkpoint.moveSprite(position);
+    this.items.push(checkpoint);
   }
 
   /**

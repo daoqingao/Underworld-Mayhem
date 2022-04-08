@@ -13,13 +13,11 @@
       "position": [262, 151]
     },
     {
-      "type": "weapon",
-      "weaponType": "knife",
+      "type": "attackspeed",
       "position": [840, 120]
     },
     {
-      "type": "weapon",
-      "weaponType": "knife",
+      "type": "attackdamage",
       "position": [648, 120]
     },
     {
@@ -35,28 +33,23 @@
       "position": [360, 360]
     },
     {
-      "type": "weapon",
-      "weaponType": "pistol",
+      "type": "speed",
       "position": [360, 328]
     },
     {
-      "type": "weapon",
-      "weaponType": "pistol",
+      "type": "attackdamage",
       "position": [136, 408]
     },
     {
-      "type": "weapon",
-      "weaponType": "knife",
+      "type": "attackdamage",
       "position": [936, 584]
     },
     {
-      "type": "weapon",
-      "weaponType": "pistol",
+      "type": "attackdamage",
       "position": [904, 744]
     },
     {
-      "type": "weapon",
-      "weaponType": "knife",
+      "type": "attackspeed",
       "position": [920, 872]
     },
     {
@@ -64,12 +57,12 @@
       "position": [296, 824]
     },
     {
-      "type": "weapon",
+      "type": "attackspeed",
       "weaponType": "knife",
       "position": [120, 824]
     },
     {
-      "type": "weapon",
+      "type": "attackspeed",
       "weaponType": "pistol",
       "position": [56, 984]
     }

@@ -35,6 +35,9 @@ import Stack from "../../Wolfie2D/DataTypes/Stack";
 import Berserk from "../../Wolfie2D/AI/EnemyActions/Berserk";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import MaxHealth from "../GameSystems/items/MaxHealth";
+import Speed from "../GameSystems/items/Speed";
+import AttackSpeed from "../GameSystems/items/AttackSpeed";
+import AttackDamage from "../GameSystems/items/AttackDamage";
 
 export default class mainScene extends Scene {
   // The player
@@ -99,9 +102,13 @@ export default class mainScene extends Scene {
     this.load.object("navmesh", "mayhemAssets/data/navmesh.json");
     this.load.object("enemyData", "mayhemAssets/data/enemy.json");
     this.load.object("itemData", "mayhemAssets/data/items.json");
-    //item objects
+    //buffs
     this.load.image("healthpack", "mayhemAssets/sprites/healthpack.png");
     this.load.image("healthmax", "mayhemAssets/sprites/healthmax.png");
+    this.load.image("attackspeed", "mayhemAssets/sprites/attackspeed.png");
+    this.load.image("attackdamage", "mayhemAssets/sprites/attackdamage.png");
+    this.load.image("speed", "mayhemAssets/sprites/speed.png");
+
     this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
     this.load.image("knife", "mayhemAssets/sprites/knife.png");
     this.load.image("laserGun", "mayhemAssets/sprites/laserGun.png");
@@ -346,10 +353,16 @@ export default class mainScene extends Scene {
         this.createMaxhealth(
           new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
-      } else {
-        let weapon = this.createWeapon(item.weaponType);
-        weapon.moveSprite(new Vec2(item.position[0] / 2, item.position[1] / 2));
-        this.items.push(weapon);
+      } else if (item.type === "attackspeed") {
+        this.createAttackspeed(
+          new Vec2(item.position[0] / 2, item.position[1] / 2)
+        );
+      } else if (item.type === "attackdamage") {
+        this.createAttackDamage(
+          new Vec2(item.position[0] / 2, item.position[1] / 2)
+        );
+      } else if (item.type === "speed") {
+        this.createSpeed(new Vec2(item.position[0] / 2, item.position[1] / 2));
       }
     }
   }
@@ -385,6 +398,25 @@ export default class mainScene extends Scene {
     let maxhealth = new MaxHealth(sprite);
     maxhealth.moveSprite(position);
     this.items.push(maxhealth);
+  }
+
+  createSpeed(position: Vec2): void {
+    let sprite = this.add.sprite("speed", "primary");
+    let speed = new Speed(sprite);
+    speed.moveSprite(position);
+    this.items.push(speed);
+  }
+  createAttackDamage(position: Vec2): void {
+    let sprite = this.add.sprite("attackdamage", "primary");
+    let attackdamage = new AttackDamage(sprite);
+    attackdamage.moveSprite(position);
+    this.items.push(attackdamage);
+  }
+  createAttackspeed(position: Vec2): void {
+    let sprite = this.add.sprite("attackspeed", "primary");
+    let attackspeed = new AttackSpeed(sprite);
+    attackspeed.moveSprite(position);
+    this.items.push(attackspeed);
   }
 
   /**

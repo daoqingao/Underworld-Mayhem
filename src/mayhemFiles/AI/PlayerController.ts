@@ -15,6 +15,9 @@ import BattlerAI from "./BattlerAI";
 import LaserGun from "../GameSystems/items/WeaponTypes/LaserGun";
 import SemiAutoGun from "../GameSystems/items/WeaponTypes/SemiAutoGun";
 import MaxHealth from "../GameSystems/items/MaxHealth";
+import AttackDamage from "../GameSystems/items/AttackDamage";
+import AttackSpeed from "../GameSystems/items/AttackSpeed";
+import Speed from "../GameSystems/items/Speed";
 
 export default class PlayerController implements BattlerAI {
   // Fields from BattlerAI
@@ -101,10 +104,16 @@ export default class PlayerController implements BattlerAI {
     if (item instanceof Healthpack) {
       (<BattlerAI>this.owner._ai).maxHealth += 5;
     }
-    if (item instanceof Weapon) {
-      this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown * 0.01);
+    if (item instanceof AttackDamage) {
       this.weapon.type.damage += 5;
     }
+    if (item instanceof AttackSpeed) {
+      this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown * 0.01);
+    }
+    if (item instanceof Speed) {
+      this.speed += 5;
+    }
+
     if (item instanceof MaxHealth) {
       (<BattlerAI>this.owner._ai).health += 5;
       if (

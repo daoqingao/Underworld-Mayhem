@@ -27,3 +27,5 @@ we just remove the buff status)
 #lin
 so i added all the buffs now we need to find a way to track all the buffs i tried making an array for the buffs but didn't seeem to work, so can u try
 !!!dao need you to scale the movement based on the speed to make sure you speed up usingthe speed buff. 
+need to make checkpoint appear below player
+make a next level cut scene/ or transition

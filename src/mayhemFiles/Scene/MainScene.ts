@@ -167,7 +167,7 @@ export default class mainScene extends Scene {
     // Create the battle manager
     this.battleManager = new BattleManager();
 
-    // this.initializeWeapons();
+    this.initializeWeapons();
 
     // Initialize the items array - this represents items that are in the game world
     this.items = [];
@@ -544,30 +544,30 @@ export default class mainScene extends Scene {
   /**
    * Initalizes all weapon types based of data from weaponData.json
    */
-  // initializeWeapons(): void {
-  //   let weaponData = this.load.getObject("weaponData");
+  initializeWeapons(): void {
+    let weaponData = this.load.getObject("weaponData");
 
-  //   for (let i = 0; i < weaponData.numWeapons; i++) {
-  //     let weapon = weaponData.weapons[i];
+    for (let i = 0; i < weaponData.numWeapons; i++) {
+      let weapon = weaponData.weapons[i];
 
-  //     // Get the constructor of the prototype
-  //     let constr = RegistryManager.getRegistry("weaponTemplates").get(
-  //       weapon.weaponType
-  //     );
+      // Get the constructor of the prototype
+      let constr = RegistryManager.getRegistry("weaponTemplates").get(
+        weapon.weaponType
+      );
 
-  //     // Create a weapon type
-  //     let weaponType = new constr();
+      // Create a weapon type
+      let weaponType = new constr();
 
-  //     // Initialize the weapon type
-  //     weaponType.initialize(weapon);
+      // Initialize the weapon type
+      weaponType.initialize(weapon);
 
-  //     // Register the weapon type
-  //     RegistryManager.getRegistry("weaponTypes").registerItem(
-  //       weapon.name,
-  //       weaponType
-  //     );
-  //   }
-  // }
+      // Register the weapon type
+      RegistryManager.getRegistry("weaponTypes").registerItem(
+        weapon.name,
+        weaponType
+      );
+    }
+  }
 
   // HOMEWORK 4 - TODO
   /**
@@ -886,7 +886,9 @@ export default class mainScene extends Scene {
         actions: actions,
         inRange: range,
       };
+
       this.enemies[i].addAI(EnemyAI, enemyOptions);
     }
+    //console.log("enimies initialized")
   }
 }

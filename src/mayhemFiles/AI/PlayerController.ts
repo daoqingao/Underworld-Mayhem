@@ -134,6 +134,9 @@ export default class PlayerController
         position: new Vec2(item.sprite.position.x, item.sprite.position.y),
       });
     }
+    else{
+      this.emitter.fireEvent("newbuff", {buff: item});
+    }
     if (!(item instanceof CheckpointCleared)) {
       item.moveSprite(new Vec2(9999, 9999));
     }

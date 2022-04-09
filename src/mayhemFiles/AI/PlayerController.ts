@@ -245,18 +245,18 @@ export default class PlayerController
       //     }
       // }
 
-      if (Input.isJustPressed("drop")) {
-        // Check if we can drop our current item
-        let item = this.inventory.removeItem();
+      // if (Input.isJustPressed("drop")) {
+      //   // Check if we can drop our current item
+      //   let item = this.inventory.removeItem();
 
-        if (item) {
-          // Move the item from the ui to the gameworld
-          item.moveSprite(this.owner.position, "primary");
+      //   if (item) {
+      //     // Move the item from the ui to the gameworld
+      //     item.moveSprite(this.owner.position, "primary");
 
-          // Add the item to the list of items
-          this.items.push(item);
-        }
-      }
+      //     // Add the item to the list of items
+      //     this.items.push(item);
+      //   }
+      // }
     }
 
     //Move on path if selected

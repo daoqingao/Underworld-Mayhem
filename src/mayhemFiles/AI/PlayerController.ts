@@ -50,6 +50,7 @@ export default class PlayerController
 
   /** A list of items in the game world */
   private items: Array<Item>;
+
   // Movement
   private speed: number;
 
@@ -69,6 +70,7 @@ export default class PlayerController
     this.maxHealth = options.maxHealth;
     this.inputEnabled = options.inputEnabled;
     this.range = options.range;
+
     this.items = options.items;
     this.inventory = options.inventory;
 
@@ -135,7 +137,6 @@ export default class PlayerController
     if (!(item instanceof CheckpointCleared)) {
       item.moveSprite(new Vec2(9999, 9999));
     }
-    this.emitter.fireEvent("newbuff",{buff: item})
   }
   handlePickUpItem(): void {
     //what if the pick up was the buff activation itself

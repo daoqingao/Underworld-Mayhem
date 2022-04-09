@@ -4,9 +4,6 @@ import Map from "../DataTypes/Map"
  * A representation of an in-game event that is passed through the @reference[EventQueue]
  */
 export default class GameEvent {
-  buff(buff: any) {
-    throw new Error("Method not implemented.");
-  }
     /** The type of the event */
     public type: string;
     /** The data contained by the event */

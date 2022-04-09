@@ -29,3 +29,11 @@ so i added all the buffs now we need to find a way to track all the buffs i trie
 !!!dao need you to scale the movement based on the speed to make sure you speed up usingthe speed buff. done!
 need to make checkpoint appear below player still need!
 make a next level cut scene/ or transition done!
+
+#dao
+click to shoot done
+THinking about adding more buffs
+thinking about making enemy spawn randomized based on code instead of JSON
+//because there are 9 levels, we cant really just have 9 json for every enemy placement
+
+

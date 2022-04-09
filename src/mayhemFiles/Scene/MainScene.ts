@@ -84,6 +84,8 @@ export default class mainScene extends Scene {
   attackSpeedBuffLabel: Label;
   healthupBuffLabel : Label;
 
+  knifeEnemyClone: AnimatedSprite;
+
 
   loadScene() {
     // Load the player and enemy spritesheets
@@ -395,7 +397,7 @@ export default class mainScene extends Scene {
 
     //If both are dead, game over
 
-    if (health === 0) {
+    if (health <= 0) {
       this.mainPlayer.position = new Vec2(-1000, -1000);
       this.mainPlayer.visible = false;
       this.sceneManager.changeToScene(GameOver);
@@ -681,46 +683,22 @@ export default class mainScene extends Scene {
    *
    * Here you'll use a simple version of this GOAP system to give different behaviors to enemies, just by modifying costs and preconditions.
    */
+
+
+  spawnKnifeEnemy(position: Vec2): void {
+    let sprite = this.add.sprite("healthpack", "primary");
+    let healthpack = new Healthpack(sprite);
+    healthpack.moveSprite(position);
+    this.items.push(healthpack);
+  }
+
+
   initializeEnemies() {
     // Get the enemy data
     const enemyData = this.load.getObject("enemyData");
 
     // Create an enemies array
     this.enemies = new Array(enemyData.numEnemies);
-
-    // HOMEWORK 4 - TODO
-    /**
-     * Here we have the current actions that are given to the two existing enemy types, the gun enemy and knife enemy.
-     * Both AI will look to move towards a player and attack once in range at the start, trying to get the
-     * best path to REACHED_GOAL, a ending status that signifies the AI has reached it's goal and should start over to look
-     * for a new plan.
-     *
-     * However, their behavior differs once they reach low health:
-     *
-     * The gun enemy will immediately retreat once low health as the best path to REACHED_GOAL, while the knife enemy will keep attacking if they're still
-     * in range, only retreating if the player moves away from them.
-     *
-     * Once you implement the berserk action, you'll also have to add them here as a possible action both enemies can take.
-     * The behaviors each enemy should have with berserk are as follows:
-     *
-     * Knife enemy: Should berserk immediately once low health, even if they're close enough to attack.
-     *
-     * Gun enemy: Should berserk immediately after they succesfully retreat from the player and have been low health. (The enemy will technically be full
-     * health after succefully retreating, but the status low health won't be removed). This should have higher priority than moving to attack or attacking if in range.
-     *
-     * For both enemies, you can only use berserk once, just like retreat.
-     *
-     * /////////////////
-     *
-     * You'll also have to create two new enemies that have completely different behaviors from the existing two enemy types.
-     * You can be as creative as you want with how your new enemies will act. Maybe an enemy immediately berserks once seeing the player,
-     * or they retreat after trying to attack once, there's no restrictions on what preconditions or effects an action can have.
-     *
-     * The only restriction is that your created enemies must have all 4 actions given to them, you cannot remove an action to easily get a different behavior.
-     * I'd also avoid creating situations where different paths to REACHED_GOAL have the same cost, it won't break anything, but it will always
-     * choose one of those paths due to how the path selection is implemented, there won't be any randomness given two or more equally valid paths.
-     *
-     */
 
     let actionKnife = [
       new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
@@ -780,39 +758,7 @@ export default class mainScene extends Scene {
     let customEnemyAction1 = actionsLongRange;
     let customEnemyAction2 = actionsTanky;
 
-    // HOMEWORK 4 - TODO
-    /**
-     * To help facillate testing the proper sequence of actions that your AI should take, since it can be hard visually,
-     *  I've created some test methods you can use to determine whether your AI is behaving correctly.
-     *
-     * generateGoapPlans will generate all possible action sequences your enemy will taken based on every possible status combination. Use
-     * this to generate the plans given the actions you've set up and all possible statuses an enemy can have.
-     *
-     * testGoapPlans will actually test whether the plans you've created from generateGoapPlans match with the expected behavior patterns.
-     * You'll see that there's long strings giving the expected output for the gun enemy and knife enemy. If you see no failed assertions
-     * after running this method, that means you've implemented your berserk action for the gun enemy and knife enemy correctly.
-     *
-     * Also, testGoapPlans can verify whether your custom two enemies are different from the existing enemy types and from each other.
-     *
-     * Use these functions below to make sure your AI are taking the proper actions given certain situations.
-     */
 
-    // let resultGun = this.generateGoapPlans(actionsGun, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-    // let resultKnife = this.generateGoapPlans(actionKnife, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-    //
-    //
-    // let resultLongRange = null;
-    // let resultTanky = null
-    // resultLongRange= this.generateGoapPlans(actionsLongRange, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-    // resultTanky = this.generateGoapPlans(actionsTanky, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-    //
-    //
-    // this.testGoapPlans(resultGun, resultKnife, resultLongRange, resultTanky);
-    //
-    // console.log("test goap goals plan")
-    //this.testGoapPlans(resultGun,resultKnife)
-
-    // Initialize the enemies
     for (let i = 0; i < enemyData.numEnemies; i++) {
       let data = enemyData.enemies[i];
 
@@ -890,6 +836,10 @@ export default class mainScene extends Scene {
       };
 
       this.enemies[i].addAI(EnemyAI, enemyOptions);
+      // let x = (JSON.stringify(this.enemies[i]));
+      //
+      // console.log(this.enemies[i]);
+      // console.log(this.knifeEnemyClone )
     }
   }
 }

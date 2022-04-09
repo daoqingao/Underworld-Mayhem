@@ -57,10 +57,11 @@ export default class PlayerController
   private lookDirection: Vec2;
   private path: NavigationPath;
 
-  buffBar: InventoryManager;
   weapon: Weapon;
   buffActiveStatus: Array<String>;
   emitter: Emitter;
+
+  shootingTimer: Timer;
 
   initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
     this.owner = owner;
@@ -74,8 +75,9 @@ export default class PlayerController
     this.items = options.items;
     this.inventory = options.inventory;
 
-    this.buffBar = options.buffBar;
+    //defined by dao
     this.weapon = options.weapon;
+    this.shootingTimer = this.weapon.cooldownTimer;
   }
 
   activate(options: Record<string, any>): void {}
@@ -112,7 +114,7 @@ export default class PlayerController
       this.weapon.type.damage += 5;
     }
     if (item instanceof AttackSpeed) {
-      this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown * 0.01);
+      this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown * 0.5);
     }
     if (item instanceof Speed) {
       this.speed += 40;
@@ -154,16 +156,8 @@ export default class PlayerController
           // this.buffBar.addItem(item);
           //
           this.handleApplyBuffEffect(item);
-
-          // console.log(this.inventory)
           break;
         }
-        // else{
-        //     // let activeInvIndex = this.inventory.getSlot();
-        //     // let maxSize =         this.inventory.getSize();
-        //     // this.inventory.changeSlot(activeInvIndex+1)
-        //     // this.inventory.addItem(item);
-        // }
       }
     }
   }
@@ -172,7 +166,17 @@ export default class PlayerController
       this.handleEvent(this.receiver.getNextEvent());
     }
     if (this.inputEnabled && this.health > 0) {
-      //Check right click
+      if (Input.isMousePressed(0)) {
+        if(this.weapon.cooldownTimer.isStopped())
+        {
+          console.log("timer doned")
+          this.lookDirection = this.owner.position.dirTo(Input.getGlobalMousePosition());
+          this.handleUseItem();
+          this.weapon.cooldownTimer.start()
+        }
+
+      }
+
       if (Input.isMouseJustPressed(2)) {
         this.owner.position = Input.getGlobalMousePosition();
         //this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, Input.getGlobalMousePosition(), true);
@@ -197,10 +201,7 @@ export default class PlayerController
           (Input.isKeyPressed("w") ? -1 : 0) +
           (Input.isKeyPressed("s") ? 1 : 0);
 
-        if (Input.isMousePressed(0)) {
-          direction.x = 1;
-          direction.y = -1;
-        }
+
         direction.x *= this.speed;
         direction.y *= this.speed;
         direction.normalize();
@@ -211,22 +212,7 @@ export default class PlayerController
           .getScene()
           .getNavigationManager()
           .getPath(hw4_Names.NAVMESH, this.owner.position, newPos, true);
-        // Scale our direction to speed
 
-        // const speed = 100 * deltaT;
-        // const velocity = direction.scale(speed);
-        // this.owner.position.add(velocity);
-
-        // if (this.path != null) {
-        //     if (this.path.isDone()) {
-        //         this.path = null;
-        //     }
-        //     else {
-        //         this.owner.moveOnPath(this.speed * deltaT, this.path);
-        //         this.owner.rotation = Vec2.UP.angleToCCW(this.path.getMoveDirection(this.owner));
-        //     }
-        // }
-        // Finally, adjust the position of the player
       }
 
       // Check for slot change

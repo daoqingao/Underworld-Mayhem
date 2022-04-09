@@ -118,6 +118,7 @@ export default class MainMenu extends Scene {
     });
     helpHeader.textColor = Color.WHITE;
     helpHeader.fontSize = 50;
+    
 
     const text1header = "Backstory";
     const text1 =
@@ -179,6 +180,15 @@ export default class MainMenu extends Scene {
     line1header.textColor = Color.WHITE;
     line2header.textColor = Color.WHITE;
     line3header.textColor = Color.WHITE;
+    (<Label>line1).font = "Fantasy";
+    (<Label>line12).font = "Fantasy";
+    (<Label>line13).font = "Fantasy";
+    (<Label>line2).font = "Fantasy";
+    (<Label>line3).font = "Fantasy";
+    (<Label>line1header).font = "Fantasy";
+    (<Label>line2header).font = "Fantasy";
+    (<Label>line3header).font = "Fantasy";
+
 
     const helpBack = this.add.uiElement(UIElementType.BUTTON, "help", {
       position: new Vec2(center.x, center.y + 300),
@@ -189,6 +199,7 @@ export default class MainMenu extends Scene {
     helpBack.borderColor = Color.WHITE;
     helpBack.backgroundColor = Color.TRANSPARENT;
     helpBack.onClickEventId = "menu";
+    (<Label>helpBack).font = "Fantasy";
 
     /* ########## CONTROL SCREEN ########## */
     this.control = this.addUILayer("control");
@@ -204,6 +215,7 @@ export default class MainMenu extends Scene {
     );
     controlHeader.textColor = Color.WHITE;
     controlHeader.fontSize = 50;
+    (<Label>controlHeader).font = "Fantasy";
 
     const controlText1 = "WASD to move";
     const controlText2 = "Left Click to Shoot";
@@ -227,6 +239,8 @@ export default class MainMenu extends Scene {
 
     controlLine1.textColor = Color.WHITE;
     controlLine2.textColor = Color.WHITE;
+    (<Label>controlLine1).font = "Fantasy";
+    (<Label>controlLine2).font = "Fantasy";
 
     const controlBack = this.add.uiElement(UIElementType.BUTTON, "control", {
       position: new Vec2(center.x, center.y + 250),
@@ -237,6 +251,7 @@ export default class MainMenu extends Scene {
     controlBack.borderColor = Color.WHITE;
     controlBack.backgroundColor = Color.TRANSPARENT;
     controlBack.onClickEventId = "menu";
+    (<Label>controlBack).font = "Fantasy";
 
     //###########Select Levels Screen
     this.selectLevelScreen = this.addUILayer("selectLevelScreen");
@@ -256,6 +271,8 @@ export default class MainMenu extends Scene {
     selectLevelBack.borderColor = Color.WHITE;
     selectLevelBack.backgroundColor = Color.TRANSPARENT;
     selectLevelBack.onClickEventId = "menu";
+    (<Label>selectLevelBack).font = "Fantasy";
+
     ///header for select level
     const selectHeader = <Label>this.add.uiElement(
       UIElementType.LABEL,
@@ -267,6 +284,8 @@ export default class MainMenu extends Scene {
     );
     selectHeader.textColor = Color.WHITE;
     selectHeader.fontSize = 50;
+    (<Label>selectHeader).font = "Fantasy";
+
     ///buttons for all the levels
     const level1 = this.add.uiElement(
       UIElementType.BUTTON,
@@ -393,6 +412,15 @@ export default class MainMenu extends Scene {
     level9.borderColor = Color.WHITE;
     level9.backgroundColor = Color.TRANSPARENT;
     level9.onClickEventId = "chooselevel";
+    (<Label>level1).font = "Fantasy";
+    (<Label>level2).font = "Fantasy";
+    (<Label>level3).font = "Fantasy";
+    (<Label>level4).font = "Fantasy";
+    (<Label>level5).font = "Fantasy";
+    (<Label>level6).font = "Fantasy";
+    (<Label>level7).font = "Fantasy";
+    (<Label>level8).font = "Fantasy";
+    (<Label>level9).font = "Fantasy";
 
     // Subscribe to the button events
     this.receiver.subscribe("play");

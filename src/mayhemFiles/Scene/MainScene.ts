@@ -243,13 +243,14 @@ export default class mainScene extends Scene {
       }
     );
     this.attackDisplays.textColor = Color.WHITE;
+
     this.addUILayer("pause");
     this.addUILayer("play");
     this.pauseButton = <Button>this.add.uiElement(
       UIElementType.BUTTON,
       "pause",
       {
-        position: new Vec2(250, 16),
+        position: new Vec2(260, 16),
         text: "Pause",
       }
     );
@@ -258,8 +259,9 @@ export default class mainScene extends Scene {
     this.pauseButton.backgroundColor = Color.TRANSPARENT;
     this.pauseButton.onClickEventId = "pause";
 
+
     this.playButton = <Button>this.add.uiElement(UIElementType.BUTTON, "play", {
-      position: new Vec2(220, 16),
+      position: new Vec2(230, 16),
       text: "Play",
     });
     this.playButton.size.set(200, 50);
@@ -298,7 +300,7 @@ export default class mainScene extends Scene {
       "attackdamage",
       {
         position: new Vec2(295, 30),
-        text: "" + this.attackDamageBuff
+        text: "" + this.attackDamageBuff,
       }
     );
     this.attackDamageBuffLabel.textColor = Color.WHITE;
@@ -308,7 +310,7 @@ export default class mainScene extends Scene {
       "attackspeed",
       {
         position: new Vec2(295, 50),
-        text: "" + this.attackSpeedBuff
+        text: "" + this.attackSpeedBuff,
       }
     );
     this.attackSpeedBuffLabel.textColor = Color.WHITE;
@@ -318,7 +320,7 @@ export default class mainScene extends Scene {
       "speed",
       {
         position: new Vec2(295, 70),
-        text: "" + this.speedBuff
+        text: "" + this.speedBuff,
       }
     );
     this.speedBuffLabel.textColor = Color.WHITE;
@@ -328,7 +330,7 @@ export default class mainScene extends Scene {
       "healthup",
       {
         position: new Vec2(295, 90),
-        text: "" + this.healthupBuff
+        text: "" + this.healthupBuff,
       }
     );
     this.healthupBuffLabel.textColor = Color.WHITE;
@@ -889,6 +891,5 @@ export default class mainScene extends Scene {
 
       this.enemies[i].addAI(EnemyAI, enemyOptions);
     }
-    //console.log("enimies initialized")
   }
 }

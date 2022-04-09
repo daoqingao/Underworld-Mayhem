@@ -332,11 +332,7 @@ export default class mainScene extends Scene {
       }
     );
     this.healthupBuffLabel.textColor = Color.WHITE;
-
-
-    //
-    // this.healthDisplays[1] = <Label>this.add.uiElement(UIElementType.LABEL, "health", {position: new Vec2(70, 32), text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health});
-    // this.healthDisplays[1].textColor = Color.WHITE;
+    
   }
 
   updateScene(deltaT: number): void {

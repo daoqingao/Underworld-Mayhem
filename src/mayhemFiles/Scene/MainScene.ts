@@ -167,7 +167,7 @@ export default class mainScene extends Scene {
     // Create the battle manager
     this.battleManager = new BattleManager();
 
-    this.initializeWeapons();
+    // this.initializeWeapons();
 
     // Initialize the items array - this represents items that are in the game world
     this.items = [];
@@ -544,30 +544,30 @@ export default class mainScene extends Scene {
   /**
    * Initalizes all weapon types based of data from weaponData.json
    */
-  initializeWeapons(): void {
-    let weaponData = this.load.getObject("weaponData");
+  // initializeWeapons(): void {
+  //   let weaponData = this.load.getObject("weaponData");
 
-    for (let i = 0; i < weaponData.numWeapons; i++) {
-      let weapon = weaponData.weapons[i];
+  //   for (let i = 0; i < weaponData.numWeapons; i++) {
+  //     let weapon = weaponData.weapons[i];
 
-      // Get the constructor of the prototype
-      let constr = RegistryManager.getRegistry("weaponTemplates").get(
-        weapon.weaponType
-      );
+  //     // Get the constructor of the prototype
+  //     let constr = RegistryManager.getRegistry("weaponTemplates").get(
+  //       weapon.weaponType
+  //     );
 
-      // Create a weapon type
-      let weaponType = new constr();
+  //     // Create a weapon type
+  //     let weaponType = new constr();
 
-      // Initialize the weapon type
-      weaponType.initialize(weapon);
+  //     // Initialize the weapon type
+  //     weaponType.initialize(weapon);
 
-      // Register the weapon type
-      RegistryManager.getRegistry("weaponTypes").registerItem(
-        weapon.name,
-        weaponType
-      );
-    }
-  }
+  //     // Register the weapon type
+  //     RegistryManager.getRegistry("weaponTypes").registerItem(
+  //       weapon.name,
+  //       weaponType
+  //     );
+  //   }
+  // }
 
   // HOMEWORK 4 - TODO
   /**
@@ -886,124 +886,7 @@ export default class mainScene extends Scene {
         actions: actions,
         inRange: range,
       };
-
       this.enemies[i].addAI(EnemyAI, enemyOptions);
-    }
-    //console.log("enimies initialized")
-  }
-
-  powerset(array: Array<string>): Array<Array<string>> {
-    return array.reduce((a, v) => a.concat(a.map((r) => [v].concat(r))), [[]]);
-  }
-
-  /**
-   * This function takes all possible actions and all possible statuses, and generates a list of all possible combinations and statuses
-   * and the actions that are taken when run through the GoapActionPlanner.
-   */
-  generateGoapPlans(
-    actions: Array<GoapAction>,
-    statuses: Array<string>,
-    goal: string
-  ): string {
-    let planner = new GoapActionPlanner();
-    // Get all possible status combinations
-    let statusComboinations = this.powerset(statuses);
-    let map = new Map<String>();
-    //console.log(statusComboinations.toString());
-
-    for (let s of statusComboinations) {
-      // Get plan
-      let plan = planner.plan(goal, actions, s, null);
-      let givenStatuses = "Given: ";
-      s.forEach((v) => (givenStatuses = givenStatuses + v + ", "));
-
-      map.add(givenStatuses, plan.toString());
-    }
-
-    return map.toString();
-  }
-
-  /**
-   * Use this function to test and verify that your created plans are correct. Note that you should only start using this function once you're ready to
-   * test your berserk action for the existing gun and knife enemies. Your custom enemies can be added whenever they're ready,
-   * your tests will pass if you leave the arguments for both null.
-   */
-  testGoapPlans(
-    gunPlans: string,
-    knifePlans: string,
-    customPlan1: string,
-    customPlan2: string
-  ) {
-    let expectedKnifeResult =
-      `Given:  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: LOW_HEALTH,  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: LOW_HEALTH, IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: CAN_BERSERK,  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: CAN_BERSERK, IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: CAN_BERSERK, LOW_HEALTH,  -> Top -> (Berserk)\n` +
-      `Given: CAN_BERSERK, LOW_HEALTH, IN_RANGE,  -> Top -> (Berserk)\n` +
-      `Given: CAN_RETREAT,  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: CAN_RETREAT, IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: CAN_RETREAT, LOW_HEALTH,  -> Top -> (Retreat)\n` +
-      `Given: CAN_RETREAT, LOW_HEALTH, IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: CAN_RETREAT, CAN_BERSERK,  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: CAN_RETREAT, CAN_BERSERK, IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: CAN_RETREAT, CAN_BERSERK, LOW_HEALTH,  -> Top -> (Berserk)\n` +
-      `Given: CAN_RETREAT, CAN_BERSERK, LOW_HEALTH, IN_RANGE,  -> Top -> (Berserk)\n`;
-
-    let expectedGunResult =
-      `Given:  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: LOW_HEALTH,  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: LOW_HEALTH, IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: CAN_BERSERK,  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: CAN_BERSERK, IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: CAN_BERSERK, LOW_HEALTH,  -> Top -> (Berserk)\n` +
-      `Given: CAN_BERSERK, LOW_HEALTH, IN_RANGE,  -> Top -> (Berserk)\n` +
-      `Given: CAN_RETREAT,  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: CAN_RETREAT, IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: CAN_RETREAT, LOW_HEALTH,  -> Top -> (Retreat)\n` +
-      `Given: CAN_RETREAT, LOW_HEALTH, IN_RANGE,  -> Top -> (Retreat)\n` +
-      `Given: CAN_RETREAT, CAN_BERSERK,  -> Top -> (Move) -> (AttackAction)\n` +
-      `Given: CAN_RETREAT, CAN_BERSERK, IN_RANGE,  -> Top -> (AttackAction)\n` +
-      `Given: CAN_RETREAT, CAN_BERSERK, LOW_HEALTH,  -> Top -> (Retreat)\n` +
-      `Given: CAN_RETREAT, CAN_BERSERK, LOW_HEALTH, IN_RANGE,  -> Top -> (Retreat)\n`;
-
-    console.assert(gunPlans === expectedGunResult, {
-      errorMsg:
-        "Your created gun enemy plan does not match the expected behavior patterns",
-    });
-
-    console.assert(knifePlans === expectedKnifeResult, {
-      errorMsg:
-        "Your created knife enemy plan does not match the expected behavior patterns",
-    });
-
-    if (customPlan1 !== null) {
-      console.assert(customPlan1 !== expectedGunResult, {
-        errorMsg:
-          "Your first custom plan has the same behavior as the gun enemy",
-      });
-      console.assert(customPlan1 !== expectedKnifeResult, {
-        errorMsg:
-          "Your first custom plan has the same behavior as the knife enemy",
-      });
-    }
-
-    if (customPlan2 !== null) {
-      console.assert(customPlan2 !== expectedGunResult, {
-        errorMsg:
-          "Your second custom plan has the same behavior as the gun enemy",
-      });
-      console.assert(customPlan2 !== expectedKnifeResult, {
-        errorMsg:
-          "Your second custom plan has the same behavior as the knife enemy",
-      });
-      if (customPlan1 !== null)
-        console.assert(customPlan2 !== customPlan1, {
-          errorMsg: "Both of your custom plans have the same behavior",
-        });
     }
   }
 }

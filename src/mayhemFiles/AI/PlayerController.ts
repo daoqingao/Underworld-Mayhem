@@ -115,7 +115,7 @@ export default class PlayerController
       this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown * 0.01);
     }
     if (item instanceof Speed) {
-      this.speed += 5;
+      this.speed += 40;
     }
 
     if (item instanceof MaxHealth) {
@@ -201,6 +201,8 @@ export default class PlayerController
           direction.x = 1;
           direction.y = -1;
         }
+        direction.x *= this.speed;
+        direction.y *= this.speed;
         direction.normalize();
         let newPos = playerPos.clone().add(direction.scale(3));
         // console.log(playerPos)

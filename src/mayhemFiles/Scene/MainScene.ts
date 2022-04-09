@@ -41,6 +41,7 @@ import AttackDamage from "../GameSystems/items/AttackDamage";
 import Checkpoint from "../GameSystems/items/Checkpoint";
 import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
 import NextLevel from "./NextLevel";
+import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 
 export default class mainScene extends Scene {
   // The player
@@ -77,6 +78,7 @@ export default class mainScene extends Scene {
   private attackSpeedBuff = 0
   private speedBuff = 0
   private healthupBuff = 0
+
   attackDamageBuffLabel: Label;
   speedBuffLabel: Label;
   attackSpeedBuffLabel: Label;
@@ -272,12 +274,31 @@ export default class mainScene extends Scene {
     this.addUILayer("attackspeed");
     this.addUILayer("speed");
     this.addUILayer("healthup");
+    this.addUILayer("buffspicture").setDepth(100);
+    var attackdamagepic = this.add.sprite("attackdamage","buffspicture");
+    attackdamagepic.position.set(
+      280,30
+    );
+    var attackspeedpic = this.add.sprite("attackspeed","buffspicture");
+    attackspeedpic.position.set(
+      280,50
+    );
+    var speedpic = this.add.sprite("speed","buffspicture");
+    speedpic.position.set(
+      280,70
+    );
+    var healthpic = this.add.sprite("healthmax","buffspicture");
+    healthpic.position.set(
+      280,90
+    );
+
+
     this.attackDamageBuffLabel = <Label>this.add.uiElement(
       UIElementType.LABEL,
       "attackdamage",
       {
-        position: new Vec2(270, 20),
-        text: "ADB" + this.attackDamageBuff
+        position: new Vec2(295, 30),
+        text: "" + this.attackDamageBuff
       }
     );
     this.attackDamageBuffLabel.textColor = Color.WHITE;
@@ -286,8 +307,8 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "attackspeed",
       {
-        position: new Vec2(270, 40),
-        text: "ASB" + this.attackSpeedBuff
+        position: new Vec2(295, 50),
+        text: "" + this.attackSpeedBuff
       }
     );
     this.attackSpeedBuffLabel.textColor = Color.WHITE;
@@ -296,8 +317,8 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "speed",
       {
-        position: new Vec2(270, 60),
-        text: "SB" + this.speedBuff
+        position: new Vec2(295, 70),
+        text: "" + this.speedBuff
       }
     );
     this.speedBuffLabel.textColor = Color.WHITE;
@@ -306,8 +327,8 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "healthup",
       {
-        position: new Vec2(270, 80),
-        text: "HB" + this.healthupBuff
+        position: new Vec2(295, 90),
+        text: "" + this.healthupBuff
       }
     );
     this.healthupBuffLabel.textColor = Color.WHITE;
@@ -348,25 +369,22 @@ export default class mainScene extends Scene {
       }
       if (event.isType("newbuff")){
         var buff = event.data.get("buff")
-        console.log(buff);
         if (buff instanceof AttackDamage){
           this.attackDamageBuff += 1;
-          this.attackDamageBuffLabel.text = "ADB" + this.attackDamageBuff;
+          this.attackDamageBuffLabel.text = "" + this.attackDamageBuff;
         }
         if (buff instanceof AttackSpeed){
           this.attackSpeedBuff += 1;
-          this.attackSpeedBuffLabel.text = "ASB" + this.attackSpeedBuff;
+          this.attackSpeedBuffLabel.text = "" + this.attackSpeedBuff;
         }
         if (buff instanceof Speed){
           this.speedBuff += 1;
-          this.speedBuffLabel.text = "SB" + this.speedBuff;
+          this.speedBuffLabel.text = "" + this.speedBuff;
         }
         if (buff instanceof MaxHealth){
           this.healthupBuff += 1;
-          this.healthupBuffLabel.text = "HB" + this.healthupBuff;
+          this.healthupBuffLabel.text = "" + this.healthupBuff;
         }
-        
-
       }
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {
         //console.log(event.data);
@@ -384,6 +402,8 @@ export default class mainScene extends Scene {
       this.mainPlayer.visible = false;
       this.sceneManager.changeToScene(GameOver);
     }
+
+
     // update closest enemy of each player
     let closetEnemy = this.getClosestEnemy(
       this.mainPlayer.position,

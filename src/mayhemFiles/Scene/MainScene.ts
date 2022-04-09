@@ -58,7 +58,7 @@ export default class mainScene extends Scene {
   // A list of items in the scene
   private items: Array<Item>;
 
-  // The battle manager for the scene
+  // The battle manager for the scenes
   private battleManager: BattleManager;
 
   // Player health
@@ -72,6 +72,16 @@ export default class mainScene extends Scene {
   private pauseButton: Button;
 
   private playButton: Button;
+
+  private attackDamageBuff = 0
+  private attackSpeedBuff = 0
+  private speedBuff = 0
+  private healthupBuff = 0
+  attackDamageBuffLabel: Label;
+  speedBuffLabel: Label;
+  attackSpeedBuffLabel: Label;
+  healthupBuffLabel : Label;
+
 
   loadScene() {
     // Load the player and enemy spritesheets
@@ -186,6 +196,7 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("healthpack");
     this.receiver.subscribe("enemyDied");
     this.receiver.subscribe("checkpoint_cleared");
+    this.receiver.subscribe("newbuff");
     this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
 
     // Spawn items into the world
@@ -256,6 +267,51 @@ export default class mainScene extends Scene {
 
     this.receiver.subscribe("pause");
     this.receiver.subscribe("play");
+    
+    this.addUILayer("attackdamage");
+    this.addUILayer("attackspeed");
+    this.addUILayer("speed");
+    this.addUILayer("healthup");
+    this.attackDamageBuffLabel = <Label>this.add.uiElement(
+      UIElementType.LABEL,
+      "attackdamage",
+      {
+        position: new Vec2(270, 20),
+        text: "ADB" + this.attackDamageBuff
+      }
+    );
+    this.attackDamageBuffLabel.textColor = Color.WHITE;
+
+    this.attackSpeedBuffLabel = <Label>this.add.uiElement(
+      UIElementType.LABEL,
+      "attackspeed",
+      {
+        position: new Vec2(270, 40),
+        text: "ASB" + this.attackSpeedBuff
+      }
+    );
+    this.attackSpeedBuffLabel.textColor = Color.WHITE;
+
+    this.speedBuffLabel = <Label>this.add.uiElement(
+      UIElementType.LABEL,
+      "speed",
+      {
+        position: new Vec2(270, 60),
+        text: "SB" + this.speedBuff
+      }
+    );
+    this.speedBuffLabel.textColor = Color.WHITE;
+
+    this.healthupBuffLabel = <Label>this.add.uiElement(
+      UIElementType.LABEL,
+      "healthup",
+      {
+        position: new Vec2(270, 80),
+        text: "HB" + this.healthupBuff
+      }
+    );
+    this.healthupBuffLabel.textColor = Color.WHITE;
+
 
     //
     // this.healthDisplays[1] = <Label>this.add.uiElement(UIElementType.LABEL, "health", {position: new Vec2(70, 32), text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health});
@@ -289,6 +345,27 @@ export default class mainScene extends Scene {
       }
       if (event.isType("play")) {
         console.log("Resume Game");
+      }
+      if (event.isType("newbuff")){
+        var buff = event.data.get("buff")
+        if (buff instanceof AttackDamage){
+          this.attackDamageBuff += 1;
+          this.attackDamageBuffLabel.text = "ADB" + this.attackDamageBuff;
+        }
+        if (buff instanceof AttackSpeed){
+          this.attackSpeedBuff += 1;
+          this.attackSpeedBuffLabel.text = "ASB" + this.attackSpeedBuff;
+        }
+        if (buff instanceof Speed){
+          this.speedBuff += 1;
+          this.speedBuffLabel.text = "SB" + this.speedBuff;
+        }
+        if (buff instanceof MaxHealth){
+          this.healthupBuff += 1;
+          this.healthupBuffLabel.text = "HB" + this.healthupBuff;
+        }
+        
+
       }
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {
         //console.log(event.data);

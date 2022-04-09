@@ -4,14 +4,13 @@ DONE:
 converted some of the hw4 files to regular files within the wolfie2d folder
 converted 2 player to 1 player game
 has death screen
+Put Character INMovement WASD
+Level Select, Controls, and Help screens
 
 
 TODO:
 Add Shooting Mosue
-Movement WASD
-Level Select, Controls, and Help screens
 One Level
-Put Character IN
 
 *the playercontroller is where pickup happens.
 And i created a function called handlepickup, when that happens
@@ -23,3 +22,10 @@ buffs can be placed into a inventory(uses array), and once it is picked up,
 it just immediately grants a buff (as a status) to the player
 (we can set a timer on the elements of the array(buffs) and when they expire,
 we just remove the buff status)
+
+
+#lin
+so i added all the buffs now we need to find a way to track all the buffs i tried making an array for the buffs but didn't seeem to work, so can u try done!
+!!!dao need you to scale the movement based on the speed to make sure you speed up usingthe speed buff. done!
+need to make checkpoint appear below player still need!
+make a next level cut scene/ or transition done!

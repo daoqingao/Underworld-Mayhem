@@ -9,69 +9,69 @@ import Item from "./Item";
 import WeaponType from "./WeaponTypes/WeaponType";
 
 export default class Weapon extends Item {
-    /** The type of this weapon */
-    type: WeaponType;
+  /** The type of this weapon */
+  type: WeaponType;
 
-    /** A list of assets this weapon needs to be animated */
-    assets: Array<any>;
+  /** A list of assets this weapon needs to be animated */
+  assets: Array<any>;
 
-    /** An event emitter to hook into the EventQueue */
-    emitter: Emitter
+  /** An event emitter to hook into the EventQueue */
+  emitter: Emitter;
 
-    /** The battle manager */
-    battleManager: BattleManager;
+  /** The battle manager */
+  battleManager: BattleManager;
 
-    /** The cooldown timer for this weapon's use */
-    cooldownTimer: Timer;
+  /** The cooldown timer for this weapon's use */
+  cooldownTimer: Timer;
 
-    constructor(sprite: Sprite, type: WeaponType, battleManager: BattleManager){
-        super(sprite);
+  constructor(sprite: Sprite, type: WeaponType, battleManager: BattleManager) {
+    super(sprite);
 
-        // Set the weapon type
-        this.type = type.clone();
+    // Set the weapon type
+    this.type = type.clone();
 
-        // Keep a reference to the sprite of this weapon
-        this.sprite = sprite;
+    // Keep a reference to the sprite of this weapon
+    this.sprite = sprite;
 
-        // Create an event emitter
-        this.emitter = new Emitter();
+    // Create an event emitter
+    this.emitter = new Emitter();
 
-        // Save a reference to the battler manager
-        this.battleManager = battleManager;
+    // Save a reference to the battler manager
+    this.battleManager = battleManager;
 
-        // Create the cooldown timer
-        this.cooldownTimer = new Timer(type.cooldown);
+    // Create the cooldown timer
+    this.cooldownTimer = new Timer(type.cooldown);
+  }
+
+  // @override
+  /**
+   * Uses this weapon in the specified direction.
+   * This only works if the cooldown timer has ended
+   */
+  use(user: GameNode, userType: string, direction: Vec2): boolean {
+    // If the cooldown timer is still running, we can't use the weapon
+    if (!this.cooldownTimer.isStopped()) {
+      return false;
     }
+    // Rely on the weapon type to create any necessary assets
+    this.assets = this.type.createRequiredAssets(this.sprite.getScene());
 
-    // @override
-    /**
-     * Uses this weapon in the specified direction.
-     * This only works if the cooldown timer has ended
-     */
-    use(user: GameNode, userType: string, direction: Vec2): boolean {
-        // If the cooldown timer is still running, we can't use the weapon
-        if(!this.cooldownTimer.isStopped()){
-            return false;
-        }
-        // Rely on the weapon type to create any necessary assets
-        this.assets = this.type.createRequiredAssets(this.sprite.getScene());
+    // Do a type specific weapon animation
+    this.type.doAnimation(user, direction, ...this.assets);
 
-        // Do a type specific weapon animation
-        this.type.doAnimation(user, direction, ...this.assets);
+    // Apply damage
+    this.battleManager.handleInteraction(userType, this);
 
-        // Apply damage
-        this.battleManager.handleInteraction(userType, this);
-    
-        // Reset the cooldown timer
-        this.cooldownTimer.start();
+    // Reset the cooldown timer
+    this.cooldownTimer.start();
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * A check for whether or not this weapon hit a node
-     */
-    hits(node: GameNode): boolean {
-        return this.type.hits(node, ...this.assets);
-    }
+  /**
+   * A check for whether or not this weapon hit a node
+   */
+  hits(node: GameNode): boolean {
+    return this.type.hits(node, ...this.assets);
+  }
 }

@@ -25,7 +25,7 @@ import GameOver from "./GameOver";
 import AttackAction from "../../Wolfie2D/AI/EnemyActions/AttackAction";
 import Move from "../../Wolfie2D/AI/EnemyActions/Move";
 import Retreat from "../../Wolfie2D/AI/EnemyActions/Retreat";
-import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
+import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import Line from "../../Wolfie2D/Nodes/Graphics/Line";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import GoapAction from "../../Wolfie2D/DataTypes/Interfaces/GoapAction";
@@ -42,6 +42,7 @@ import Checkpoint from "../GameSystems/items/Checkpoint";
 import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
 import NextLevel from "./NextLevel";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
+import UIElement from "../../Wolfie2D/Nodes/UIElement";
 
 export default class mainScene extends Scene {
   // The player
@@ -346,6 +347,12 @@ export default class mainScene extends Scene {
         this.createHealthpack(event.data.get("position"));
       }
       if (event.isType("enemyDied")) {
+        for (let i = 0; i < this.enemies.length; i++) {
+          if (this.enemies[i] === event.data.get("enemy")){
+            this.enemies[i].hpDisplay.destroy();
+          }
+
+        }
         this.enemies = this.enemies.filter(
           (enemy) => enemy !== event.data.get("enemy")
         );
@@ -356,7 +363,6 @@ export default class mainScene extends Scene {
       if (event.isType("checkpoint_cleared")) {
         let sprite = this.add.sprite("checkpointcleared", "primary");
         let checkpointcleared = new CheckpointCleared(sprite);
-        console.log(event.data.get("position"));
         checkpointcleared.moveSprite(event.data.get("position"));
         this.mainPlayer.visible = false;
         this.sceneManager.changeToScene(NextLevel);
@@ -418,6 +424,27 @@ export default class mainScene extends Scene {
       "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
     this.maxhealthDisplays.text =
       "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
+    
+    //update enemy hp
+    const enemyData = this.load.getObject("enemyData");
+    
+    for (let i = 0; i < this.enemies.length; i++) {
+        if (this.enemies[i]){
+          // (<GameNode>data.hpdisplay).destroy();
+          (this.enemies[i].hpDisplay).setPosition(new Vec2(this.enemies[i].position.x,this.enemies[i].position.y));
+          this.enemies[i].hpDisplay.text = "" +(<EnemyAI>this.enemies[i]._ai).health
+        }
+        // data.hpdisplay= <Label>this.add.uiElement(
+        //   UIElementType.LABEL,
+        //   "primary",
+        //   {
+        //     position: new Vec2(this.enemies[i].position.x ,this.enemies[i].position.y),
+        //     text: "" + data.health
+        //   }
+        // );
+    }
+
+
 
     // Debug mode graph
     if (Input.isKeyJustPressed("g")) {
@@ -769,6 +796,7 @@ export default class mainScene extends Scene {
 
       // Activate physics
       this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
+      
 
       if (data.route) {
         data.route = data.route.map((index: number) =>
@@ -822,6 +850,17 @@ export default class mainScene extends Scene {
         range = 20;
       }
 
+      var enemyhp  = <Label>this.add.uiElement(
+        UIElementType.LABEL,
+        "primary",
+        {
+          position: new Vec2(data.position[0]/2, data.position[1]/2),
+          text: "" + data.health
+        }
+      );
+      enemyhp.textColor = Color.WHITE;
+      this.enemies[i].hpDisplay = enemyhp;
+      
       let enemyOptions = {
         defaultMode: data.mode,
         patrolRoute: data.route, // This only matters if they're a patroller
@@ -838,8 +877,7 @@ export default class mainScene extends Scene {
       this.enemies[i].addAI(EnemyAI, enemyOptions);
       // let x = (JSON.stringify(this.enemies[i]));
       //
-      // console.log(this.enemies[i]);
-      // console.log(this.knifeEnemyClone )
-    }
+    
   }
+}
 }

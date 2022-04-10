@@ -262,7 +262,7 @@ export default class PlayerController
       //Target an enemy and attack
       if (this.target != null) {
         this.lookDirection = this.owner.position.dirTo(this.target);
-        this.handleUseItem();
+        // this.handleUseItem();
       }
     }
   }

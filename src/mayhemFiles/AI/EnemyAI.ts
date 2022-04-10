@@ -18,6 +18,7 @@ import Alert from "../../Wolfie2D/AI/EnemyStates/Alert";
 import Active from "../../Wolfie2D/AI/EnemyStates/Active";
 import Guard from "../../Wolfie2D/AI/EnemyStates/Guard";
 import Patrol from "../../Wolfie2D/AI/EnemyStates/Patrol";
+import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 
 
 export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {

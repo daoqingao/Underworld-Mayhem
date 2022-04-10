@@ -17,6 +17,7 @@ export default class Label extends UIElement{
 	/** The vertical alignment of text within the label */
 	protected vAlign: string;
 
+
 	/** A flag for if the width of the text has been measured on the canvas for auto width assignment */
 	protected sizeAssigned: boolean;
 

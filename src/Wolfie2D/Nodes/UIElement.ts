@@ -36,7 +36,7 @@ export default abstract class UIElement extends CanvasNode {
 	onLeave: Function;
 	/** The event propogated when a mouse leaves this UIElement */
 	onLeaveEventId: string;
-
+ 
 	/** Whether or not this UIElement is currently clicked on */
 	protected isClicked: boolean;
 	/** Whether or not this UIElement is currently hovered over */
@@ -75,7 +75,9 @@ export default abstract class UIElement extends CanvasNode {
 	setPadding(padding: Vec2): void {
 		this.padding.copy(padding);
 	}
-
+	setPosition(position: Vec2): void{
+		this.position = position
+	}
 	update(deltaT: number): void {
 		super.update(deltaT);
 

@@ -86,6 +86,8 @@ export default class mainScene extends Scene {
   healthupBuffLabel : Label;
 
   knifeEnemyClone: AnimatedSprite;
+  healthbar: Label;
+  healthbargreen: Sprite;
 
 
   loadScene() {
@@ -130,6 +132,14 @@ export default class mainScene extends Scene {
     this.load.image(
       "checkpointcleared",
       "mayhemAssets/sprites/checkpointcleared.png"
+    );
+    this.load.image(
+      "healthbarEmpty",
+      "mayhemAssets/sprites/healthbarEmpty.png"
+    );
+    this.load.image(
+      "healthbarGreen",
+      "mayhemAssets/sprites/healthbarGreen.png"
     );
 
     this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
@@ -207,6 +217,20 @@ export default class mainScene extends Scene {
     // Spawn items into the world
     this.spawnItems();
 
+    ///adding healthbar
+    this.addUILayer("healthbar");
+    var healthbar = this.add.sprite("healthbarEmpty","healthbar");
+    healthbar.position.set(
+      100,16
+    );
+  
+
+    this.healthbargreen = this.add.sprite("healthbarGreen","healthbar");
+    this.healthbargreen.position.set(
+      100,16
+    );
+    ///(<PlayerController>this.mainPlayer._ai).health
+    this.healthbargreen.size.set((<PlayerController>this.mainPlayer._ai).health,16)
     // Add a UI for health
     this.addUILayer("health");
 
@@ -443,8 +467,9 @@ export default class mainScene extends Scene {
         //   }
         // );
     }
-
-
+    var currenthp = (<PlayerController>this.mainPlayer._ai).health;
+    var maxhp = (<PlayerController>this.mainPlayer._ai).maxHealth;
+    this.healthbargreen.size.set(currenthp/maxhp * 128,16)
 
     // Debug mode graph
     if (Input.isKeyJustPressed("g")) {
@@ -625,8 +650,8 @@ export default class mainScene extends Scene {
     //First thislayeree based, starts off with a knife and is short ranged
     this.mainPlayer.addAI(PlayerController, {
       speed: 100,
-      health: 1000, //original was 25 //
-      maxHealth: 1200, //adding maxhealth
+      health: 128, //original was 25 //
+      maxHealth: 128, //adding maxhealth
       inventory: inventory,
       items: this.items,
       inputEnabled: true,

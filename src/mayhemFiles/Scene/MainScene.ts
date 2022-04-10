@@ -116,7 +116,7 @@ export default class mainScene extends Scene {
     this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
     this.load.tilemap(
       "level",
-      "mayhemAssets/tilemaps/cse380_hw4_tilejson.json"
+      "mayhemAssets/tilemaps/mayhemTileJson.json"
     );
     this.load.object("weaponData", "mayhemAssets/data/weaponData.json");
     this.load.object("navmesh", "mayhemAssets/data/navmesh.json");

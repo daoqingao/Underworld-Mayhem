@@ -383,6 +383,7 @@ export default class mainScene extends Scene {
         this.battleManager.enemies = this.battleManager.enemies.filter(
           (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
+        console.log(this.enemies[20].position)
       }
       if (event.isType("checkpoint_cleared")) {
         let sprite = this.add.sprite("checkpointcleared", "primary");
@@ -745,54 +746,44 @@ export default class mainScene extends Scene {
   }
 
 
-  initializeEnemies() {
-    // Get the enemy data
-    const enemyData = this.load.getObject("enemyData");
 
-    // Create an enemies array
-    this.enemies = new Array(enemyData.numEnemies);
+  spawnEnemy(data:any,pos:Vec2){
 
     let actionKnife = [
       new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
       new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
       //new Retreat(1, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),
       new Berserk(
-        1,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-        [hw4_Statuses.REACHED_GOAL],
-        { retreatDistance: 200 }
+          1,
+          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
+          [hw4_Statuses.REACHED_GOAL],
+          { retreatDistance: 200 }
       ),
     ];
-
-    // I DONT THINK KNIFE ENEMIES CAN RETREAT RIGHT?
-    //the result of the above makes the enemy retreat immediately after berserk
-
     let actionsGun = [
       new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
       new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 100 }),
       new Retreat(
-        1,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-        [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
-        { retreatDistance: 200 }
+          1,
+          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+          [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
+          { retreatDistance: 200 }
       ),
       new Berserk(
-        1,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-        [hw4_Statuses.REACHED_GOAL]
+          1,
+          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
+          [hw4_Statuses.REACHED_GOAL]
       ),
     ];
-
-    //actionsGun=actionKnife;
 
     let actionsLongRange = [
       new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
       new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 1000 }),
       new Retreat(
-        10,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-        [hw4_Statuses.REACHED_GOAL],
-        { retreatDistance: 200 }
+          10,
+          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+          [hw4_Statuses.REACHED_GOAL],
+          { retreatDistance: 200 }
       ),
       new Berserk(11, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
     ];
@@ -800,10 +791,10 @@ export default class mainScene extends Scene {
       new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
       new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
       new Retreat(
-        1,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-        [hw4_Statuses.REACHED_GOAL],
-        { retreatDistance: 200 }
+          1,
+          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+          [hw4_Statuses.REACHED_GOAL],
+          { retreatDistance: 200 }
       ),
       new Berserk(10, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
     ];
@@ -811,98 +802,112 @@ export default class mainScene extends Scene {
     let customEnemyAction2 = actionsTanky;
 
 
-    for (let i = 0; i < enemyData.numEnemies; i++) {
-      let data = enemyData.enemies[i];
 
-      // Create an enemy
-      this.enemies[i] = this.add.animatedSprite(data.type, "primary");
-      this.enemies[i].position.set(data.position[0] / 2, data.position[1] / 2);
-      this.enemies[i].animation.play("IDLE");
 
-      // Activate physics
-      this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
-      
 
-      if (data.route) {
-        data.route = data.route.map((index: number) =>
+    // Create an enemy
+
+    this.enemies.push(this.add.animatedSprite(data.type, "primary"))
+    let lastIndex = this.enemies.length -1
+    this.enemies[lastIndex].position.set(data.position[0] / 2, data.position[1] / 2);
+    this.enemies[lastIndex].animation.play("IDLE");
+    this.enemies[lastIndex].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
+
+
+    if (data.route) {
+      data.route = data.route.map((index: number) =>
           this.graph.getNodePosition(index)
-        );
-      }
+      );
+    }
 
-      if (data.guardPosition) {
-        data.guardPosition = new Vec2(
+    if (data.guardPosition) {
+      data.guardPosition = new Vec2(
           data.guardPosition[0] / 2,
           data.guardPosition[1] / 2
-        );
-      }
+      );
+    }
 
-      /*initalize status and actions for each enemy. This can be edited if you want your custom enemies to start out with
-            different statuses, but dont remove these statuses for the original two enemies*/
-      let statusArray: Array<string> = [
-        hw4_Statuses.CAN_RETREAT,
-        hw4_Statuses.CAN_BERSERK,
-      ];
+    /*initalize status and actions for each enemy. This can be edited if you want your custom enemies to start out with
+          different statuses, but dont remove these statuses for the original two enemies*/
+    let statusArray: Array<string> = [
+      hw4_Statuses.CAN_RETREAT,
+      hw4_Statuses.CAN_BERSERK,
+    ];
 
-      //Vary weapon type and choose actions
-      let weapon;
-      let actions;
-      let range;
-      // HOMEWORK 4 - TODO
-      /**
-       * Once you've set up the actions for your custom enemy types, assign them here so they'll be spawned in your game.
-       * They can have any weapons you want.
-       *
-       * Your game in the end should have an equal amount of each enemy type (Around 25% of each type of enemy), and at least 20 enemies in
-       * total. Also, half the enemies should patrol while the other half guard.
-       */
-      if (data.type === "gun_enemy") {
-        weapon = this.createWeapon("weak_pistol");
-        actions = actionsGun;
-        range = 100;
-      } else if (data.type === "knife_enemy") {
-        weapon = this.createWeapon("knife");
-        actions = actionKnife;
-        range = 20;
-      } else if (data.type === "custom_enemy1") {
-        weapon = this.createWeapon("pistol");
-        actions = customEnemyAction1;
-        range = 1000;
-        //ADD CODE HERE
-      } else if (data.type === "custom_enemy2") {
-        weapon = this.createWeapon("knife");
-        actions = customEnemyAction2;
-        actions = actionsTanky;
-        range = 20;
-      }
+    let weapon;
+    let actions;
+    let range;
+    if (data.type === "gun_enemy") {
+      weapon = this.createWeapon("weak_pistol");
+      actions = actionsGun;
+      range = 100;
+    } else if (data.type === "knife_enemy") {
+      weapon = this.createWeapon("knife");
+      actions = actionKnife;
+      range = 20;
+    } else if (data.type === "custom_enemy1") {
+      weapon = this.createWeapon("pistol");
+      actions = customEnemyAction1;
+      range = 1000;
+      //ADD CODE HERE
+    } else if (data.type === "custom_enemy2") {
+      weapon = this.createWeapon("knife");
+      actions = customEnemyAction2;
+      actions = actionsTanky;
+      range = 20;
+    }
 
-      var enemyhp  = <Label>this.add.uiElement(
+    var enemyhp  = <Label>this.add.uiElement(
         UIElementType.LABEL,
         "primary",
         {
           position: new Vec2(data.position[0]/2, data.position[1]/2),
           text: "" + data.health
         }
-      );
-      enemyhp.textColor = Color.WHITE;
-      this.enemies[i].hpDisplay = enemyhp;
-      
-      let enemyOptions = {
-        defaultMode: data.mode,
-        patrolRoute: data.route, // This only matters if they're a patroller
-        guardPosition: data.guardPosition, // This only matters if the're a guard
-        health: data.health,
-        player1: this.mainPlayer,
-        weapon: weapon,
-        goal: hw4_Statuses.REACHED_GOAL,
-        status: statusArray,
-        actions: actions,
-        inRange: range,
-      };
+    );
+    enemyhp.textColor = Color.WHITE;
+    this.enemies[lastIndex].hpDisplay = enemyhp;
 
-      this.enemies[i].addAI(EnemyAI, enemyOptions);
-      // let x = (JSON.stringify(this.enemies[i]));
-      //
-    
+    let enemyOptions = {
+      defaultMode: data.mode,
+      patrolRoute: data.route, // This only matters if they're a patroller
+      guardPosition: data.guardPosition, // This only matters if the're a guard
+      health: data.health,
+      player1: this.mainPlayer,
+      weapon: weapon,
+      goal: hw4_Statuses.REACHED_GOAL,
+      status: statusArray,
+      actions: actions,
+      inRange: range,
+    };
+    // console.log(this.enemies)
+    this.enemies[lastIndex].addAI(EnemyAI, enemyOptions);
+    if(pos!==null){
+      this.enemies[lastIndex].position = pos.clone();
+    }
   }
-}
+  initializeEnemies() {
+
+    this.enemies = new Array(0);
+    const enemyData = this.load.getObject("enemyData");
+    for (let i = 0; i < enemyData.numEnemies; i++) {
+      let data = enemyData.enemies[i];
+      this.spawnEnemy(JSON.parse(JSON.stringify(data)),null);
+    }
+    // console.log(this.)
+    this.spawnGunEnemy(new Vec2(50, 235))
+    this.spawnGunEnemy(new Vec2(50, 335))
+    this.spawnGunEnemy(new Vec2(50, 435))
+    this.spawnGunEnemy(new Vec2(50, 535))
+    this.spawnGunEnemy(new Vec2(50, 635))
+    this.spawnGunEnemy(new Vec2(50, 735))
+
+  }
+  spawnGunEnemy(pos:Vec2):void{
+    const enemyData = this.load.getObject("enemyData");
+    let data = enemyData.enemies[20];
+    this.spawnEnemy(JSON.parse(JSON.stringify(data)),pos)
+
+  }
+
 }

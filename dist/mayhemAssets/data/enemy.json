@@ -142,10 +142,10 @@
       "type": "knife_enemy"
     },
     {
-      "position": [336, 704],
+      "position": [50, 1250],
       "mode": "guard",
       "guardPosition": [336, 704],
-      "health": 5,
+      "health": 10,
       "type": "gun_enemy"
     }
   ]

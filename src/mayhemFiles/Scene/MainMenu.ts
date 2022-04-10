@@ -124,11 +124,13 @@ export default class MainMenu extends Scene {
     const text1 =
       "You’re a retired veteran. You found out that your dearest comrade-in-arms has committed a misunderstood sin and ends up in hell";
     const text12 =
-      "Knowing this, you end up trying to break through the barriers of hell to find [insert person] and drag him out";
+      "Knowing this, you end up trying to break through the barriers of hell to find Jackson and drag him out";
     const text13 =
-      "As you kill more demon spawns from hell, the barrier into hell weakens, allowing you to progress through hell and getting you closer to your [insert your goal]";
+      "As you kill more demon spawns from hell, the barrier into hell weakens, allowing you to progress through hell and getting you closer to your comrade";
     const text2header = "Developers";
-    const text2 = "Underworld Mayhem was developed by Lin, Dao, Rob";
+    const text2 = "Lin Ni";
+    const text22 = "Daoqin Gao"
+    const text23 = "Robert Rolsenic"
     const text3header = "Cheat Codes";
     const text3 = "INVINCIBLE SKIP [NUMBER] UPGRADE [BUFF]";
 
@@ -156,6 +158,14 @@ export default class MainMenu extends Scene {
       position: new Vec2(center.x, center.y + 30),
       text: text2,
     });
+    const line22 = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
+      position: new Vec2(center.x, center.y + 60),
+      text: text22,
+    });
+    const line23 = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
+      position: new Vec2(center.x, center.y + 90),
+      text: text23,
+    });
     const line3header = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
       position: new Vec2(center.x, center.y + 140),
       text: text3header,
@@ -168,26 +178,30 @@ export default class MainMenu extends Scene {
     line1.textColor = Color.WHITE;
     line12.textColor = Color.WHITE;
     line13.textColor = Color.WHITE;
-    line1.fontSize = 17;
-    line12.fontSize = 17;
-    line13.fontSize = 17;
+    line1.fontSize = 16;
+    line12.fontSize = 16;
+    line13.fontSize = 16;
 
     line2.textColor = Color.WHITE;
+    line22.textColor = Color.WHITE;
+    line23.textColor = Color.WHITE;
     line3.textColor = Color.WHITE;
-    line2.fontSize = 20;
     line3.fontSize = 20;
+    line2.fontSize = 18;
+    line22.fontSize = 18;
+    line23.fontSize = 18;
+    line3.fontSize = 18;
 
     line1header.textColor = Color.WHITE;
     line2header.textColor = Color.WHITE;
     line3header.textColor = Color.WHITE;
-    (<Label>line1).font = "Fantasy";
-    (<Label>line12).font = "Fantasy";
-    (<Label>line13).font = "Fantasy";
-    (<Label>line2).font = "Fantasy";
-    (<Label>line3).font = "Fantasy";
-    (<Label>line1header).font = "Fantasy";
-    (<Label>line2header).font = "Fantasy";
-    (<Label>line3header).font = "Fantasy";
+    (<Label>line1).font = "Cursive";
+    (<Label>line12).font = "Cursive";
+    (<Label>line13).font = "Cursive";
+    (<Label>line2).font = "Cursive";
+    (<Label>line22).font = "Cursive";
+    (<Label>line23).font = "Cursive";
+    (<Label>line3).font = "Cursive";
 
 
     const helpBack = this.add.uiElement(UIElementType.BUTTON, "help", {
@@ -239,8 +253,6 @@ export default class MainMenu extends Scene {
 
     controlLine1.textColor = Color.WHITE;
     controlLine2.textColor = Color.WHITE;
-    (<Label>controlLine1).font = "Fantasy";
-    (<Label>controlLine2).font = "Fantasy";
 
     const controlBack = this.add.uiElement(UIElementType.BUTTON, "control", {
       position: new Vec2(center.x, center.y + 250),
@@ -251,7 +263,6 @@ export default class MainMenu extends Scene {
     controlBack.borderColor = Color.WHITE;
     controlBack.backgroundColor = Color.TRANSPARENT;
     controlBack.onClickEventId = "menu";
-    (<Label>controlBack).font = "Fantasy";
 
     //###########Select Levels Screen
     this.selectLevelScreen = this.addUILayer("selectLevelScreen");
@@ -271,7 +282,7 @@ export default class MainMenu extends Scene {
     selectLevelBack.borderColor = Color.WHITE;
     selectLevelBack.backgroundColor = Color.TRANSPARENT;
     selectLevelBack.onClickEventId = "menu";
-    (<Label>selectLevelBack).font = "Fantasy";
+ 
 
     ///header for select level
     const selectHeader = <Label>this.add.uiElement(
@@ -284,7 +295,6 @@ export default class MainMenu extends Scene {
     );
     selectHeader.textColor = Color.WHITE;
     selectHeader.fontSize = 50;
-    (<Label>selectHeader).font = "Fantasy";
 
     ///buttons for all the levels
     const level1 = this.add.uiElement(
@@ -412,15 +422,6 @@ export default class MainMenu extends Scene {
     level9.borderColor = Color.WHITE;
     level9.backgroundColor = Color.TRANSPARENT;
     level9.onClickEventId = "chooselevel";
-    (<Label>level1).font = "Fantasy";
-    (<Label>level2).font = "Fantasy";
-    (<Label>level3).font = "Fantasy";
-    (<Label>level4).font = "Fantasy";
-    (<Label>level5).font = "Fantasy";
-    (<Label>level6).font = "Fantasy";
-    (<Label>level7).font = "Fantasy";
-    (<Label>level8).font = "Fantasy";
-    (<Label>level9).font = "Fantasy";
 
     // Subscribe to the button events
     this.receiver.subscribe("play");

@@ -67,6 +67,7 @@ export default class SemiAutoGun extends WeaponType {
         line.end = end;
 
         line.tweens.play("fade");
+        line.color = Color.RED;
     }
 
     createRequiredAssets(scene: Scene): [Line] {

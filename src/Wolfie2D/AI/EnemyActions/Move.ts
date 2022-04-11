@@ -6,45 +6,59 @@ import NavigationPath from "../../Pathfinding/NavigationPath";
 import EnemyAI from "../../../mayhemFiles/AI/EnemyAI";
 
 export default class Move extends GoapAction {
-    private inRange: number;
+  private inRange: number;
 
-    private path: NavigationPath;
-    protected emitter: Emitter;
-    
-    constructor(cost: number, preconditions: Array<string>, effects: Array<string>, options?: Record<string, any>) {
-        super();
-        this.cost = cost;
-        this.preconditions = preconditions;
-        this.effects = effects;
-        this.loopAction = true;
-        this.inRange = options.inRange;
-    }
+  private path: NavigationPath;
+  protected emitter: Emitter;
 
-    performAction(statuses: Array<string>, actor: StateMachineGoapAI, deltaT: number, target?: StateMachineGoapAI): Array<string> {
-        if (this.checkPreconditions(statuses)){
-            //Check distance from player
-            let enemy = <EnemyAI>actor;
-            let playerPos = enemy.lastPlayerPos;
-            let distance = enemy.owner.position.distanceTo(playerPos);
+  constructor(
+    cost: number,
+    preconditions: Array<string>,
+    effects: Array<string>,
+    options?: Record<string, any>
+  ) {
+    super();
+    this.cost = cost;
+    this.preconditions = preconditions;
+    this.effects = effects;
+    this.loopAction = true;
+    this.inRange = options.inRange;
+  }
 
-            //If close enough, we've moved far enough and this loop action is done
-            if (distance <= this.inRange){
-                return this.effects;
-            }
+  performAction(
+    statuses: Array<string>,
+    actor: StateMachineGoapAI,
+    deltaT: number,
+    target?: StateMachineGoapAI
+  ): Array<string> {
+    if (this.checkPreconditions(statuses)) {
+      //Check distance from player
+      let enemy = <EnemyAI>actor;
+      let playerPos = enemy.lastPlayerPos;
+      let distance = enemy.owner.position.distanceTo(playerPos);
 
-            //Otherwise move on path
-            this.path = enemy.path;
-            enemy.owner.rotation = Vec2.UP.angleToCCW(this.path.getMoveDirection(enemy.owner));
-            enemy.owner.moveOnPath(enemy.speed * deltaT, this.path);
-            return null;
-        }
+      //If close enough, we've moved far enough and this loop action is done
+      if (distance <= this.inRange) {
         return this.effects;
-    }
+      }
 
-    updateCost(options: Record<string, number>): void {}
-
-    toString(): string {
-        return "(Move)";
+      //Otherwise move on path
+      this.path = enemy.path;
+      var direction = this.path.getMoveDirection(enemy.owner);
+      if (direction.x > 0) {
+        enemy.owner.animation.play("run_right", true);
+      } else {
+        enemy.owner.animation.play("run_left", true);
+      }
+      enemy.owner.moveOnPath(enemy.speed * deltaT, this.path);
+      return null;
     }
-    
+    return this.effects;
+  }
+
+  updateCost(options: Record<string, number>): void {}
+
+  toString(): string {
+    return "(Move)";
+  }
 }

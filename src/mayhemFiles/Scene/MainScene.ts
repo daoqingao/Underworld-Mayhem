@@ -758,13 +758,6 @@ export default class mainScene extends Scene {
    * Here you'll use a simple version of this GOAP system to give different behaviors to enemies, just by modifying costs and preconditions.
    */
 
-  spawnKnifeEnemy(position: Vec2): void {
-    let sprite = this.add.sprite("healthpack", "primary");
-    let healthpack = new Healthpack(sprite);
-    healthpack.moveSprite(position);
-    this.items.push(healthpack);
-  }
-
   actionKnife = [
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
@@ -818,7 +811,6 @@ export default class mainScene extends Scene {
       return; //hard limit on the max enemies there can be in this game
     }
 
-    let customEnemyAction1 = this.actionsLongRange;
     let customEnemyAction2 = this.actionsTanky;
 
     // Create an enemy
@@ -879,7 +871,7 @@ export default class mainScene extends Scene {
       position: new Vec2(data.position[0] / 2, data.position[1] / 2),
       text: "" + data.health,
     });
-    enemyhp.textColor = Color.WHITE;
+    enemyhp.textColor = Color.RED;
     this.enemies[lastIndex].hpDisplay = enemyhp;
 
     let enemyOptions = {
@@ -918,7 +910,7 @@ export default class mainScene extends Scene {
   }
 
   //this spawns in the last enemy of the enemy.json
-  spawnGunEnemy(pos: Vec2): void {
+  spawnImp(pos: Vec2): void {
     const enemyData = this.load.getObject("enemyData");
     let data = enemyData.enemies[20];
     this.spawnEnemy(JSON.parse(JSON.stringify(data)), pos);
@@ -927,6 +919,6 @@ export default class mainScene extends Scene {
     let x = Math.random() * this.tileMapMaxSize.x;
     let y = Math.random() * this.tileMapMaxSize.y;
     let newPos = new Vec2(x, y);
-    this.spawnGunEnemy(newPos);
+    this.spawnImp(newPos);
   }
 }

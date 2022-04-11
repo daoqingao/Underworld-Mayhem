@@ -46,7 +46,7 @@
     },
     {
       "name": "run_right",
-      "repeat": false,
+      "repeat": true,
       "frames": [
         {
           "index": 6,

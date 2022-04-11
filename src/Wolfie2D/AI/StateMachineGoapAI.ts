@@ -9,32 +9,32 @@ import GoapActionPlanner from "./GoapActionPlanner";
 /**
  * A version of a @reference[StateMachine] that is configured to work as an AI controller for a @reference[GameNode]
  */
- export default class StateMachineGoapAI extends StateMachine implements GoapAI {
-	/**	The GameNode that uses this StateMachine for its AI */
-	protected owner: GameNode;
+export default class StateMachineGoapAI extends StateMachine implements GoapAI {
+  /**	The GameNode that uses this StateMachine for its AI */
+  protected owner: GameNode;
 
-	goal: string;
+  goal: string;
 
-    currentStatus: Array<string>;
+  currentStatus: Array<string>;
 
-    possibleActions: Array<GoapAction>;
+  possibleActions: Array<GoapAction>;
 
-    plan: Stack<GoapAction>;
-    
-    planner: GoapActionPlanner;
+  plan: Stack<GoapAction>;
 
-	// @implemented
-	initializeAI(owner: GameNode, config: Record<string, any>): void {}
+  planner: GoapActionPlanner;
 
-	// @implemented
-	destroy(){
-		// Get rid of our reference to the owner
-		delete this.owner;
-		this.receiver.destroy();
-	}
+  // @implemented
+  initializeAI(owner: GameNode, config: Record<string, any>): void {}
 
-	// @implemented
-	activate(options: Record<string, any>): void {}
+  // @implemented
+  destroy() {
+    // Get rid of our reference to the owner
+    delete this.owner;
+    this.receiver.destroy();
+  }
 
-	changeGoal(goal: string): void {}
+  // @implemented
+  activate(options: Record<string, any>): void {}
+
+  changeGoal(goal: string): void {}
 }

@@ -1,0 +1,70 @@
+{
+  "name": "character",
+  "spriteSheetImage": "mainplayer.png",
+  "spriteWidth": 25,
+  "spriteHeight": 34,
+  "leftBuffer": 0,
+  "rightBuffer": 0,
+  "topBuffer": 0,
+  "bottomBuffer": 0,
+  "columns": 3,
+  "rows": 4,
+  "animations": [
+    {
+      "name": "face_left",
+      "repeat": true,
+      "frames": [
+        {
+          "index": 0,
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "name": "face_right",
+      "repeat": true,
+      "frames": [
+        {
+          "index": 3,
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "name": "run_left",
+      "repeat": true,
+      "frames": [
+        {
+          "index": 6,
+          "duration": 5
+        },
+        {
+          "index": 7,
+          "duration": 5
+        },
+        {
+          "index": 8,
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "name": "run_right",
+      "repeat": false,
+      "frames": [
+        {
+          "index": 9,
+          "duration": 5
+        },
+        {
+          "index": 10,
+          "duration": 5
+        },
+        {
+          "index": 11,
+          "duration": 5
+        }
+      ]
+    }
+  ]
+}

@@ -75,27 +75,30 @@ export default class mainScene extends Scene {
 
   private playButton: Button;
 
-  private attackDamageBuff = 0
-  private attackSpeedBuff = 0
-  private speedBuff = 0
-  private healthupBuff = 0
+  private attackDamageBuff = 0;
+  private attackSpeedBuff = 0;
+  private speedBuff = 0;
+  private healthupBuff = 0;
 
   attackDamageBuffLabel: Label;
   speedBuffLabel: Label;
   attackSpeedBuffLabel: Label;
-  healthupBuffLabel : Label;
+  healthupBuffLabel: Label;
 
   knifeEnemyClone: AnimatedSprite;
   healthbar: Label;
   healthbargreen: Sprite;
 
   totalEnemiesKilled = 0;
-  tileMapMaxSize : Vec2;
+  tileMapMaxSize: Vec2;
   loadScene() {
     // Load the player and enemy spritesheets
 
     //there will only be one player
-    this.load.spritesheet("player1", "mayhemAssets/spritesheets/player1.json");
+    this.load.spritesheet(
+      "mainplayer",
+      "mayhemAssets/spritesheets/mainplayer.json"
+    );
 
     this.load.spritesheet(
       "gun_enemy",
@@ -109,16 +112,14 @@ export default class mainScene extends Scene {
       "custom_enemy1",
       "mayhemAssets/spritesheets/custom_enemy1.json"
     );
+
     this.load.spritesheet(
       "custom_enemy2",
       "mayhemAssets/spritesheets/custom_enemy2.json"
     );
 
     this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
-    this.load.tilemap(
-      "level",
-      "mayhemAssets/tilemaps/mayhemTileJson.json"
-    );
+    this.load.tilemap("level", "mayhemAssets/tilemaps/mayhemTileJson.json");
     this.load.object("weaponData", "mayhemAssets/data/weaponData.json");
     this.load.object("navmesh", "mayhemAssets/data/navmesh.json");
     this.load.object("enemyData", "mayhemAssets/data/enemy.json");
@@ -221,18 +222,16 @@ export default class mainScene extends Scene {
 
     ///adding healthbar
     this.addUILayer("healthbar");
-    var healthbar = this.add.sprite("healthbarEmpty","healthbar");
-    healthbar.position.set(
-      100,16
-    );
-  
+    var healthbar = this.add.sprite("healthbarEmpty", "healthbar");
+    healthbar.position.set(100, 16);
 
-    this.healthbargreen = this.add.sprite("healthbarGreen","healthbar");
-    this.healthbargreen.position.set(
-      100,16
-    );
+    this.healthbargreen = this.add.sprite("healthbarGreen", "healthbar");
+    this.healthbargreen.position.set(100, 16);
     ///(<PlayerController>this.mainPlayer._ai).health
-    this.healthbargreen.size.set((<PlayerController>this.mainPlayer._ai).health,16)
+    this.healthbargreen.size.set(
+      (<PlayerController>this.mainPlayer._ai).health,
+      16
+    );
     // Add a UI for health
     this.addUILayer("health");
 
@@ -288,7 +287,6 @@ export default class mainScene extends Scene {
     this.pauseButton.backgroundColor = Color.TRANSPARENT;
     this.pauseButton.onClickEventId = "pause";
 
-
     this.playButton = <Button>this.add.uiElement(UIElementType.BUTTON, "play", {
       position: new Vec2(230, 16),
       text: "Play",
@@ -300,29 +298,20 @@ export default class mainScene extends Scene {
 
     this.receiver.subscribe("pause");
     this.receiver.subscribe("play");
-    
+
     this.addUILayer("attackdamage");
     this.addUILayer("attackspeed");
     this.addUILayer("speed");
     this.addUILayer("healthup");
     this.addUILayer("buffspicture").setDepth(100);
-    var attackdamagepic = this.add.sprite("attackdamage","buffspicture");
-    attackdamagepic.position.set(
-      280,30
-    );
-    var attackspeedpic = this.add.sprite("attackspeed","buffspicture");
-    attackspeedpic.position.set(
-      280,50
-    );
-    var speedpic = this.add.sprite("speed","buffspicture");
-    speedpic.position.set(
-      280,70
-    );
-    var healthpic = this.add.sprite("healthmax","buffspicture");
-    healthpic.position.set(
-      280,90
-    );
-
+    var attackdamagepic = this.add.sprite("attackdamage", "buffspicture");
+    attackdamagepic.position.set(280, 30);
+    var attackspeedpic = this.add.sprite("attackspeed", "buffspicture");
+    attackspeedpic.position.set(280, 50);
+    var speedpic = this.add.sprite("speed", "buffspicture");
+    speedpic.position.set(280, 70);
+    var healthpic = this.add.sprite("healthmax", "buffspicture");
+    healthpic.position.set(280, 90);
 
     this.attackDamageBuffLabel = <Label>this.add.uiElement(
       UIElementType.LABEL,
@@ -363,29 +352,27 @@ export default class mainScene extends Scene {
       }
     );
     this.healthupBuffLabel.textColor = Color.WHITE;
-    
   }
 
-  lootGenerate(pos: Vec2){
+  lootGenerate(pos: Vec2) {
     if (Math.random() < 0.4) {
       // Spawn a healthpack
-      let min=1
-      let max=4
+      let min = 1;
+      let max = 4;
       let lootType = Math.floor(Math.random() * (max - min) + min);
       // this.emitter.fireEvent("healthpack", { pos});
-      if(lootType===1){
+      if (lootType === 1) {
         this.createAttackDamage(pos);
       }
-      if(lootType===2){
-        this.createAttackspeed(pos)
+      if (lootType === 2) {
+        this.createAttackspeed(pos);
       }
-      if(lootType===3){
+      if (lootType === 3) {
         // this.createHealthpack(pos)
       }
-      if(lootType===4){
-        this.createMaxhealth(pos)
+      if (lootType === 4) {
+        this.createMaxhealth(pos);
       }
-
     }
   }
   updateScene(deltaT: number): void {
@@ -396,7 +383,7 @@ export default class mainScene extends Scene {
       }
       if (event.isType("enemyDied")) {
         for (let i = 0; i < this.enemies.length; i++) {
-          if (this.enemies[i] === event.data.get("enemy")){
+          if (this.enemies[i] === event.data.get("enemy")) {
             this.enemies[i].hpDisplay.destroy();
           }
         }
@@ -413,8 +400,8 @@ export default class mainScene extends Scene {
         // console.log(this.enemies)
         // console.log(this.battleManager.enemies)
         this.totalEnemiesKilled++;
-        this.spawnRandomEnemy()
-        this.spawnRandomEnemy()
+        this.spawnRandomEnemy();
+        this.spawnRandomEnemy();
       }
       if (event.isType("checkpoint_cleared")) {
         let sprite = this.add.sprite("checkpointcleared", "primary");
@@ -429,21 +416,21 @@ export default class mainScene extends Scene {
       if (event.isType("play")) {
         console.log("Resume Game");
       }
-      if (event.isType("newbuff")){
-        var buff = event.data.get("buff")
-        if (buff instanceof AttackDamage){
+      if (event.isType("newbuff")) {
+        var buff = event.data.get("buff");
+        if (buff instanceof AttackDamage) {
           this.attackDamageBuff += 1;
           this.attackDamageBuffLabel.text = "" + this.attackDamageBuff;
         }
-        if (buff instanceof AttackSpeed){
+        if (buff instanceof AttackSpeed) {
           this.attackSpeedBuff += 1;
           this.attackSpeedBuffLabel.text = "" + this.attackSpeedBuff;
         }
-        if (buff instanceof Speed){
+        if (buff instanceof Speed) {
           this.speedBuff += 1;
           this.speedBuffLabel.text = "" + this.speedBuff;
         }
-        if (buff instanceof MaxHealth){
+        if (buff instanceof MaxHealth) {
           this.healthupBuff += 1;
           this.healthupBuffLabel.text = "" + this.healthupBuff;
         }
@@ -465,7 +452,6 @@ export default class mainScene extends Scene {
       this.sceneManager.changeToScene(GameOver);
     }
 
-
     // update closest enemy of each player
     let closetEnemy = this.getClosestEnemy(
       this.mainPlayer.position,
@@ -480,28 +466,31 @@ export default class mainScene extends Scene {
       "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
     this.maxhealthDisplays.text =
       "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
-    
+
     //update enemy hp
     const enemyData = this.load.getObject("enemyData");
-    
+
     for (let i = 0; i < this.enemies.length; i++) {
-        if (this.enemies[i]){
-          // (<GameNode>data.hpdisplay).destroy();
-          (this.enemies[i].hpDisplay).setPosition(new Vec2(this.enemies[i].position.x,this.enemies[i].position.y));
-          this.enemies[i].hpDisplay.text = "" +(<EnemyAI>this.enemies[i]._ai).health
-        }
-        // data.hpdisplay= <Label>this.add.uiElement(
-        //   UIElementType.LABEL,
-        //   "primary",
-        //   {
-        //     position: new Vec2(this.enemies[i].position.x ,this.enemies[i].position.y),
-        //     text: "" + data.health
-        //   }
-        // );
+      if (this.enemies[i]) {
+        // (<GameNode>data.hpdisplay).destroy();
+        this.enemies[i].hpDisplay.setPosition(
+          new Vec2(this.enemies[i].position.x, this.enemies[i].position.y)
+        );
+        this.enemies[i].hpDisplay.text =
+          "" + (<EnemyAI>this.enemies[i]._ai).health;
+      }
+      // data.hpdisplay= <Label>this.add.uiElement(
+      //   UIElementType.LABEL,
+      //   "primary",
+      //   {
+      //     position: new Vec2(this.enemies[i].position.x ,this.enemies[i].position.y),
+      //     text: "" + data.health
+      //   }
+      // );
     }
     var currenthp = (<PlayerController>this.mainPlayer._ai).health;
     var maxhp = (<PlayerController>this.mainPlayer._ai).maxHealth;
-    this.healthbargreen.size.set(currenthp/maxhp * 128,16)
+    this.healthbargreen.size.set((currenthp / maxhp) * 128, 16);
 
     // Debug mode graph
     if (Input.isKeyJustPressed("g")) {
@@ -676,7 +665,7 @@ export default class mainScene extends Scene {
     inventory.addItem(startingWeapon);
 
     // Create the players
-    this.mainPlayer = this.add.animatedSprite("player1", "primary");
+    this.mainPlayer = this.add.animatedSprite("mainplayer", "primary");
     this.mainPlayer.position.set(4 * 8, 62 * 8);
     this.mainPlayer.addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
     //First thislayeree based, starts off with a knife and is short ranged
@@ -690,7 +679,7 @@ export default class mainScene extends Scene {
       range: 150, //weak pistol range
       weapon: startingWeapon,
     });
-    this.mainPlayer.animation.play("IDLE");
+    this.mainPlayer.animation.play("face_right");
     (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);
   }
 
@@ -768,7 +757,6 @@ export default class mainScene extends Scene {
    * Here you'll use a simple version of this GOAP system to give different behaviors to enemies, just by modifying costs and preconditions.
    */
 
-
   spawnKnifeEnemy(position: Vec2): void {
     let sprite = this.add.sprite("healthpack", "primary");
     let healthpack = new Healthpack(sprite);
@@ -776,41 +764,40 @@ export default class mainScene extends Scene {
     this.items.push(healthpack);
   }
 
-
- actionKnife = [
+  actionKnife = [
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
     //new Retreat(1, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),
     new Berserk(
-        1,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-        [hw4_Statuses.REACHED_GOAL],
-        { retreatDistance: 200 }
+      1,
+      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
+      [hw4_Statuses.REACHED_GOAL],
+      { retreatDistance: 200 }
     ),
   ];
   actionsGun = [
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 100 }),
     new Retreat(
-        1,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-        [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
-        { retreatDistance: 200 }
+      1,
+      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+      [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
+      { retreatDistance: 200 }
     ),
     new Berserk(
-        1,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-        [hw4_Statuses.REACHED_GOAL]
+      1,
+      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
+      [hw4_Statuses.REACHED_GOAL]
     ),
   ];
   actionsLongRange = [
     new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 1000 }),
     new Retreat(
-        10,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-        [hw4_Statuses.REACHED_GOAL],
-        { retreatDistance: 200 }
+      10,
+      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+      [hw4_Statuses.REACHED_GOAL],
+      { retreatDistance: 200 }
     ),
     new Berserk(11, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
   ];
@@ -818,46 +805,42 @@ export default class mainScene extends Scene {
     new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
     new Retreat(
-        1,
-        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-        [hw4_Statuses.REACHED_GOAL],
-        { retreatDistance: 200 }
+      1,
+      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+      [hw4_Statuses.REACHED_GOAL],
+      { retreatDistance: 200 }
     ),
     new Berserk(10, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
   ];
-  spawnEnemy(data:any,pos:Vec2){
-    if (this.enemies.length>=100){
+  spawnEnemy(data: any, pos: Vec2) {
+    if (this.enemies.length >= 100) {
       return; //hard limit on the max enemies there can be in this game
     }
-
-
 
     let customEnemyAction1 = this.actionsLongRange;
     let customEnemyAction2 = this.actionsTanky;
 
-
-
-
-
     // Create an enemy
 
-    this.enemies.push(this.add.animatedSprite(data.type, "primary"))
-    let lastIndex = this.enemies.length -1
-    this.enemies[lastIndex].position.set(data.position[0] / 2, data.position[1] / 2);
+    this.enemies.push(this.add.animatedSprite(data.type, "primary"));
+    let lastIndex = this.enemies.length - 1;
+    this.enemies[lastIndex].position.set(
+      data.position[0] / 2,
+      data.position[1] / 2
+    );
     this.enemies[lastIndex].animation.play("IDLE");
     this.enemies[lastIndex].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
 
-
     if (data.route) {
       data.route = data.route.map((index: number) =>
-          this.graph.getNodePosition(index)
+        this.graph.getNodePosition(index)
       );
     }
 
     if (data.guardPosition) {
       data.guardPosition = new Vec2(
-          data.guardPosition[0] / 2,
-          data.guardPosition[1] / 2
+        data.guardPosition[0] / 2,
+        data.guardPosition[1] / 2
       );
     }
 
@@ -891,14 +874,10 @@ export default class mainScene extends Scene {
       range = 20;
     }
 
-    var enemyhp  = <Label>this.add.uiElement(
-        UIElementType.LABEL,
-        "primary",
-        {
-          position: new Vec2(data.position[0]/2, data.position[1]/2),
-          text: "" + data.health
-        }
-    );
+    var enemyhp = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {
+      position: new Vec2(data.position[0] / 2, data.position[1] / 2),
+      text: "" + data.health,
+    });
     enemyhp.textColor = Color.WHITE;
     this.enemies[lastIndex].hpDisplay = enemyhp;
 
@@ -916,42 +895,37 @@ export default class mainScene extends Scene {
     };
     // console.log(this.enemies)
     this.enemies[lastIndex].addAI(EnemyAI, enemyOptions);
-    if(pos!==null){
+    if (pos !== null) {
       this.enemies[lastIndex].position = pos.clone();
     }
     this.battleManager.setEnemies(
-        this.enemies.map((enemy) => <BattlerAI>enemy._ai)
+      this.enemies.map((enemy) => <BattlerAI>enemy._ai)
     );
     // console.log(this.enemies.length)
   }
   initializeEnemies() {
-
     this.enemies = new Array(0);
     const enemyData = this.load.getObject("enemyData");
     for (let i = 0; i < enemyData.numEnemies; i++) {
       let data = enemyData.enemies[i];
-      this.spawnEnemy(JSON.parse(JSON.stringify(data)),null);
+      this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
     }
     // for(let i=0;i<100;i++){
     //   this.spawnRandomEnemy()
     //
     // }
-
-
   }
 
   //this spawns in the last enemy of the enemy.json
-  spawnGunEnemy(pos:Vec2):void{
+  spawnGunEnemy(pos: Vec2): void {
     const enemyData = this.load.getObject("enemyData");
     let data = enemyData.enemies[20];
-    this.spawnEnemy(JSON.parse(JSON.stringify(data)),pos)
-
+    this.spawnEnemy(JSON.parse(JSON.stringify(data)), pos);
   }
-  spawnRandomEnemy():void{
-    let x = Math.random()*this.tileMapMaxSize.x
-    let y = Math.random()*this.tileMapMaxSize.y
-    let newPos = new Vec2(x,y);
+  spawnRandomEnemy(): void {
+    let x = Math.random() * this.tileMapMaxSize.x;
+    let y = Math.random() * this.tileMapMaxSize.y;
+    let newPos = new Vec2(x, y);
     this.spawnGunEnemy(newPos);
   }
-
 }

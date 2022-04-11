@@ -36,6 +36,8 @@ export default class PlayerController
   // The actual player sprite
   owner: AnimatedSprite;
 
+  direction: Vec2;
+
   // Attack range
   range: number;
 
@@ -101,7 +103,12 @@ export default class PlayerController
     // If there is an item in the current slot, use it
     if (item) {
       item.use(this.owner, "player", this.lookDirection);
-      this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
+      if (this.lookDirection.x > 0) {
+        this.owner.animation.play("face_right");
+      } else {
+        this.owner.animation.play("face_left");
+      }
+      // this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
     }
   }
 
@@ -115,7 +122,9 @@ export default class PlayerController
       this.weapon.type.damage += 5;
     }
     if (item instanceof AttackSpeed) {
-      this.weapon.cooldownTimer = new Timer(this.weapon.cooldownTimer.totalTime* 0.8);
+      this.weapon.cooldownTimer = new Timer(
+        this.weapon.cooldownTimer.totalTime * 0.8
+      );
     }
     if (item instanceof Speed) {
       this.speed += 40;
@@ -136,9 +145,8 @@ export default class PlayerController
       this.emitter.fireEvent("checkpoint_cleared", {
         position: new Vec2(item.sprite.position.x, item.sprite.position.y),
       });
-    }
-    else{
-      this.emitter.fireEvent("newbuff", {buff: item});
+    } else {
+      this.emitter.fireEvent("newbuff", { buff: item });
     }
     if (!(item instanceof CheckpointCleared)) {
       item.moveSprite(new Vec2(9999, 9999));
@@ -168,14 +176,14 @@ export default class PlayerController
     }
     if (this.inputEnabled && this.health > 0) {
       if (Input.isMousePressed(0)) {
-        if(this.weapon.cooldownTimer.isStopped())
-        {
-          console.log("timer doned")
-          this.lookDirection = this.owner.position.dirTo(Input.getGlobalMousePosition());
+        if (this.weapon.cooldownTimer.isStopped()) {
+          console.log("timer doned");
+          this.lookDirection = this.owner.position.dirTo(
+            Input.getGlobalMousePosition()
+          );
           this.handleUseItem();
-          this.weapon.cooldownTimer.start()
+          this.weapon.cooldownTimer.start();
         }
-
       }
 
       if (Input.isMouseJustPressed(2)) {
@@ -194,26 +202,41 @@ export default class PlayerController
         Input.isKeyPressed("d")
       ) {
         let playerPos = this.owner.position.clone();
-        const direction = Vec2.ZERO;
-        direction.x =
+        this.direction = Vec2.ZERO;
+        this.direction.x =
           (Input.isKeyPressed("a") ? -1 : 0) +
           (Input.isKeyPressed("d") ? 1 : 0);
-        direction.y =
+        this.direction.y =
           (Input.isKeyPressed("w") ? -1 : 0) +
           (Input.isKeyPressed("s") ? 1 : 0);
 
+        this.direction.x *= this.speed;
+        this.direction.y *= this.speed;
+        this.direction.normalize();
+        if (this.direction.x > 0 && Input.isKeyJustPressed("d")) {
+          this.owner.animation.play("run_right", true);
+        }
+        if (this.direction.x < 0 && Input.isKeyJustPressed("a")) {
+          this.owner.animation.play("run_left", true);
+        }
 
-        direction.x *= this.speed;
-        direction.y *= this.speed;
-        direction.normalize();
-        let newPos = playerPos.clone().add(direction.scale(3));
+        let newPos = playerPos.clone().add(this.direction.scale(3));
         // console.log(playerPos)
         // console.log(newPos)
         this.path = this.owner
           .getScene()
           .getNavigationManager()
           .getPath(hw4_Names.NAVMESH, this.owner.position, newPos, true);
-
+      } else {
+        this.owner.animation.stop();
+        if (this.direction) {
+          console.log(this.direction.x);
+          if (this.direction.x > 0) {
+            this.owner.animation.play("face_right");
+          } else {
+            this.owner.animation.play("face_left");
+          }
+        }
       }
 
       // Check for slot change
@@ -222,30 +245,6 @@ export default class PlayerController
       } else if (Input.isJustPressed("slot2")) {
         this.inventory.changeSlot(1);
       }
-      // if (Input.isJustPressed("pickup"))
-      // {
-      //     // Check if there is an item to pick up
-      //     for (let item of this.items) {
-      //         if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
-      //             // We overlap it, try to pick it up
-      //             this.inventory.addItem(item);
-      //             break;
-      //         }
-      //     }
-      // }
-
-      // if (Input.isJustPressed("drop")) {
-      //   // Check if we can drop our current item
-      //   let item = this.inventory.removeItem();
-
-      //   if (item) {
-      //     // Move the item from the ui to the gameworld
-      //     item.moveSprite(this.owner.position, "primary");
-
-      //     // Add the item to the list of items
-      //     this.items.push(item);
-      //   }
-      // }
     }
 
     //Move on path if selected
@@ -254,9 +253,9 @@ export default class PlayerController
         this.path = null;
       } else {
         this.owner.moveOnPath(this.speed * deltaT, this.path);
-        this.owner.rotation = Vec2.UP.angleToCCW(
-          this.path.getMoveDirection(this.owner)
-        );
+        // this.owner.rotation = Vec2.UP.angleToCCW(
+        //   this.path.getMoveDirection(this.owner)
+        // );
       }
       this.handlePickUpItem();
     } else {

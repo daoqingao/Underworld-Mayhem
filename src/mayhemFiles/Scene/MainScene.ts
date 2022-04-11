@@ -262,6 +262,7 @@ export default class mainScene extends Scene {
     this.pauseButton.size.set(200, 50);
     this.pauseButton.borderColor = Color.TRANSPARENT;
     this.pauseButton.backgroundColor = Color.TRANSPARENT;
+    this.pauseButton.textColor = Color.WHITE;
     this.pauseButton.onClickEventId = "pause";
 
     this.playButton = <Button>this.add.uiElement(UIElementType.BUTTON, "play", {
@@ -271,6 +272,7 @@ export default class mainScene extends Scene {
     this.playButton.size.set(200, 50);
     this.playButton.borderColor = Color.TRANSPARENT;
     this.playButton.backgroundColor = Color.TRANSPARENT;
+    this.playButton.textColor = Color.WHITE;
     this.playButton.onClickEventId = "play";
 
     this.receiver.subscribe("pause");

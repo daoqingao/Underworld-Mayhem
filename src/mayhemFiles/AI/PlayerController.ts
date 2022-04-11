@@ -108,7 +108,6 @@ export default class PlayerController
       } else {
         this.owner.animation.play("face_left");
       }
-      // this.owner.rotation = Vec2.UP.angleToCCW(this.lookDirection);
     }
   }
 
@@ -153,17 +152,9 @@ export default class PlayerController
     }
   }
   handlePickUpItem(): void {
-    //what if the pick up was the buff activation itself
     for (let item of this.items) {
       if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
         {
-          // We overlap it, try to pick it up
-          // let activeBuffIndex = this.buffBar.getSlot();
-          // let maxSize =         this.buffBar.getSize();
-          //
-          // this.inventory.changeSlot(activeBuffIndex+1)
-          // this.buffBar.addItem(item);
-          //
           this.handleApplyBuffEffect(item);
           break;
         }

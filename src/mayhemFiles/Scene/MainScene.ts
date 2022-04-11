@@ -25,13 +25,6 @@ import GameOver from "./GameOver";
 import AttackAction from "../../Wolfie2D/AI/EnemyActions/AttackAction";
 import Move from "../../Wolfie2D/AI/EnemyActions/Move";
 import Retreat from "../../Wolfie2D/AI/EnemyActions/Retreat";
-import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
-import Line from "../../Wolfie2D/Nodes/Graphics/Line";
-import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
-import GoapAction from "../../Wolfie2D/DataTypes/Interfaces/GoapAction";
-import GoapActionPlanner from "../../Wolfie2D/AI/GoapActionPlanner";
-import Map from "../../Wolfie2D/DataTypes/Map";
-import Stack from "../../Wolfie2D/DataTypes/Stack";
 import Berserk from "../../Wolfie2D/AI/EnemyActions/Berserk";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import MaxHealth from "../GameSystems/items/MaxHealth";
@@ -103,10 +96,6 @@ export default class mainScene extends Scene {
     this.load.spritesheet(
       "gun_enemy",
       "mayhemAssets/spritesheets/gun_enemy.json"
-    );
-    this.load.spritesheet(
-      "knife_enemy",
-      "mayhemAssets/spritesheets/knife_enemy.json"
     );
     this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
     this.load.spritesheet(
@@ -216,7 +205,7 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("enemyDied");
     this.receiver.subscribe("checkpoint_cleared");
     this.receiver.subscribe("newbuff");
-    this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
+    // this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
 
     // Spawn items into the world
     this.spawnItems();
@@ -447,15 +436,6 @@ export default class mainScene extends Scene {
       this.mainPlayer.visible = false;
       this.sceneManager.changeToScene(GameOver);
     }
-
-    // update closest enemy of each player
-    let closetEnemy = this.getClosestEnemy(
-      this.mainPlayer.position,
-      (<PlayerController>this.mainPlayer._ai).range
-    );
-
-    (<PlayerController>this.mainPlayer._ai).target = closetEnemy;
-
     // Update health gui
     this.healthDisplays.text = "Health: " + health;
     this.attackDisplays.text =
@@ -464,7 +444,6 @@ export default class mainScene extends Scene {
       "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
 
     //update enemy hp
-    const enemyData = this.load.getObject("enemyData");
 
     for (let i = 0; i < this.enemies.length; i++) {
       if (this.enemies[i]) {
@@ -492,24 +471,6 @@ export default class mainScene extends Scene {
     if (Input.isKeyJustPressed("g")) {
       this.getLayer("graph").setHidden(!this.getLayer("graph").isHidden());
     }
-  }
-
-  getClosestEnemy(playerPos: Vec2, range: number): Vec2 {
-    let closetDistance: number = Number.POSITIVE_INFINITY;
-    let closetEnemy: Vec2 = null;
-    for (let enemy of this.enemies) {
-      let distance = Math.sqrt(
-        Math.pow(enemy.position.x - playerPos.x, 2) +
-          Math.pow(enemy.position.y - playerPos.y, 2)
-      );
-      if (distance <= range) {
-        if (distance < closetDistance) {
-          closetDistance = distance;
-          closetEnemy = enemy.position;
-        }
-      }
-    }
-    return closetEnemy;
   }
 
   // HOMEWORK 4 - TODO
@@ -731,28 +692,6 @@ export default class mainScene extends Scene {
     this.navManager.addNavigableEntity(hw4_Names.NAVMESH, navmesh);
   }
 
-  // HOMEWORK 4 - TODO
-  /**
-   * Here is where we initalize all enemies that are spawned in the scene, based off the enemy.json you'll create based on your own tilemap.
-   * The format for the json file is:
-   * {
-   *       "position": [x, y], // x and y start positions
-   *       "mode": "guard" or "patrol", // choose whether this enemy is guarding one position or moving on a route
-   *       "route": [11, 2, 5, ...], // if mode is patrol, set the route of nodes the enemy will take
-   *       "guardPosition": [968, 472], // if mode is guard, set the guardPosition
-   *       "health": 5, // health value
-   *       "type": "gun_enemy" // enemy type, which can be gun_enemy, knife_enemy, custom_enemy1, and custom_enemy2.
-   *  }
-   *
-   * After setting up the json, you'll have to properly assign AI behaviors using our GOAP AI system.
-   * In this framework, AI are given actions they can perform with different costs to denote priority, along with preconditions
-   * to perform certain actions, status effects that those actions give after completion, and goals to be reached.
-   * Once you have your actions and goals defined, you can let your AI interact with the environment,
-   * having different behavior patterns based on whether certain statuses are met.
-   *
-   * Here you'll use a simple version of this GOAP system to give different behaviors to enemies, just by modifying costs and preconditions.
-   */
-
   actionKnife = [
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
@@ -773,34 +712,11 @@ export default class mainScene extends Scene {
       [hw4_Statuses.REACHED_GOAL]
     ),
   ];
-  actionsLongRange = [
-    new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
-    new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 1000 }),
-    new Retreat(
-      10,
-      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-      [hw4_Statuses.REACHED_GOAL],
-      { retreatDistance: 200 }
-    ),
-    new Berserk(11, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
-  ];
-  actionsTanky = [
-    new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
-    new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
-    new Retreat(
-      1,
-      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-      [hw4_Statuses.REACHED_GOAL],
-      { retreatDistance: 200 }
-    ),
-    new Berserk(10, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
-  ];
+
   spawnEnemy(data: any, pos: Vec2) {
     if (this.enemies.length >= 100) {
       return; //hard limit on the max enemies there can be in this game
     }
-
-    let customEnemyAction2 = this.actionsTanky;
 
     // Create an enemy
 
@@ -840,20 +756,11 @@ export default class mainScene extends Scene {
       weapon = this.createWeapon("weak_pistol");
       actions = this.actionsGun;
       range = 100;
-    } else if (data.type === "knife_enemy") {
-      weapon = this.createWeapon("knife");
-      actions = this.actionKnife;
-      range = 20;
     } else if (data.type === "imp") {
       weapon = this.createWeapon("knife");
       actions = this.actionKnife;
       range = 20;
       //ADD CODE HERE
-    } else if (data.type === "custom_enemy2") {
-      weapon = this.createWeapon("knife");
-      actions = customEnemyAction2;
-      actions = this.actionsTanky;
-      range = 20;
     }
 
     var enemyhp = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {
@@ -890,10 +797,6 @@ export default class mainScene extends Scene {
       let data = enemyData.enemies[i];
       this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
     }
-    // for(let i=0;i<100;i++){
-    //   this.spawnRandomEnemy()
-    //
-    // }
   }
 
   //this spawns in the last enemy of the enemy.json

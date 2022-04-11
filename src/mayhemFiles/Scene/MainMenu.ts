@@ -15,9 +15,11 @@ export default class MainMenu extends Scene {
   private control: Layer;
   private selectLevelScreen: Layer;
   private bg: Sprite;
+  private background: Sprite;
 
   loadScene() {
-    this.load.image("splash", "mayhemAssets/background/splash.jpg ");
+    this.load.image("splash", "mayhemAssets/background/splash.png ");
+    this.load.image("background", "mayhemAssets/background/background.png ");
   }
   startScene() {
     const center = this.viewport.getCenter();
@@ -45,20 +47,27 @@ export default class MainMenu extends Scene {
     mainMenu.onClickEventId = "menu";
 
     //*################# TODO: dao added this, quick play, remove later// starts at first level immediately
-    const quickPlay = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {
-      position: new Vec2(center.x, center.y),
-      text: "Quick Start to LV 1",
-    });
-    quickPlay.size.set(200, 50);
-    quickPlay.borderWidth = 2;
-    quickPlay.borderColor = Color.WHITE;
-    quickPlay.backgroundColor = Color.TRANSPARENT;
-    quickPlay.onClickEventId = "chooselevel";
+    // const quickPlay = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {
+    //   position: new Vec2(center.x, center.y),
+    //   text: "Quick Start to LV 1",
+    // });
+    // quickPlay.size.set(200, 50);
+    // quickPlay.borderWidth = 2;
+    // quickPlay.borderColor = Color.WHITE;
+    // quickPlay.backgroundColor = Color.TRANSPARENT;
+    // quickPlay.onClickEventId = "chooselevel";
 
     //################The Menu Screen
     this.mainMenu = this.addUILayer("mainMenu");
+    this.addParallaxLayer("bg2", new Vec2(0.5, 1), -2);
+    this.background = this.add.sprite("background", "bg2");
+    this.background.size = new Vec2(1200, 800);
+    this.background.position.set(
+      this.viewport.getHalfSize().x,
+      this.viewport.getHalfSize().y
+    );
+    this.background.visible = false;
     this.mainMenu.setHidden(true);
-
     //Header for Main Menu
     const mainmenuhead = "Main Menu";
 
@@ -70,8 +79,8 @@ export default class MainMenu extends Scene {
         text: mainmenuhead,
       }
     );
-    mainMenuheader.textColor = Color.WHITE;
     mainMenuheader.backgroundColor = Color.TRANSPARENT;
+    mainMenuheader.borderColor = Color.TRANSPARENT;
     mainMenuheader.fontSize = 50;
 
     // Add play button, and give it an event to emit on press
@@ -116,9 +125,8 @@ export default class MainMenu extends Scene {
       position: new Vec2(center.x, center.y - 250),
       text: "Help",
     });
-    helpHeader.textColor = Color.WHITE;
+
     helpHeader.fontSize = 50;
-    
 
     const text1header = "Backstory";
     const text1 =
@@ -129,8 +137,8 @@ export default class MainMenu extends Scene {
       "As you kill more demon spawns from hell, the barrier into hell weakens, allowing you to progress through hell and getting you closer to your comrade";
     const text2header = "Developers";
     const text2 = "Lin Ni";
-    const text22 = "Daoqin Gao"
-    const text23 = "Robert Rolsenic"
+    const text22 = "Daoqin Gao";
+    const text23 = "Robert Rolsenic";
     const text3header = "Cheat Codes";
     const text3 = "INVINCIBLE SKIP [NUMBER] UPGRADE [BUFF]";
 
@@ -175,26 +183,16 @@ export default class MainMenu extends Scene {
       text: text3,
     });
 
-    line1.textColor = Color.WHITE;
-    line12.textColor = Color.WHITE;
-    line13.textColor = Color.WHITE;
     line1.fontSize = 16;
     line12.fontSize = 16;
     line13.fontSize = 16;
 
-    line2.textColor = Color.WHITE;
-    line22.textColor = Color.WHITE;
-    line23.textColor = Color.WHITE;
-    line3.textColor = Color.WHITE;
     line3.fontSize = 20;
     line2.fontSize = 18;
     line22.fontSize = 18;
     line23.fontSize = 18;
     line3.fontSize = 18;
 
-    line1header.textColor = Color.WHITE;
-    line2header.textColor = Color.WHITE;
-    line3header.textColor = Color.WHITE;
     (<Label>line1).font = "Cursive";
     (<Label>line12).font = "Cursive";
     (<Label>line13).font = "Cursive";
@@ -203,14 +201,12 @@ export default class MainMenu extends Scene {
     (<Label>line23).font = "Cursive";
     (<Label>line3).font = "Cursive";
 
-
     const helpBack = this.add.uiElement(UIElementType.BUTTON, "help", {
       position: new Vec2(center.x, center.y + 300),
       text: "Back",
     });
     helpBack.size.set(200, 50);
     helpBack.borderWidth = 2;
-    helpBack.borderColor = Color.WHITE;
     helpBack.backgroundColor = Color.TRANSPARENT;
     helpBack.onClickEventId = "menu";
     (<Label>helpBack).font = "Fantasy";
@@ -227,7 +223,6 @@ export default class MainMenu extends Scene {
         text: "Controls",
       }
     );
-    controlHeader.textColor = Color.WHITE;
     controlHeader.fontSize = 50;
     (<Label>controlHeader).font = "Fantasy";
 
@@ -251,16 +246,12 @@ export default class MainMenu extends Scene {
       }
     );
 
-    controlLine1.textColor = Color.WHITE;
-    controlLine2.textColor = Color.WHITE;
-
     const controlBack = this.add.uiElement(UIElementType.BUTTON, "control", {
       position: new Vec2(center.x, center.y + 250),
       text: "Back",
     });
     controlBack.size.set(200, 50);
     controlBack.borderWidth = 2;
-    controlBack.borderColor = Color.WHITE;
     controlBack.backgroundColor = Color.TRANSPARENT;
     controlBack.onClickEventId = "menu";
 
@@ -279,10 +270,8 @@ export default class MainMenu extends Scene {
     );
     selectLevelBack.size.set(200, 50);
     selectLevelBack.borderWidth = 2;
-    selectLevelBack.borderColor = Color.WHITE;
     selectLevelBack.backgroundColor = Color.TRANSPARENT;
     selectLevelBack.onClickEventId = "menu";
- 
 
     ///header for select level
     const selectHeader = <Label>this.add.uiElement(
@@ -293,7 +282,6 @@ export default class MainMenu extends Scene {
         text: "Select Level",
       }
     );
-    selectHeader.textColor = Color.WHITE;
     selectHeader.fontSize = 50;
 
     ///buttons for all the levels
@@ -307,7 +295,6 @@ export default class MainMenu extends Scene {
     );
     level1.size.set(200, 50);
     level1.borderWidth = 2;
-    level1.borderColor = Color.WHITE;
     level1.backgroundColor = Color.TRANSPARENT;
     level1.onClickEventId = "chooselevel";
 
@@ -321,7 +308,6 @@ export default class MainMenu extends Scene {
     );
     level2.size.set(200, 50);
     level2.borderWidth = 2;
-    level2.borderColor = Color.WHITE;
     level2.backgroundColor = Color.TRANSPARENT;
     level2.onClickEventId = "chooselevel";
 
@@ -335,7 +321,6 @@ export default class MainMenu extends Scene {
     );
     level3.size.set(200, 50);
     level3.borderWidth = 2;
-    level3.borderColor = Color.WHITE;
     level3.backgroundColor = Color.TRANSPARENT;
     level3.onClickEventId = "chooselevel";
 
@@ -349,7 +334,7 @@ export default class MainMenu extends Scene {
     );
     level4.size.set(200, 50);
     level4.borderWidth = 2;
-    level4.borderColor = Color.WHITE;
+
     level4.backgroundColor = Color.TRANSPARENT;
     level4.onClickEventId = "chooselevel";
 
@@ -363,7 +348,6 @@ export default class MainMenu extends Scene {
     );
     level5.size.set(200, 50);
     level5.borderWidth = 2;
-    level5.borderColor = Color.WHITE;
     level5.backgroundColor = Color.TRANSPARENT;
     level5.onClickEventId = "chooselevel";
 
@@ -377,7 +361,6 @@ export default class MainMenu extends Scene {
     );
     level6.size.set(200, 50);
     level6.borderWidth = 2;
-    level6.borderColor = Color.WHITE;
     level6.backgroundColor = Color.TRANSPARENT;
     level6.onClickEventId = "chooselevel";
 
@@ -391,7 +374,6 @@ export default class MainMenu extends Scene {
     );
     level7.size.set(200, 50);
     level7.borderWidth = 2;
-    level7.borderColor = Color.WHITE;
     level7.backgroundColor = Color.TRANSPARENT;
     level7.onClickEventId = "chooselevel";
 
@@ -405,7 +387,6 @@ export default class MainMenu extends Scene {
     );
     level8.size.set(200, 50);
     level8.borderWidth = 2;
-    level8.borderColor = Color.WHITE;
     level8.backgroundColor = Color.TRANSPARENT;
     level8.onClickEventId = "chooselevel";
 
@@ -419,8 +400,8 @@ export default class MainMenu extends Scene {
     );
     level9.size.set(200, 50);
     level9.borderWidth = 2;
-    level9.borderColor = Color.WHITE;
     level9.backgroundColor = Color.TRANSPARENT;
+    level9.borderColor = Color.BLACK;
     level9.onClickEventId = "chooselevel";
 
     // Subscribe to the button events
@@ -438,8 +419,6 @@ export default class MainMenu extends Scene {
     while (this.receiver.hasNextEvent()) {
       let event = this.receiver.getNextEvent();
 
-      console.log(event);
-
       if (event.type === "selectlevel") {
         // this.sceneManager.changeToScene(mainScene, {});
         this.mainMenu.setHidden(true);
@@ -455,13 +434,13 @@ export default class MainMenu extends Scene {
       }
 
       if (event.type === "menu") {
-        console.log("logging menu");
         this.mainMenu.setHidden(false);
         this.help.setHidden(true);
         this.control.setHidden(true);
         this.splashScreen.setHidden(true);
         this.selectLevelScreen.setHidden(true);
         this.bg.visible = false;
+        this.background.visible = true;
       }
       if (event.type === "control") {
         this.mainMenu.setHidden(true);

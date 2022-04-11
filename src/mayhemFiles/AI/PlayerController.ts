@@ -209,10 +209,10 @@ export default class PlayerController
         this.direction.x *= this.speed;
         this.direction.y *= this.speed;
         this.direction.normalize();
-        if (this.direction.x > 0 && Input.isKeyJustPressed("d")) {
+        if (Input.isKeyJustPressed("d")) {
           this.owner.animation.play("run_right", true);
         }
-        if (this.direction.x < 0 && Input.isKeyJustPressed("a")) {
+        if (Input.isKeyJustPressed("a")) {
           this.owner.animation.play("run_left", true);
         }
 

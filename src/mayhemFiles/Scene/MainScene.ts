@@ -93,20 +93,7 @@ export default class mainScene extends Scene {
       "mayhemAssets/spritesheets/mainplayer.json"
     );
 
-    this.load.spritesheet(
-      "gun_enemy",
-      "mayhemAssets/spritesheets/gun_enemy.json"
-    );
     this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
-    this.load.spritesheet(
-      "custom_enemy1",
-      "mayhemAssets/spritesheets/custom_enemy1.json"
-    );
-
-    this.load.spritesheet(
-      "custom_enemy2",
-      "mayhemAssets/spritesheets/custom_enemy2.json"
-    );
 
     this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
     this.load.tilemap("level", "mayhemAssets/tilemaps/mayhemTileJson.json");

@@ -36,19 +36,17 @@ export default class Move extends GoapAction {
       let enemy = <EnemyAI>actor;
       let playerPos = enemy.lastPlayerPos;
       let distance = enemy.owner.position.distanceTo(playerPos);
-
       //If close enough, we've moved far enough and this loop action is done
       if (distance <= this.inRange) {
         return this.effects;
       }
-
-      //Otherwise move on path
       this.path = enemy.path;
+      //Otherwise move on path
       var direction = this.path.getMoveDirection(enemy.owner);
       if (direction.x > 0) {
-        enemy.owner.animation.play("run_right", true);
+        enemy.owner.animation.playIfNotAlready("run_right", true);
       } else {
-        enemy.owner.animation.play("run_left", true);
+        enemy.owner.animation.playIfNotAlready("run_left", true);
       }
       enemy.owner.moveOnPath(enemy.speed * deltaT, this.path);
       return null;

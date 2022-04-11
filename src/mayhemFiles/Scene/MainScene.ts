@@ -756,13 +756,7 @@ export default class mainScene extends Scene {
   actionKnife = [
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
-    //new Retreat(1, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),
-    new Berserk(
-      1,
-      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-      [hw4_Statuses.REACHED_GOAL],
-      { retreatDistance: 200 }
-    ),
+    //new Retreat(1, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),,
   ];
   actionsGun = [
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),

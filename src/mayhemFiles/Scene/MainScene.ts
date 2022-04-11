@@ -108,6 +108,7 @@ export default class mainScene extends Scene {
       "knife_enemy",
       "mayhemAssets/spritesheets/knife_enemy.json"
     );
+    this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
     this.load.spritesheet(
       "custom_enemy1",
       "mayhemAssets/spritesheets/custom_enemy1.json"
@@ -828,7 +829,7 @@ export default class mainScene extends Scene {
       data.position[0] / 2,
       data.position[1] / 2
     );
-    this.enemies[lastIndex].animation.play("IDLE");
+    this.enemies[lastIndex].animation.play("face_right");
     this.enemies[lastIndex].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
 
     if (data.route) {
@@ -862,10 +863,10 @@ export default class mainScene extends Scene {
       weapon = this.createWeapon("knife");
       actions = this.actionKnife;
       range = 20;
-    } else if (data.type === "custom_enemy1") {
-      weapon = this.createWeapon("pistol");
-      actions = customEnemyAction1;
-      range = 1000;
+    } else if (data.type === "imp") {
+      weapon = this.createWeapon("knife");
+      actions = this.actionKnife;
+      range = 20;
       //ADD CODE HERE
     } else if (data.type === "custom_enemy2") {
       weapon = this.createWeapon("knife");

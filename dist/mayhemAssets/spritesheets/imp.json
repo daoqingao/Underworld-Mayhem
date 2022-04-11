@@ -36,11 +36,11 @@
       "frames": [
         {
           "index": 4,
-          "duration": 5
+          "duration": 20
         },
         {
           "index": 5,
-          "duration": 5
+          "duration": 20
         }
       ]
     },
@@ -50,11 +50,11 @@
       "frames": [
         {
           "index": 6,
-          "duration": 5
+          "duration": 20
         },
         {
           "index": 7,
-          "duration": 5
+          "duration": 20
         }
       ]
     }

@@ -177,7 +177,6 @@ export default class PlayerController
     if (this.inputEnabled && this.health > 0) {
       if (Input.isMousePressed(0)) {
         if (this.weapon.cooldownTimer.isStopped()) {
-          console.log("timer doned");
           this.lookDirection = this.owner.position.dirTo(
             Input.getGlobalMousePosition()
           );
@@ -189,9 +188,6 @@ export default class PlayerController
       if (Input.isMouseJustPressed(2)) {
         this.owner.position = Input.getGlobalMousePosition();
         //this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, Input.getGlobalMousePosition(), true);
-
-        // console.log(this.owner.position)
-        // console.log(Input.getGlobalMousePosition())
       }
 
       if (
@@ -221,8 +217,6 @@ export default class PlayerController
         }
 
         let newPos = playerPos.clone().add(this.direction.scale(3));
-        // console.log(playerPos)
-        // console.log(newPos)
         this.path = this.owner
           .getScene()
           .getNavigationManager()
@@ -230,7 +224,6 @@ export default class PlayerController
       } else {
         this.owner.animation.stop();
         if (this.direction) {
-          console.log(this.direction.x);
           if (this.direction.x > 0) {
             this.owner.animation.play("face_right");
           } else {

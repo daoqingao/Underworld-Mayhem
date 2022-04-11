@@ -396,10 +396,6 @@ export default class mainScene extends Scene {
         this.battleManager.enemies = this.battleManager.enemies.filter(
           (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
-        // console.log(this.enemies[20].position)
-        // this.createAttackDamage(event.data.get("enemy").position);
-        // console.log(this.enemies)
-        // console.log(this.battleManager.enemies)
         this.totalEnemiesKilled++;
         this.spawnRandomEnemy();
         this.spawnRandomEnemy();
@@ -437,7 +433,6 @@ export default class mainScene extends Scene {
         }
       }
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {
-        //console.log(event.data);
         let asset = this.sceneGraph.getNode(event.data.get("node"));
         asset.destroy();
       }
@@ -871,7 +866,7 @@ export default class mainScene extends Scene {
       position: new Vec2(data.position[0] / 2, data.position[1] / 2),
       text: "" + data.health,
     });
-    enemyhp.textColor = Color.RED;
+    enemyhp.textColor = Color.WHITE;
     this.enemies[lastIndex].hpDisplay = enemyhp;
 
     let enemyOptions = {
@@ -886,7 +881,6 @@ export default class mainScene extends Scene {
       actions: actions,
       inRange: range,
     };
-    // console.log(this.enemies)
     this.enemies[lastIndex].addAI(EnemyAI, enemyOptions);
     if (pos !== null) {
       this.enemies[lastIndex].position = pos.clone();
@@ -894,7 +888,6 @@ export default class mainScene extends Scene {
     this.battleManager.setEnemies(
       this.enemies.map((enemy) => <BattlerAI>enemy._ai)
     );
-    // console.log(this.enemies.length)
   }
   initializeEnemies() {
     this.enemies = new Array(0);

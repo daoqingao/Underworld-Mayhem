@@ -24,6 +24,8 @@ export default class Weapon extends Item {
   /** The cooldown timer for this weapon's use */
   cooldownTimer: Timer;
 
+
+
   constructor(sprite: Sprite, type: WeaponType, battleManager: BattleManager) {
     super(sprite);
 
@@ -41,6 +43,7 @@ export default class Weapon extends Item {
 
     // Create the cooldown timer
     this.cooldownTimer = new Timer(type.cooldown);
+
   }
 
   // @override

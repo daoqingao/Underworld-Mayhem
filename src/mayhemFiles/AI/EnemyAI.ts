@@ -118,10 +118,11 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
 
             this.emitter.fireEvent("enemyDied", {enemy: this.owner})
 
-            if (Math.random() < 0.2) {
-                // Spawn a healthpack
-                this.emitter.fireEvent("healthpack", { position: this.owner.position });
-            }
+            // if (Math.random() < 0.2) {
+            //     // Spawn a healthpack
+            //     this.emitter.fireEvent("healthpack", { position: this.owner.position });
+            //
+            // }
         }
     }
     isPlayerVisible(pos: Vec2): Vec2{

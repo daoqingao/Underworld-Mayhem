@@ -89,7 +89,8 @@ export default class mainScene extends Scene {
   healthbar: Label;
   healthbargreen: Sprite;
 
-
+  totalEnemiesKilled = 0;
+  tileMapMaxSize : Vec2;
   loadScene() {
     // Load the player and enemy spritesheets
 
@@ -172,6 +173,7 @@ export default class mainScene extends Scene {
 
     // Set the viewport bounds to the tilemap
     let tilemapSize: Vec2 = this.walls.size.scaled(0.5);
+    this.tileMapMaxSize = tilemapSize;
 
     this.viewport.setBounds(0, 0, tilemapSize.x, tilemapSize.y);
 
@@ -364,6 +366,28 @@ export default class mainScene extends Scene {
     
   }
 
+  lootGenerate(pos: Vec2){
+    if (Math.random() < 0.4) {
+      // Spawn a healthpack
+      let min=1
+      let max=4
+      let lootType = Math.floor(Math.random() * (max - min) + min);
+      // this.emitter.fireEvent("healthpack", { pos});
+      if(lootType===1){
+        this.createAttackDamage(pos);
+      }
+      if(lootType===2){
+        this.createAttackspeed(pos)
+      }
+      if(lootType===3){
+        // this.createHealthpack(pos)
+      }
+      if(lootType===4){
+        this.createMaxhealth(pos)
+      }
+
+    }
+  }
   updateScene(deltaT: number): void {
     while (this.receiver.hasNextEvent()) {
       let event = this.receiver.getNextEvent();
@@ -375,15 +399,22 @@ export default class mainScene extends Scene {
           if (this.enemies[i] === event.data.get("enemy")){
             this.enemies[i].hpDisplay.destroy();
           }
-
         }
+
+        this.lootGenerate(event.data.get("enemy").position.clone());
         this.enemies = this.enemies.filter(
           (enemy) => enemy !== event.data.get("enemy")
         );
         this.battleManager.enemies = this.battleManager.enemies.filter(
           (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
-        console.log(this.enemies[20].position)
+        // console.log(this.enemies[20].position)
+        // this.createAttackDamage(event.data.get("enemy").position);
+        // console.log(this.enemies)
+        // console.log(this.battleManager.enemies)
+        this.totalEnemiesKilled++;
+        this.spawnRandomEnemy()
+        this.spawnRandomEnemy()
       }
       if (event.isType("checkpoint_cleared")) {
         let sprite = this.add.sprite("checkpointcleared", "primary");
@@ -651,12 +682,12 @@ export default class mainScene extends Scene {
     //First thislayeree based, starts off with a knife and is short ranged
     this.mainPlayer.addAI(PlayerController, {
       speed: 100,
-      health: 128, //original was 25 //
+      health: 1280, //original was 25 //
       maxHealth: 128, //adding maxhealth
       inventory: inventory,
       items: this.items,
       inputEnabled: true,
-      range: 100, //weak pistol range
+      range: 150, //weak pistol range
       weapon: startingWeapon,
     });
     this.mainPlayer.animation.play("IDLE");
@@ -746,60 +777,63 @@ export default class mainScene extends Scene {
   }
 
 
-
+ actionKnife = [
+    new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
+    new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
+    //new Retreat(1, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),
+    new Berserk(
+        1,
+        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
+        [hw4_Statuses.REACHED_GOAL],
+        { retreatDistance: 200 }
+    ),
+  ];
+  actionsGun = [
+    new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
+    new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 100 }),
+    new Retreat(
+        1,
+        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+        [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
+        { retreatDistance: 200 }
+    ),
+    new Berserk(
+        1,
+        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
+        [hw4_Statuses.REACHED_GOAL]
+    ),
+  ];
+  actionsLongRange = [
+    new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
+    new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 1000 }),
+    new Retreat(
+        10,
+        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+        [hw4_Statuses.REACHED_GOAL],
+        { retreatDistance: 200 }
+    ),
+    new Berserk(11, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
+  ];
+  actionsTanky = [
+    new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
+    new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
+    new Retreat(
+        1,
+        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+        [hw4_Statuses.REACHED_GOAL],
+        { retreatDistance: 200 }
+    ),
+    new Berserk(10, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
+  ];
   spawnEnemy(data:any,pos:Vec2){
+    if (this.enemies.length>=100){
+      return; //hard limit on the max enemies there can be in this game
+    }
 
-    let actionKnife = [
-      new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
-      new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
-      //new Retreat(1, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),
-      new Berserk(
-          1,
-          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-          [hw4_Statuses.REACHED_GOAL],
-          { retreatDistance: 200 }
-      ),
-    ];
-    let actionsGun = [
-      new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
-      new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 100 }),
-      new Retreat(
-          1,
-          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-          [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
-          { retreatDistance: 200 }
-      ),
-      new Berserk(
-          1,
-          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-          [hw4_Statuses.REACHED_GOAL]
-      ),
-    ];
 
-    let actionsLongRange = [
-      new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
-      new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 1000 }),
-      new Retreat(
-          10,
-          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-          [hw4_Statuses.REACHED_GOAL],
-          { retreatDistance: 200 }
-      ),
-      new Berserk(11, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
-    ];
-    let actionsTanky = [
-      new AttackAction(2, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
-      new Move(3, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
-      new Retreat(
-          1,
-          [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-          [hw4_Statuses.REACHED_GOAL],
-          { retreatDistance: 200 }
-      ),
-      new Berserk(10, [hw4_Statuses.CAN_BERSERK], [hw4_Statuses.REACHED_GOAL]),
-    ];
-    let customEnemyAction1 = actionsLongRange;
-    let customEnemyAction2 = actionsTanky;
+
+    let customEnemyAction1 = this.actionsLongRange;
+    let customEnemyAction2 = this.actionsTanky;
 
 
 
@@ -839,11 +873,11 @@ export default class mainScene extends Scene {
     let range;
     if (data.type === "gun_enemy") {
       weapon = this.createWeapon("weak_pistol");
-      actions = actionsGun;
+      actions = this.actionsGun;
       range = 100;
     } else if (data.type === "knife_enemy") {
       weapon = this.createWeapon("knife");
-      actions = actionKnife;
+      actions = this.actionKnife;
       range = 20;
     } else if (data.type === "custom_enemy1") {
       weapon = this.createWeapon("pistol");
@@ -853,7 +887,7 @@ export default class mainScene extends Scene {
     } else if (data.type === "custom_enemy2") {
       weapon = this.createWeapon("knife");
       actions = customEnemyAction2;
-      actions = actionsTanky;
+      actions = this.actionsTanky;
       range = 20;
     }
 
@@ -885,6 +919,10 @@ export default class mainScene extends Scene {
     if(pos!==null){
       this.enemies[lastIndex].position = pos.clone();
     }
+    this.battleManager.setEnemies(
+        this.enemies.map((enemy) => <BattlerAI>enemy._ai)
+    );
+    // console.log(this.enemies.length)
   }
   initializeEnemies() {
 
@@ -894,20 +932,26 @@ export default class mainScene extends Scene {
       let data = enemyData.enemies[i];
       this.spawnEnemy(JSON.parse(JSON.stringify(data)),null);
     }
-    // console.log(this.)
-    this.spawnGunEnemy(new Vec2(50, 235))
-    this.spawnGunEnemy(new Vec2(50, 335))
-    this.spawnGunEnemy(new Vec2(50, 435))
-    this.spawnGunEnemy(new Vec2(50, 535))
-    this.spawnGunEnemy(new Vec2(50, 635))
-    this.spawnGunEnemy(new Vec2(50, 735))
+    // for(let i=0;i<100;i++){
+    //   this.spawnRandomEnemy()
+    //
+    // }
+
 
   }
+
+  //this spawns in the last enemy of the enemy.json
   spawnGunEnemy(pos:Vec2):void{
     const enemyData = this.load.getObject("enemyData");
     let data = enemyData.enemies[20];
     this.spawnEnemy(JSON.parse(JSON.stringify(data)),pos)
 
+  }
+  spawnRandomEnemy():void{
+    let x = Math.random()*this.tileMapMaxSize.x
+    let y = Math.random()*this.tileMapMaxSize.y
+    let newPos = new Vec2(x,y);
+    this.spawnGunEnemy(newPos);
   }
 
 }

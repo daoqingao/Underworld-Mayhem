@@ -15,7 +15,7 @@ export default class Timer implements Updateable {
     protected loop: boolean;
 
     /** The total amount of time this timer runs for */
-    protected totalTime: number;
+    totalTime: number;
 
     /** The amount of time left on the current run */
     protected timeLeft: number;

@@ -109,12 +109,13 @@ export default class PlayerController
   handleApplyBuffEffect(item: Item): void {
     if (item instanceof Healthpack) {
       (<BattlerAI>this.owner._ai).maxHealth += 5;
+      (<BattlerAI>this.owner._ai).health += 5;
     }
     if (item instanceof AttackDamage) {
       this.weapon.type.damage += 5;
     }
     if (item instanceof AttackSpeed) {
-      this.weapon.cooldownTimer = new Timer(this.weapon.type.cooldown * 0.5);
+      this.weapon.cooldownTimer = new Timer(this.weapon.cooldownTimer.totalTime* 0.8);
     }
     if (item instanceof Speed) {
       this.speed += 40;

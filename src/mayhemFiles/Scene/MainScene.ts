@@ -682,7 +682,7 @@ export default class mainScene extends Scene {
     //First thislayeree based, starts off with a knife and is short ranged
     this.mainPlayer.addAI(PlayerController, {
       speed: 100,
-      health: 1280, //original was 25 //
+      health: 128, //original was 25 //
       maxHealth: 128, //adding maxhealth
       inventory: inventory,
       items: this.items,

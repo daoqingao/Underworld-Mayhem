@@ -42,7 +42,8 @@ export default class AttackAction extends GoapAction {
         .sub(enemy.owner.position)
         .normalize();
       if (enemy.weapon.use(enemy.owner, "enemy", dir)) {
-        // If we fired, face that direction
+          // let dir = enemy.getPlayerPosition().clone().sub(enemy.owner.position).normalize();
+          // enemy.owner.rotation = Vec2.UP.angleToCCW(dir);
       }
 
       return this.effects;

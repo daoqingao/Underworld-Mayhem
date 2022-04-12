@@ -703,10 +703,9 @@ export default class mainScene extends Scene {
   ];
 
   spawnEnemy(data: any, pos: Vec2) {
-    if (this.enemies.length >= 100) {
+    if (this.enemies.length >= 75) {
       return; //hard limit on the max enemies there can be in this game
     }
-
     // Create an enemy
 
     this.enemies.push(this.add.animatedSprite(data.type, "primary"));
@@ -772,12 +771,15 @@ export default class mainScene extends Scene {
       inRange: range,
     };
     this.enemies[lastIndex].addAI(EnemyAI, enemyOptions);
+    //teleport them to this location if provided
     if (pos !== null) {
       this.enemies[lastIndex].position = pos.clone();
     }
     this.battleManager.setEnemies(
       this.enemies.map((enemy) => <BattlerAI>enemy._ai)
     );
+    // let dir = new Vec2(0,0);
+    // this.enemies[lastIndex].rotation = Vec2.UP.angleToCCW(dir);
   }
   initializeEnemies() {
     this.enemies = new Array(0);

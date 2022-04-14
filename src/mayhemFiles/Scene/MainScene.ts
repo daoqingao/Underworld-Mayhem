@@ -116,6 +116,7 @@ export default class mainScene extends Scene {
       "healthbarEmpty",
       "mayhemAssets/sprites/healthbarEmpty.png"
     );
+    this.load.image("enemyHp", "mayhemAssets/sprites/enemyhp.png");
     this.load.image(
       "healthbarGreen",
       "mayhemAssets/sprites/healthbarGreen.png"
@@ -363,7 +364,7 @@ export default class mainScene extends Scene {
       if (event.isType("enemyDied")) {
         for (let i = 0; i < this.enemies.length; i++) {
           if (this.enemies[i] === event.data.get("enemy")) {
-            this.enemies[i].hpDisplay.destroy();
+            this.enemies[i].healthbar.destroy();
           }
         }
 
@@ -437,11 +438,18 @@ export default class mainScene extends Scene {
     for (let i = 0; i < this.enemies.length; i++) {
       if (this.enemies[i]) {
         // (<GameNode>data.hpdisplay).destroy();
-        this.enemies[i].hpDisplay.setPosition(
-          new Vec2(this.enemies[i].position.x, this.enemies[i].position.y)
+        this.enemies[i].healthbar.position = new Vec2(
+          this.enemies[i].position.x,
+          this.enemies[i].position.y - 7
         );
-        this.enemies[i].hpDisplay.text =
-          "" + (<EnemyAI>this.enemies[i]._ai).health;
+        this.enemies[i].healthbar.size = new Vec2(
+          ((<EnemyAI>this.enemies[i]._ai).health /
+            (<EnemyAI>this.enemies[i]._ai).maxHealth) *
+            16,
+          16
+        );
+        // this.enemies[i].healthbar.text =
+        //   "" + (<EnemyAI>this.enemies[i]._ai).health;
       }
       // data.hpdisplay= <Label>this.add.uiElement(
       //   UIElementType.LABEL,
@@ -751,12 +759,14 @@ export default class mainScene extends Scene {
       //ADD CODE HERE
     }
 
-    var enemyhp = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {
-      position: new Vec2(data.position[0] / 2, data.position[1] / 2),
-      text: "" + data.health,
-    });
-    enemyhp.textColor = Color.WHITE;
-    this.enemies[lastIndex].hpDisplay = enemyhp;
+    // var enemyhp = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {
+    //   position: new Vec2(data.position[0] / 2, data.position[1] / 2),
+    //   text: "" + data.health,
+    // });
+
+    var enemyhpbar = this.add.sprite("enemyHp", "primary");
+    enemyhpbar.position.set(data.position[0] / 2, data.position[1] / 2 - 7);
+    this.enemies[lastIndex].healthbar = enemyhpbar;
 
     let enemyOptions = {
       defaultMode: data.mode,

@@ -2,10 +2,10 @@
   "numEnemies": 21,
   "enemies": [
     {
-      "position": [848, 624],
-      "mode": "patrol",
-      "route": [0, 1, 2, 3],
-      "health": 5,
+      "position": [50, 100],
+      "mode": "guard",
+      "guardPosition": [336, 704],
+      "health": 10,
       "type": "imp"
     },
     {

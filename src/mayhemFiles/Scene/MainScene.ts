@@ -377,7 +377,9 @@ export default class mainScene extends Scene {
         );
         this.totalEnemiesKilled++;
         this.spawnRandomEnemy();
-        this.spawnRandomEnemy();
+        if(this.totalEnemiesKilled===20){
+          this.spawnRandomEnemy(); //spawn more when there are more enmemies killed
+        }
       }
       if (event.isType("checkpoint_cleared")) {
         let sprite = this.add.sprite("checkpointcleared", "primary");
@@ -689,6 +691,9 @@ export default class mainScene extends Scene {
     this.navManager.addNavigableEntity(hw4_Names.NAVMESH, navmesh);
   }
 
+
+
+
   actionKnife = [
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 20 }),
@@ -710,8 +715,15 @@ export default class mainScene extends Scene {
     ),
   ];
 
+  statusArray: Array<string> = [
+    hw4_Statuses.CAN_RETREAT,
+    hw4_Statuses.CAN_BERSERK,
+  ];
+
+
+
   spawnEnemy(data: any, pos: Vec2) {
-    if (this.enemies.length >= 75) {
+    if (this.enemies.length >= 60) {
       return; //hard limit on the max enemies there can be in this game
     }
     // Create an enemy
@@ -740,10 +752,7 @@ export default class mainScene extends Scene {
 
     /*initalize status and actions for each enemy. This can be edited if you want your custom enemies to start out with
           different statuses, but dont remove these statuses for the original two enemies*/
-    let statusArray: Array<string> = [
-      hw4_Statuses.CAN_RETREAT,
-      hw4_Statuses.CAN_BERSERK,
-    ];
+
 
     let weapon;
     let actions;
@@ -776,12 +785,12 @@ export default class mainScene extends Scene {
       player1: this.mainPlayer,
       weapon: weapon,
       goal: hw4_Statuses.REACHED_GOAL,
-      status: statusArray,
+      status: this.statusArray,
       actions: actions,
       inRange: range,
     };
     this.enemies[lastIndex].addAI(EnemyAI, enemyOptions);
-    //teleport them to this location if provided
+
     if (pos !== null) {
       this.enemies[lastIndex].position = pos.clone();
     }
@@ -798,12 +807,15 @@ export default class mainScene extends Scene {
       let data = enemyData.enemies[i];
       this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
     }
+    // for (let x = 0;x<100;x++){
+    //
+    // }
   }
 
-  //this spawns in the last enemy of the enemy.json
+  //this spawns in the a copy of first enemy of the enemy.json data at the set location
   spawnImp(pos: Vec2): void {
     const enemyData = this.load.getObject("enemyData");
-    let data = enemyData.enemies[20];
+    let data = enemyData.enemies[0];
     this.spawnEnemy(JSON.parse(JSON.stringify(data)), pos);
   }
   spawnRandomEnemy(): void {

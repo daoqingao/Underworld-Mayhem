@@ -80,6 +80,7 @@ export default class PlayerController
     //defined by dao
     this.weapon = options.weapon;
     this.shootingTimer = this.weapon.cooldownTimer;
+    
   }
 
   activate(options: Record<string, any>): void {}
@@ -171,6 +172,8 @@ export default class PlayerController
           this.lookDirection = this.owner.position.dirTo(
             Input.getGlobalMousePosition()
           );
+          console.log("shoot")
+          this.emitter.fireEvent("gunshot");
           this.handleUseItem();
           this.weapon.cooldownTimer.start();
         }

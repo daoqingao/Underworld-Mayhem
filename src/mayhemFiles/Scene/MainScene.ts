@@ -36,6 +36,7 @@ import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
 import NextLevel from "./NextLevel";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import UIElement from "../../Wolfie2D/Nodes/UIElement";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class mainScene extends Scene {
   // The player
@@ -126,6 +127,7 @@ export default class mainScene extends Scene {
     this.load.image("knife", "mayhemAssets/sprites/knife.png");
     this.load.image("laserGun", "mayhemAssets/sprites/laserGun.png");
     this.load.image("pistol", "mayhemAssets/sprites/pistol.png");
+    this.load.audio("gunshot", "mayhemAssets/music/gunshot.wav");
   }
 
   startScene() {
@@ -193,6 +195,7 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("enemyDied");
     this.receiver.subscribe("checkpoint_cleared");
     this.receiver.subscribe("newbuff");
+    this.receiver.subscribe("gunshot");
     // this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
 
     // Spawn items into the world
@@ -416,6 +419,9 @@ export default class mainScene extends Scene {
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {
         let asset = this.sceneGraph.getNode(event.data.get("node"));
         asset.destroy();
+      }
+      if (event.isType("gunshot")) {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gunshot", loop: false, holdReference: false});
       }
     }
     // check health of each player

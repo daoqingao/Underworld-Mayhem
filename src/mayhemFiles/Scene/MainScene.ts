@@ -128,9 +128,11 @@ export default class mainScene extends Scene {
     this.load.image("laserGun", "mayhemAssets/sprites/laserGun.png");
     this.load.image("pistol", "mayhemAssets/sprites/pistol.png");
     this.load.audio("gunshot", "mayhemAssets/music/gunshot.wav");
+    this.load.audio("bgm","mayhemAssets/music/bgm.mp3")
   }
 
   startScene() {
+    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bgm", loop: true, holdReference: false});
     // HOMEWORK 4 - TODO
     /*
             Modify this line if needed.

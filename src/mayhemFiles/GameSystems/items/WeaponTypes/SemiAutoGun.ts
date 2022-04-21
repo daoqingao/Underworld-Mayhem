@@ -29,7 +29,6 @@ export default class SemiAutoGun extends WeaponType {
         let start = shooter.position.clone();
         let end = shooter.position.clone().add(direction.scaled(200));
         let delta = end.clone().sub(start);
-
         // // Iterate through the tilemap region until we find a collision
         // let minX = Math.min(start.x, end.x);
         // let maxX = Math.max(start.x, end.x);

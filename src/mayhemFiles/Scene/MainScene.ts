@@ -90,8 +90,8 @@ export default class mainScene extends Scene {
 
     //there will only be one player
     this.load.spritesheet(
-      "mainplayer",
-      "mayhemAssets/spritesheets/mainplayer.json"
+        "mainplayer",
+        "mayhemAssets/spritesheets/mainplayer.json"
     );
 
     this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
@@ -110,17 +110,17 @@ export default class mainScene extends Scene {
     this.load.image("speed", "mayhemAssets/sprites/speed.png");
     this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint.png");
     this.load.image(
-      "checkpointcleared",
-      "mayhemAssets/sprites/checkpointcleared.png"
+        "checkpointcleared",
+        "mayhemAssets/sprites/checkpointcleared.png"
     );
     this.load.image(
-      "healthbarEmpty",
-      "mayhemAssets/sprites/healthbarEmpty.png"
+        "healthbarEmpty",
+        "mayhemAssets/sprites/healthbarEmpty.png"
     );
     this.load.image("enemyHp", "mayhemAssets/sprites/enemyhp.png");
     this.load.image(
-      "healthbarGreen",
-      "mayhemAssets/sprites/healthbarGreen.png"
+        "healthbarGreen",
+        "mayhemAssets/sprites/healthbarGreen.png"
     );
 
     this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
@@ -189,7 +189,7 @@ export default class mainScene extends Scene {
     // Send the player and enemies to the battle manager
     this.battleManager.setPlayers([<BattlerAI>this.mainPlayer._ai]);
     this.battleManager.setEnemies(
-      this.enemies.map((enemy) => <BattlerAI>enemy._ai)
+        this.enemies.map((enemy) => <BattlerAI>enemy._ai)
     );
 
     // Subscribe to relevant events
@@ -212,58 +212,58 @@ export default class mainScene extends Scene {
     this.healthbargreen.position.set(100, 16);
     ///(<PlayerController>this.mainPlayer._ai).health
     this.healthbargreen.size.set(
-      (<PlayerController>this.mainPlayer._ai).health,
-      16
+        (<PlayerController>this.mainPlayer._ai).health,
+        16
     );
     // Add a UI for health
     this.addUILayer("health");
 
     this.healthDisplays = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "health",
-      {
-        position: new Vec2(60, 16),
-        text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health,
-      }
+        UIElementType.LABEL,
+        "health",
+        {
+          position: new Vec2(60, 16),
+          text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health,
+        }
     );
     this.healthDisplays.textColor = Color.WHITE;
 
     this.addUILayer("maxhealth");
 
     this.maxhealthDisplays = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "maxhealth",
-      {
-        position: new Vec2(130, 16),
-        text:
-          "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth,
-      }
+        UIElementType.LABEL,
+        "maxhealth",
+        {
+          position: new Vec2(130, 16),
+          text:
+              "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth,
+        }
     );
     this.maxhealthDisplays.textColor = Color.WHITE;
 
     this.addUILayer("attack");
 
     this.attackDisplays = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "attack",
-      {
-        position: new Vec2(190, 16),
-        text:
-          "Attack: " +
-          (<PlayerController>this.mainPlayer._ai).weapon.type.damage,
-      }
+        UIElementType.LABEL,
+        "attack",
+        {
+          position: new Vec2(190, 16),
+          text:
+              "Attack: " +
+              (<PlayerController>this.mainPlayer._ai).weapon.type.damage,
+        }
     );
     this.attackDisplays.textColor = Color.WHITE;
 
     this.addUILayer("pause");
     this.addUILayer("play");
     this.pauseButton = <Button>this.add.uiElement(
-      UIElementType.BUTTON,
-      "pause",
-      {
-        position: new Vec2(260, 16),
-        text: "Pause",
-      }
+        UIElementType.BUTTON,
+        "pause",
+        {
+          position: new Vec2(260, 16),
+          text: "Pause",
+        }
     );
     this.pauseButton.size.set(200, 50);
     this.pauseButton.borderColor = Color.TRANSPARENT;
@@ -299,42 +299,42 @@ export default class mainScene extends Scene {
     healthpic.position.set(280, 90);
 
     this.attackDamageBuffLabel = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "attackdamage",
-      {
-        position: new Vec2(295, 30),
-        text: "" + this.attackDamageBuff,
-      }
+        UIElementType.LABEL,
+        "attackdamage",
+        {
+          position: new Vec2(295, 30),
+          text: "" + this.attackDamageBuff,
+        }
     );
     this.attackDamageBuffLabel.textColor = Color.WHITE;
 
     this.attackSpeedBuffLabel = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "attackspeed",
-      {
-        position: new Vec2(295, 50),
-        text: "" + this.attackSpeedBuff,
-      }
+        UIElementType.LABEL,
+        "attackspeed",
+        {
+          position: new Vec2(295, 50),
+          text: "" + this.attackSpeedBuff,
+        }
     );
     this.attackSpeedBuffLabel.textColor = Color.WHITE;
 
     this.speedBuffLabel = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "speed",
-      {
-        position: new Vec2(295, 70),
-        text: "" + this.speedBuff,
-      }
+        UIElementType.LABEL,
+        "speed",
+        {
+          position: new Vec2(295, 70),
+          text: "" + this.speedBuff,
+        }
     );
     this.speedBuffLabel.textColor = Color.WHITE;
 
     this.healthupBuffLabel = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "healthup",
-      {
-        position: new Vec2(295, 90),
-        text: "" + this.healthupBuff,
-      }
+        UIElementType.LABEL,
+        "healthup",
+        {
+          position: new Vec2(295, 90),
+          text: "" + this.healthupBuff,
+        }
     );
     this.healthupBuffLabel.textColor = Color.WHITE;
   }
@@ -375,10 +375,10 @@ export default class mainScene extends Scene {
 
         this.lootGenerate(event.data.get("enemy").position.clone());
         this.enemies = this.enemies.filter(
-          (enemy) => enemy !== event.data.get("enemy")
+            (enemy) => enemy !== event.data.get("enemy")
         );
         this.battleManager.enemies = this.battleManager.enemies.filter(
-          (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
+            (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
         this.totalEnemiesKilled++;
         this.spawnRandomEnemy();
@@ -439,9 +439,9 @@ export default class mainScene extends Scene {
     // Update health gui
     this.healthDisplays.text = "Health: " + health;
     this.attackDisplays.text =
-      "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
+        "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
     this.maxhealthDisplays.text =
-      "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
+        "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
 
     //update enemy hp
 
@@ -449,14 +449,14 @@ export default class mainScene extends Scene {
       if (this.enemies[i]) {
         // (<GameNode>data.hpdisplay).destroy();
         this.enemies[i].healthbar.position = new Vec2(
-          this.enemies[i].position.x,
-          this.enemies[i].position.y - 7
+            this.enemies[i].position.x,
+            this.enemies[i].position.y - 7
         );
         this.enemies[i].healthbar.size = new Vec2(
-          ((<EnemyAI>this.enemies[i]._ai).health /
-            (<EnemyAI>this.enemies[i]._ai).maxHealth) *
+            ((<EnemyAI>this.enemies[i]._ai).health /
+                (<EnemyAI>this.enemies[i]._ai).maxHealth) *
             16,
-          16
+            16
         );
         // this.enemies[i].healthbar.text =
         //   "" + (<EnemyAI>this.enemies[i]._ai).health;
@@ -499,25 +499,25 @@ export default class mainScene extends Scene {
       if (item.type === "healthpack") {
         // Create a healthpack
         this.createHealthpack(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       } else if (item.type === "healthmax") {
         this.createMaxhealth(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       } else if (item.type === "attackspeed") {
         this.createAttackspeed(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       } else if (item.type === "attackdamage") {
         this.createAttackDamage(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       } else if (item.type === "speed") {
         this.createSpeed(new Vec2(item.position[0] / 2, item.position[1] / 2));
       } else if (item.type === "checkpoint") {
         this.createCheckpoint(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       }
     }
@@ -530,7 +530,7 @@ export default class mainScene extends Scene {
    */
   createWeapon(type: string): Weapon {
     let weaponType = <WeaponType>(
-      RegistryManager.getRegistry("weaponTypes").get(type)
+        RegistryManager.getRegistry("weaponTypes").get(type)
     );
 
     let sprite = this.add.sprite(weaponType.spriteKey, "primary");
@@ -593,23 +593,23 @@ export default class mainScene extends Scene {
 
       // Get the constructor of the prototype
       let constr = RegistryManager.getRegistry("weaponTemplates").get(
-        weapon.weaponType
+          weapon.weaponType
       );
 
       // Create a weapon type
       let weaponType = new constr();
 
 
-      weapon.enemies = this.enemies;
+      // weapon.enemies = this.enemies;
       // Initialize the weapon type
-      // weaponType.initialize(weapon);
+      weaponType.initialize(weapon);
 
 
 
       // Register the weapon type
       RegistryManager.getRegistry("weaponTypes").registerItem(
-        weapon.name,
-        weaponType
+          weapon.name,
+          weaponType
       );
     }
   }
@@ -621,13 +621,13 @@ export default class mainScene extends Scene {
   initializePlayer(): void {
     // Create the inventory
     let inventory = new InventoryManager(
-      this,
-      1,
-      "inventorySlot",
-      new Vec2(16, 16),
-      2,
-      "slots1",
-      "items1"
+        this,
+        1,
+        "inventorySlot",
+        new Vec2(16, 16),
+        2,
+        "slots1",
+        "items1"
     );
     let startingWeapon = this.createWeapon("weak_pistol");
     inventory.addItem(startingWeapon);
@@ -715,15 +715,15 @@ export default class mainScene extends Scene {
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 100 }),
     new Retreat(
-      1,
-      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-      [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
-      { retreatDistance: 200 }
+        1,
+        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+        [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
+        { retreatDistance: 200 }
     ),
     new Berserk(
-      1,
-      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-      [hw4_Statuses.REACHED_GOAL]
+        1,
+        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
+        [hw4_Statuses.REACHED_GOAL]
     ),
   ];
 
@@ -743,22 +743,22 @@ export default class mainScene extends Scene {
     this.enemies.push(this.add.animatedSprite(data.type, "primary"));
     let lastIndex = this.enemies.length - 1;
     this.enemies[lastIndex].position.set(
-      data.position[0] / 2,
-      data.position[1] / 2
+        data.position[0] / 2,
+        data.position[1] / 2
     );
     this.enemies[lastIndex].animation.play("face_right");
     this.enemies[lastIndex].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
 
     if (data.route) {
       data.route = data.route.map((index: number) =>
-        this.graph.getNodePosition(index)
+          this.graph.getNodePosition(index)
       );
     }
 
     if (data.guardPosition) {
       data.guardPosition = new Vec2(
-        data.guardPosition[0] / 2,
-        data.guardPosition[1] / 2
+          data.guardPosition[0] / 2,
+          data.guardPosition[1] / 2
       );
     }
 
@@ -807,7 +807,7 @@ export default class mainScene extends Scene {
       this.enemies[lastIndex].position = pos.clone();
     }
     this.battleManager.setEnemies(
-      this.enemies.map((enemy) => <BattlerAI>enemy._ai)
+        this.enemies.map((enemy) => <BattlerAI>enemy._ai)
     );
     // let dir = new Vec2(0,0);
     // this.enemies[lastIndex].rotation = Vec2.UP.angleToCCW(dir);

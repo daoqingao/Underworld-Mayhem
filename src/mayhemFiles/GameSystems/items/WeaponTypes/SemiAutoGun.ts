@@ -39,7 +39,7 @@ export default class SemiAutoGun extends WeaponType {
         // let walls = <OrthogonalTilemap>shooter.getScene().getLayer("Wall").getItems()[0];
         //
         // let minIndex = walls.getColRowAt(new Vec2(minX, minY));
-		// let maxIndex = walls.getColRowAt(new Vec2(maxX, maxY));
+        // let maxIndex = walls.getColRowAt(new Vec2(maxX, maxY));
         //
         // let tileSize = walls.getTileSize();
         //

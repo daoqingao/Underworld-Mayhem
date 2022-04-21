@@ -1,5 +1,6 @@
 import GameNode from "../../../../Wolfie2D/Nodes/GameNode";
 import Scene from "../../../../Wolfie2D/Scene/Scene";
+import BattlerAI from "../../../AI/BattlerAI";
 
 export default abstract class WeaponType {
   /** The key for this sprite image */

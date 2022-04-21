@@ -599,8 +599,12 @@ export default class mainScene extends Scene {
       // Create a weapon type
       let weaponType = new constr();
 
+
+      weapon.enemies = this.enemies;
       // Initialize the weapon type
-      weaponType.initialize(weapon);
+      // weaponType.initialize(weapon);
+
+
 
       // Register the weapon type
       RegistryManager.getRegistry("weaponTypes").registerItem(

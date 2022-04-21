@@ -9,11 +9,17 @@ import Color from "../../../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../../../Wolfie2D/Utils/EaseFunctions";
 import { hw4_Events } from "../../../../Wolfie2D/constants";
 import WeaponType from "./WeaponType";
+import BattlerAI from "../../../AI/BattlerAI";
 
 export default class SemiAutoGun extends WeaponType {
 
     color: Color;
     private hexColor: string;
+
+
+    // players: Array<BattlerAI>;
+    //
+    // enemies: Array<BattlerAI>;
 
     initialize(options: Record<string, any>): void {
         this.damage = options.damage;
@@ -23,51 +29,59 @@ export default class SemiAutoGun extends WeaponType {
         this.displayName = options.displayName;
         this.spriteKey = options.spriteKey;
         this.useVolume = options.useVolume;
+
+        // this.enemies = options.enemies
+        // console.log(this.enemies);
     }
+
 
     doAnimation(shooter: GameNode, direction: Vec2, line: Line): void {
         let start = shooter.position.clone();
-        let end = shooter.position.clone().add(direction.scaled(900));
+        let end = shooter.position.clone().add(direction.scaled(200));
         let delta = end.clone().sub(start);
-
-        // Iterate through the tilemap region until we find a collision
-        let minX = Math.min(start.x, end.x);
-        let maxX = Math.max(start.x, end.x);
-        let minY = Math.min(start.y, end.y);
-        let maxY = Math.max(start.y, end.y);
-
-        // Get the wall tilemap
-        let walls = <OrthogonalTilemap>shooter.getScene().getLayer("Wall").getItems()[0];
-
-        let minIndex = walls.getColRowAt(new Vec2(minX, minY));
-		let maxIndex = walls.getColRowAt(new Vec2(maxX, maxY));
-
-        let tileSize = walls.getTileSize();
-
-        for(let col = minIndex.x; col <= maxIndex.x; col++){
-            for(let row = minIndex.y; row <= maxIndex.y; row++){
-                if(walls.isTileCollidable(col, row)){
-                    // Get the position of this tile
-                    let tilePos = new Vec2(col * tileSize.x + tileSize.x/2, row * tileSize.y + tileSize.y/2);
-
-                    // Create a collider for this tile
-                    let collider = new AABB(tilePos, tileSize.scaled(1/2));
-
-                    let hit = collider.intersectSegment(start, delta, Vec2.ZERO);
-
-                    if(hit !== null && start.distanceSqTo(hit.pos) < start.distanceSqTo(end)){
-                        //onsole.log("Found hit");
-                        end = hit.pos;
-                    }
-                }
-            }
-        }
+        // console.log("shot bruh")
+        // // Iterate through the tilemap region until we find a collision
+        // let minX = Math.min(start.x, end.x);
+        // let maxX = Math.max(start.x, end.x);
+        // let minY = Math.min(start.y, end.y);
+        // let maxY = Math.max(start.y, end.y);
+        //
+        // // Get the wall tilemap
+        // let walls = <OrthogonalTilemap>shooter.getScene().getLayer("Wall").getItems()[0];
+        //
+        // let minIndex = walls.getColRowAt(new Vec2(minX, minY));
+		// let maxIndex = walls.getColRowAt(new Vec2(maxX, maxY));
+        //
+        // let tileSize = walls.getTileSize();
+        //
+        // // console.log("what")
+        // // console.log(this.enemies)
+        //
+        //
+        // for(let col = minIndex.x; col <= maxIndex.x; col++){
+        //     for(let row = minIndex.y; row <= maxIndex.y; row++){
+        //         if(walls.isTileCollidable(col, row)){
+        //             // Get the position of this tile
+        //             let tilePos = new Vec2(col * tileSize.x + tileSize.x/2, row * tileSize.y + tileSize.y/2);
+        //
+        //             // Create a collider for this tile
+        //             let collider = new AABB(tilePos, tileSize.scaled(1/2));
+        //
+        //             let hit = collider.intersectSegment(start, delta, Vec2.ZERO);
+        //
+        //             if(hit !== null && start.distanceSqTo(hit.pos) < start.distanceSqTo(end)){
+        //                 //onsole.log("Found hit");
+        //                 end = hit.pos;
+        //             }
+        //         }
+        //     }
+        // }
 
         line.start = start;
         line.end = end;
 
         line.tweens.play("fade");
-        line.color = Color.WHITE;
+        line.color = Color.RED;
     }
 
     createRequiredAssets(scene: Scene): [Line] {

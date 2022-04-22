@@ -37,6 +37,7 @@ import NextLevel from "./NextLevel";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import UIElement from "../../Wolfie2D/Nodes/UIElement";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import MultiProjectile from "../GameSystems/items/MultiProjectile";
 
 export default class mainScene extends Scene {
   // The player
@@ -340,10 +341,14 @@ export default class mainScene extends Scene {
   }
 
   lootGenerate(pos: Vec2) {
+    console.log(this.items);
+    if(this.items.length>=30){
+      return; //cannot drop more than 30 items
+    }
     if (Math.random() < 0.4) {
       // Spawn a healthpack
       let min = 1;
-      let max = 4;
+      let max = 5;
       let lootType = Math.floor(Math.random() * (max - min) + min);
       // this.emitter.fireEvent("healthpack", { pos});
       if (lootType === 1) {
@@ -353,10 +358,13 @@ export default class mainScene extends Scene {
         this.createAttackspeed(pos);
       }
       if (lootType === 3) {
-        // this.createHealthpack(pos)
+        this.createMultiProjectile(pos);
       }
       if (lootType === 4) {
         this.createMaxhealth(pos);
+      }
+      if (lootType === 5){
+        this.createMultiProjectile(pos);
       }
     }
   }
@@ -575,11 +583,18 @@ export default class mainScene extends Scene {
     this.items.push(attackspeed);
   }
 
-  createCheckpoint(position: Vec2) {
+  createCheckpoint(position: Vec2):void {
     let sprite = this.add.sprite("checkpoint", "primary");
     let checkpoint = new Checkpoint(sprite);
     checkpoint.moveSprite(position);
     this.items.push(checkpoint);
+  }
+
+  createMultiProjectile(position: Vec2): void {
+    let sprite = this.add.sprite("laserGun", "primary");
+    let maxhealth = new MultiProjectile(sprite);
+    maxhealth.moveSprite(position);
+    this.items.push(maxhealth);
   }
 
   /**

@@ -23,6 +23,7 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
 import Emitter from "../../Wolfie2D/Events/Emitter";
 import StateMachineGoapAI from "../../Wolfie2D/AI/StateMachineGoapAI";
+import MultiProjectile from "../GameSystems/items/MultiProjectile";
 
 export default class PlayerController
   extends StateMachineGoapAI
@@ -65,6 +66,7 @@ export default class PlayerController
 
   shootingTimer: Timer;
 
+  projectileAmount: number;
   initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
     this.owner = owner;
     this.lookDirection = Vec2.ZERO;
@@ -80,7 +82,7 @@ export default class PlayerController
     //defined by dao
     this.weapon = options.weapon;
     this.shootingTimer = this.weapon.cooldownTimer;
-    
+    this.projectileAmount = 1;
   }
 
   activate(options: Record<string, any>): void {}
@@ -98,12 +100,34 @@ export default class PlayerController
     }
   }
 
+
+  multiProjAttack(item: Weapon):void{
+    console.log(this.projectileAmount);
+
+    let angelScale = Math.pow(2,(this.projectileAmount+2)*-1)+50;
+    for(let i=1;i<=this.projectileAmount/2;i++){
+      item.use(this.owner, "player",      this.lookDirection.clone().rotateCCW(0-angelScale*(i)));
+      item.cooldownTimer.end()
+    }
+    if(this.projectileAmount%2==1){
+      //is odd then we add one more
+      item.use(this.owner, "player",      this.lookDirection.clone().rotateCCW(0));
+      item.cooldownTimer.end()
+    }
+    for(let i=1;i<=this.projectileAmount/2;i++){
+      item.use(this.owner, "player",      this.lookDirection.clone().rotateCCW(0+angelScale*(i)));
+      item.cooldownTimer.end()
+    }
+  }
   //   this is use to shoot
   handleUseItem(): void {
-    let item = this.inventory.getItem();
+    let item = <Weapon>this.inventory.getItem();
     // If there is an item in the current slot, use it
     if (item) {
-      item.use(this.owner, "player", this.lookDirection);
+
+      // item.use(this.owner, "player", this.lookDirection);
+      this.multiProjAttack(item);
+
       if (this.lookDirection.x > 0) {
         this.owner.animation.play("face_right");
       } else {
@@ -145,13 +169,35 @@ export default class PlayerController
       this.emitter.fireEvent("checkpoint_cleared", {
         position: new Vec2(item.sprite.position.x, item.sprite.position.y),
       });
-    } else {
+    }
+    else {
       this.emitter.fireEvent("newbuff", { buff: item });
     }
     if (!(item instanceof CheckpointCleared)) {
       item.moveSprite(new Vec2(9999, 9999));
     }
+    if (item instanceof  MultiProjectile)
+    {
+      this.projectileAmount+=1;
+    }
   }
+
+  // handlePickUpItem(): void {
+  //   for (let i = 0; i < this.items.length; i++) {
+  //     let item = this.items[i];
+  //     {
+  //       if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
+  //         {
+  //           this.handleApplyBuffEffect(item);
+  //           this.items = this.items.splice(i, 1);
+  //           break;
+  //         }
+  //
+  //       }
+  //     }
+  //   }
+  // }
+
   handlePickUpItem(): void {
     for (let item of this.items) {
       if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
@@ -249,7 +295,7 @@ export default class PlayerController
       //Target an enemy and attack
       if (this.target != null) {
         this.lookDirection = this.owner.position.dirTo(this.target);
-        // this.handleUseItem();
+          // this.handleUseItem();
       }
     }
   }

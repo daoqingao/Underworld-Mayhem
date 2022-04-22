@@ -74,11 +74,15 @@ export default class mainScene extends Scene {
   private attackSpeedBuff = 0;
   private speedBuff = 0;
   private healthupBuff = 0;
+  private projectileBuff = 1;
+
 
   attackDamageBuffLabel: Label;
   speedBuffLabel: Label;
   attackSpeedBuffLabel: Label;
   healthupBuffLabel: Label;
+  projectileBuffLabel: Label;
+
 
   knifeEnemyClone: AnimatedSprite;
   healthbar: Label;
@@ -298,6 +302,8 @@ export default class mainScene extends Scene {
     speedpic.position.set(280, 70);
     var healthpic = this.add.sprite("healthmax", "buffspicture");
     healthpic.position.set(280, 90);
+    var projectilePic= this.add.sprite("laserGun", "buffspicture");
+    projectilePic.position.set(280, 110);
 
     this.attackDamageBuffLabel = <Label>this.add.uiElement(
         UIElementType.LABEL,
@@ -338,6 +344,17 @@ export default class mainScene extends Scene {
         }
     );
     this.healthupBuffLabel.textColor = Color.WHITE;
+
+    this.projectileBuffLabel = <Label>this.add.uiElement(
+        UIElementType.LABEL,
+        "healthup",
+        {
+          position: new Vec2(295, 110),
+          text: "" + this.projectileBuff,
+        }
+    );
+    this.projectileBuffLabel.textColor = Color.WHITE;
+
   }
 
   lootGenerate(pos: Vec2) {
@@ -424,6 +441,10 @@ export default class mainScene extends Scene {
         if (buff instanceof MaxHealth) {
           this.healthupBuff += 1;
           this.healthupBuffLabel.text = "" + this.healthupBuff;
+        }
+        if (buff instanceof MultiProjectile) {
+          this.projectileBuff+= 1;
+          this.projectileBuffLabel.text = "" + this.projectileBuff;
         }
       }
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {

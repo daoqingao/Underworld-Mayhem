@@ -34,6 +34,7 @@ export default class AnimationManager {
   /** The name of the event (if any) to send when the current animation stops playing. */
   protected onEndEvent: string;
 
+  protected data: Map<any> | Record<string, any>;
   /** The event emitter for this animation manager */
   protected emitter: Emitter;
 
@@ -156,10 +157,7 @@ export default class AnimationManager {
     this.animationState = AnimationState.STOPPED;
 
     if (this.onEndEvent !== null) {
-      this.emitter.fireEvent(this.onEndEvent, {
-        owner: this.owner.id,
-        animation: this.currentAnimation,
-      });
+      this.emitter.fireEvent(this.onEndEvent, this.data);
     }
 
     // If there is a pending animation, play it
@@ -186,7 +184,7 @@ export default class AnimationManager {
    * @param loop Whether or not to loop the animation. False by default
    * @param onEnd The name of an event to send when this animation naturally stops playing. This only matters if loop is false.
    */
-  play(animation: string, loop?: boolean, onEnd?: string): void {
+  play(animation: string, loop?: boolean, onEnd?: string, data?: Map<any> | Record<string, any>): void {
     this.currentAnimation = animation;
     this.currentFrame = 0;
     this.frameProgress = 0;
@@ -202,6 +200,9 @@ export default class AnimationManager {
 
     if (onEnd !== undefined) {
       this.onEndEvent = onEnd;
+      if(data !== undefined){
+        this.data = data;
+      }
     } else {
       this.onEndEvent = null;
     }

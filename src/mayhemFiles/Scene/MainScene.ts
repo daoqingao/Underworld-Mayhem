@@ -96,226 +96,7 @@ export default class mainScene extends Scene {
   tileMapMaxSize: Vec2;
 
 
-  startScene() {
-    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bgm", loop: true, holdReference: false});
-    // HOMEWORK 4 - TODO
-    /*
-            Modify this line if needed.
 
-            This line is just getting the wall layer of your tilemap to use for some calculations.
-            Make sure it is still doing so.
-
-            What the line is saying is to get the first level from the bottom (tilemapLayers[1]),
-            which in my case was the Walls layer.
-
-            Also, your tilemap will be made with 32x32 tiles while the example map is made with 16x16 tiles.
-            You'll need to scale it down for our 16x16 players and enemy sprites. The code for this
-            is listed below, it's just a scaling down by 1/2 for the tilemap size.
-        */
-
-    // Add in the tilemap
-    let tilemapLayers = this.add.tilemap("level", new Vec2(0.5, 0.5));
-
-    // Get the wall layer
-    this.walls = <OrthogonalTilemap>tilemapLayers[1].getItems()[0];
-
-    // Set the viewport bounds to the tilemap
-    let tilemapSize: Vec2 = this.walls.size.scaled(0.5);
-    this.tileMapMaxSize = tilemapSize;
-
-    this.viewport.setBounds(0, 0, tilemapSize.x, tilemapSize.y);
-
-    this.addLayer("primary", 10);
-
-    // Create the battle manager
-    this.battleManager = new BattleManager();
-
-    this.initializeWeapons();
-
-    // Initialize the items array - this represents items that are in the game world
-    this.items = [];
-
-    // Create the player
-    this.initializePlayer();
-
-    // Make the viewport follow the player
-    this.viewport.follow(this.mainPlayer);
-
-    // Zoom in to a reasonable level
-    this.viewport.enableZoom();
-    this.viewport.setZoomLevel(4);
-
-    // Create the navmesh
-    this.createNavmesh();
-
-    // Initialize all enemies
-    this.initializeEnemies();
-
-    // Send the player and enemies to the battle manager
-    this.battleManager.setPlayers([<BattlerAI>this.mainPlayer._ai]);
-    this.battleManager.setEnemies(
-        this.enemies.map((enemy) => <BattlerAI>enemy._ai)
-    );
-
-    // Subscribe to relevant events
-    this.receiver.subscribe("healthpack");
-    this.receiver.subscribe("enemyDied");
-    this.receiver.subscribe("checkpoint_cleared");
-    this.receiver.subscribe("newbuff");
-    this.receiver.subscribe("gunshot");
-    // this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
-
-    // Spawn items into the world
-    this.spawnItems();
-
-    ///adding healthbar
-    this.addUILayer("healthbar");
-    var healthbar = this.add.sprite("healthbarEmpty", "healthbar");
-    healthbar.position.set(100, 16);
-
-    this.healthbargreen = this.add.sprite("healthbarGreen", "healthbar");
-    this.healthbargreen.position.set(100, 16);
-    ///(<PlayerController>this.mainPlayer._ai).health
-    this.healthbargreen.size.set(
-        (<PlayerController>this.mainPlayer._ai).health,
-        16
-    );
-    // Add a UI for health
-    this.addUILayer("health");
-
-    this.healthDisplays = <Label>this.add.uiElement(
-        UIElementType.LABEL,
-        "health",
-        {
-          position: new Vec2(60, 16),
-          text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health,
-        }
-    );
-    this.healthDisplays.textColor = Color.WHITE;
-
-    this.addUILayer("maxhealth");
-
-    this.maxhealthDisplays = <Label>this.add.uiElement(
-        UIElementType.LABEL,
-        "maxhealth",
-        {
-          position: new Vec2(130, 16),
-          text:
-              "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth,
-        }
-    );
-    this.maxhealthDisplays.textColor = Color.WHITE;
-
-    this.addUILayer("attack");
-
-    this.attackDisplays = <Label>this.add.uiElement(
-        UIElementType.LABEL,
-        "attack",
-        {
-          position: new Vec2(190, 16),
-          text:
-              "Attack: " +
-              (<PlayerController>this.mainPlayer._ai).weapon.type.damage,
-        }
-    );
-    this.attackDisplays.textColor = Color.WHITE;
-
-    this.addUILayer("pause");
-    this.addUILayer("play");
-    this.pauseButton = <Button>this.add.uiElement(
-        UIElementType.BUTTON,
-        "pause",
-        {
-          position: new Vec2(260, 16),
-          text: "Pause",
-        }
-    );
-    this.pauseButton.size.set(200, 50);
-    this.pauseButton.borderColor = Color.TRANSPARENT;
-    this.pauseButton.backgroundColor = Color.TRANSPARENT;
-    this.pauseButton.textColor = Color.WHITE;
-    this.pauseButton.onClickEventId = "pause";
-
-    this.playButton = <Button>this.add.uiElement(UIElementType.BUTTON, "play", {
-      position: new Vec2(230, 16),
-      text: "Play",
-    });
-    this.playButton.size.set(200, 50);
-    this.playButton.borderColor = Color.TRANSPARENT;
-    this.playButton.backgroundColor = Color.TRANSPARENT;
-    this.playButton.textColor = Color.WHITE;
-    this.playButton.onClickEventId = "play";
-
-    this.receiver.subscribe("pause");
-    this.receiver.subscribe("play");
-
-    this.addUILayer("attackdamage");
-    this.addUILayer("attackspeed");
-    this.addUILayer("speed");
-    this.addUILayer("healthup");
-    this.addUILayer("buffspicture").setDepth(100);
-    var attackdamagepic = this.add.sprite("attackdamage", "buffspicture");
-    attackdamagepic.position.set(280, 30);
-    var attackspeedpic = this.add.sprite("attackspeed", "buffspicture");
-    attackspeedpic.position.set(280, 50);
-    var speedpic = this.add.sprite("speed", "buffspicture");
-    speedpic.position.set(280, 70);
-    var healthpic = this.add.sprite("healthmax", "buffspicture");
-    healthpic.position.set(280, 90);
-    var projectilePic= this.add.sprite("laserGun", "buffspicture");
-    projectilePic.position.set(280, 110);
-
-    this.attackDamageBuffLabel = <Label>this.add.uiElement(
-        UIElementType.LABEL,
-        "attackdamage",
-        {
-          position: new Vec2(295, 30),
-          text: "" + this.attackDamageBuff,
-        }
-    );
-    this.attackDamageBuffLabel.textColor = Color.WHITE;
-
-    this.attackSpeedBuffLabel = <Label>this.add.uiElement(
-        UIElementType.LABEL,
-        "attackspeed",
-        {
-          position: new Vec2(295, 50),
-          text: "" + this.attackSpeedBuff,
-        }
-    );
-    this.attackSpeedBuffLabel.textColor = Color.WHITE;
-
-    this.speedBuffLabel = <Label>this.add.uiElement(
-        UIElementType.LABEL,
-        "speed",
-        {
-          position: new Vec2(295, 70),
-          text: "" + this.speedBuff,
-        }
-    );
-    this.speedBuffLabel.textColor = Color.WHITE;
-
-    this.healthupBuffLabel = <Label>this.add.uiElement(
-        UIElementType.LABEL,
-        "healthup",
-        {
-          position: new Vec2(295, 90),
-          text: "" + this.healthupBuff,
-        }
-    );
-    this.healthupBuffLabel.textColor = Color.WHITE;
-
-    this.projectileBuffLabel = <Label>this.add.uiElement(
-        UIElementType.LABEL,
-        "healthup",
-        {
-          position: new Vec2(295, 110),
-          text: "" + this.projectileBuff,
-        }
-    );
-    this.projectileBuffLabel.textColor = Color.WHITE;
-
-  }
 
   lootGenerate(pos: Vec2) {
     console.log(this.items);
@@ -352,11 +133,10 @@ export default class mainScene extends Scene {
         this.createHealthpack(event.data.get("position"));
       }
       if (event.isType("enemyDied")) {
-        for (let i = 0; i < this.enemies.length; i++) {
-          if (this.enemies[i] === event.data.get("enemy")) {
-            this.enemies[i].healthbar.destroy();
-          }
-        }
+
+        let enemy = <AnimatedSprite>event.data.get("enemy")
+        enemy.healthbar.destroy();
+        enemy.visible = false;
         this.lootGenerate(event.data.get("enemy").position.clone());
         this.enemies = this.enemies.filter(
             (enemy) => enemy !== event.data.get("enemy")
@@ -365,10 +145,9 @@ export default class mainScene extends Scene {
             (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
         this.totalEnemiesKilled++;
+
         this.spawnRandomEnemy();
-        if(this.totalEnemiesKilled===20){
-          this.spawnRandomEnemy(); //spawn more when there are more enmemies killed
-        }
+
       }
       if (event.isType("checkpoint_cleared")) {
         let sprite = this.add.sprite("checkpointcleared", "primary");
@@ -826,9 +605,13 @@ export default class mainScene extends Scene {
     this.spawnEnemy(JSON.parse(JSON.stringify(data)), pos);
   }
   spawnRandomEnemy(): void {
-    let x = Math.random() * this.tileMapMaxSize.x;
-    let y = Math.random() * this.tileMapMaxSize.y;
-    let newPos = new Vec2(x, y);
-    this.spawnImp(newPos);
+    let totalEnemies = this.totalEnemiesKilled;
+    while((totalEnemies-=20)>=20)  //extra enemy for every 20 enemies killed
+    {
+      let x = Math.random() * this.tileMapMaxSize.x;
+      let y = Math.random() * this.tileMapMaxSize.y;
+      let newPos = new Vec2(x, y);
+      this.spawnImp(newPos);
+    }
   }
 }

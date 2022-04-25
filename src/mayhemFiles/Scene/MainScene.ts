@@ -347,7 +347,7 @@ export default class mainScene extends Scene {
 
 
   lootGenerate(pos: Vec2) {
-    console.log(this.items);
+    // console.log(this.items);
     if(this.items.length>=30){
       return; //cannot drop more than 30 items
     }
@@ -376,6 +376,7 @@ export default class mainScene extends Scene {
   }
   updateScene(deltaT: number): void {
     while (this.receiver.hasNextEvent()) {
+
       let event = this.receiver.getNextEvent();
 
 
@@ -865,6 +866,7 @@ export default class mainScene extends Scene {
     this.spawnEnemy(JSON.parse(JSON.stringify(data)), pos);
   }
   spawnRandomEnemy(): void {
+    // console.log(this.enemies);
     let totalEnemies = this.totalEnemiesKilled;
     totalEnemies+=20;
     while((totalEnemies-=20)>=0)  //extra enemy for every 20 enemies killed

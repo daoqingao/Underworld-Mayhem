@@ -175,7 +175,7 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
     getPlayerPosition(): Vec2 {
         //Get the position of the closest player in sight
         let pos = this.player1.position;
-        let position1 = this.isPlayerVisible(pos);
+        let position1 = pos;
 
         // Determine which player position to return
         if (position1 == null){

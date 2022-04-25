@@ -104,7 +104,7 @@ export default class PlayerController
 
 
   multiProjAttack(item: Weapon):void{
-    console.log(this.projectileAmount);
+    // console.log(this.projectileAmount);
 
     let angelScale = Math.pow(2,(this.projectileAmount+2)*-1)+50;
     for(let i=1;i<=this.projectileAmount/2;i++){
@@ -193,14 +193,10 @@ export default class PlayerController
       {
         if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
           {
-
-
             let arr = this.items;
             arr[i] = arr[arr.length-1];
             arr.pop();
-
             this.handleApplyBuffEffect(item);
-
             break;
           }
 
@@ -209,18 +205,10 @@ export default class PlayerController
     }
   }
 
-  // handlePickUpItem(): void {
-  //   for (let item of this.items) {
-  //     if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
-  //       {
-  //         this.handleApplyBuffEffect(item);
-  //         this.items = this.items.splice(0,0);
-  //         break;
-  //       }
-  //     }
-  //   }
-  // }
   update(deltaT: number): void {
+
+
+
     while (this.receiver.hasNextEvent()) {
       this.handleEvent(this.receiver.getNextEvent());
     }
@@ -230,7 +218,7 @@ export default class PlayerController
           this.lookDirection = this.owner.position.dirTo(
             Input.getGlobalMousePosition()
           );
-          console.log("shoot")
+          // console.log("shoot")
           this.emitter.fireEvent("gunshot");
           this.handleUseItem();
           this.weapon.cooldownTimer.start();
@@ -249,7 +237,9 @@ export default class PlayerController
         console.log("god mode");
         this.health = 1000000;
         this.teleportEnabled = true;
-
+        this.weapon.cooldownTimer = new Timer(
+            this.weapon.cooldownTimer.totalTime * 0.01
+        );
       }
 
 

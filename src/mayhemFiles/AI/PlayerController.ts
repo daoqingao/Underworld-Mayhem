@@ -151,7 +151,7 @@ export default class PlayerController
       );
     }
     if (item instanceof Speed) {
-      this.speed += 40;
+      this.speed += 10;
     }
 
     if (item instanceof MaxHealth) {

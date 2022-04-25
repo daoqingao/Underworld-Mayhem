@@ -78,7 +78,7 @@ export default class mainScene extends Scene {
   protected attackSpeedBuff = 0;
   protected speedBuff = 0;
   protected healthupBuff = 0;
-  protected projectileBuff = 1;
+  protected projectileBuff = 0;
 
 
   attackDamageBuffLabel: Label;
@@ -357,7 +357,6 @@ export default class mainScene extends Scene {
             this.enemies[i].healthbar.destroy();
           }
         }
-
         this.lootGenerate(event.data.get("enemy").position.clone());
         this.enemies = this.enemies.filter(
             (enemy) => enemy !== event.data.get("enemy")

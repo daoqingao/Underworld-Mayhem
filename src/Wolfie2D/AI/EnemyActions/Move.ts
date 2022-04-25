@@ -4,6 +4,7 @@ import Vec2 from "../../DataTypes/Vec2";
 import Emitter from "../../Events/Emitter";
 import NavigationPath from "../../Pathfinding/NavigationPath";
 import EnemyAI from "../../../mayhemFiles/AI/EnemyAI";
+import BattlerAI from "../../../mayhemFiles/AI/BattlerAI";
 
 export default class Move extends GoapAction {
   private inRange: number;
@@ -43,10 +44,12 @@ export default class Move extends GoapAction {
       this.path = enemy.path;
       //Otherwise move on path
       var direction = this.path.getMoveDirection(enemy.owner);
-      if (direction.x > 0) {
-        enemy.owner.animation.playIfNotAlready("run_right", true);
-      } else {
-        enemy.owner.animation.playIfNotAlready("run_left", true);
+      if  (enemy.health >=0) {
+        if (direction.x > 0) {
+          enemy.owner.animation.playIfNotAlready("run_right", true);
+        } else {
+          enemy.owner.animation.playIfNotAlready("run_left", true);
+        }
       }
       enemy.owner.moveOnPath(enemy.speed * deltaT, this.path);
       return null;

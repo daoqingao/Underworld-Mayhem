@@ -8,6 +8,15 @@ import mainScene from "./MainScene";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import Level1 from "./levels/Level2";
 import level1 from "./levels/Level1";
+import level2 from "./levels/Level2";
+import level3 from "./levels/Level3";
+import level4 from "./levels/Level4";
+import level5 from "./levels/Level5";
+import level6 from "./levels/Level6";
+import level7 from "./levels/Level7";
+import level8 from "./levels/Level8";
+import level9 from "./levels/Level9";
+
 
 export default class MainMenu extends Scene {
   // Layers, for multiple main menu screens\
@@ -298,7 +307,7 @@ export default class MainMenu extends Scene {
     level1.size.set(200, 50);
     level1.borderWidth = 2;
     level1.backgroundColor = Color.TRANSPARENT;
-    level1.onClickEventId = "chooselevel";
+    level1.onClickEventId = "chooselevel1";
 
     const level2 = this.add.uiElement(
       UIElementType.BUTTON,
@@ -311,7 +320,7 @@ export default class MainMenu extends Scene {
     level2.size.set(200, 50);
     level2.borderWidth = 2;
     level2.backgroundColor = Color.TRANSPARENT;
-    level2.onClickEventId = "chooselevel";
+    level2.onClickEventId = "chooselevel2";
 
     const level3 = this.add.uiElement(
       UIElementType.BUTTON,
@@ -324,7 +333,7 @@ export default class MainMenu extends Scene {
     level3.size.set(200, 50);
     level3.borderWidth = 2;
     level3.backgroundColor = Color.TRANSPARENT;
-    level3.onClickEventId = "chooselevel";
+    level3.onClickEventId = "chooselevel3";
 
     const level4 = this.add.uiElement(
       UIElementType.BUTTON,
@@ -338,7 +347,7 @@ export default class MainMenu extends Scene {
     level4.borderWidth = 2;
 
     level4.backgroundColor = Color.TRANSPARENT;
-    level4.onClickEventId = "chooselevel";
+    level4.onClickEventId = "chooselevel4";
 
     const level5 = this.add.uiElement(
       UIElementType.BUTTON,
@@ -351,7 +360,7 @@ export default class MainMenu extends Scene {
     level5.size.set(200, 50);
     level5.borderWidth = 2;
     level5.backgroundColor = Color.TRANSPARENT;
-    level5.onClickEventId = "chooselevel";
+    level5.onClickEventId = "chooselevel5";
 
     const level6 = this.add.uiElement(
       UIElementType.BUTTON,
@@ -364,7 +373,7 @@ export default class MainMenu extends Scene {
     level6.size.set(200, 50);
     level6.borderWidth = 2;
     level6.backgroundColor = Color.TRANSPARENT;
-    level6.onClickEventId = "chooselevel";
+    level6.onClickEventId = "chooselevel6";
 
     const level7 = this.add.uiElement(
       UIElementType.BUTTON,
@@ -377,7 +386,7 @@ export default class MainMenu extends Scene {
     level7.size.set(200, 50);
     level7.borderWidth = 2;
     level7.backgroundColor = Color.TRANSPARENT;
-    level7.onClickEventId = "chooselevel";
+    level7.onClickEventId = "chooselevel7";
 
     const level8 = this.add.uiElement(
       UIElementType.BUTTON,
@@ -390,7 +399,7 @@ export default class MainMenu extends Scene {
     level8.size.set(200, 50);
     level8.borderWidth = 2;
     level8.backgroundColor = Color.TRANSPARENT;
-    level8.onClickEventId = "chooselevel";
+    level8.onClickEventId = "chooselevel8";
 
     const level9 = this.add.uiElement(
       UIElementType.BUTTON,
@@ -404,7 +413,7 @@ export default class MainMenu extends Scene {
     level9.borderWidth = 2;
     level9.backgroundColor = Color.TRANSPARENT;
     level9.borderColor = Color.BLACK;
-    level9.onClickEventId = "chooselevel";
+    level9.onClickEventId = "chooselevel9";
 
     // Subscribe to the button events
     this.receiver.subscribe("play");
@@ -413,7 +422,15 @@ export default class MainMenu extends Scene {
     this.receiver.subscribe("control");
     this.receiver.subscribe("clicktoplay");
     this.receiver.subscribe("selectlevel");
-    this.receiver.subscribe("chooselevel");
+    this.receiver.subscribe("chooselevel1");
+    this.receiver.subscribe("chooselevel2");
+    this.receiver.subscribe("chooselevel3");
+    this.receiver.subscribe("chooselevel4");
+    this.receiver.subscribe("chooselevel5");
+    this.receiver.subscribe("chooselevel6");
+    this.receiver.subscribe("chooselevel7");
+    this.receiver.subscribe("chooselevel8");
+    this.receiver.subscribe("chooselevel9");
   }
 
   updateScene() {
@@ -426,9 +443,34 @@ export default class MainMenu extends Scene {
         this.mainMenu.setHidden(true);
         this.selectLevelScreen.setHidden(false);
       }
-      if (event.type === "chooselevel") {
+      if (event.type === "chooselevel1") {
         this.sceneManager.changeToScene(level1, {});
       }
+      if (event.type === "chooselevel2") {
+        this.sceneManager.changeToScene(level2, {});
+      }
+      if (event.type === "chooselevel3") {
+        this.sceneManager.changeToScene(level3, {});
+      }
+      if (event.type === "chooselevel4") {
+        this.sceneManager.changeToScene(level4, {});
+      }
+      if (event.type === "chooselevel5") {
+        this.sceneManager.changeToScene(level5, {});
+      }
+      if (event.type === "chooselevel6") {
+        this.sceneManager.changeToScene(level6, {});
+      }
+      if (event.type === "chooselevel7") {
+        this.sceneManager.changeToScene(level7, {});
+      }
+      if (event.type === "chooselevel8") {
+        this.sceneManager.changeToScene(level8, {});
+      }
+      if (event.type === "chooselevel9") {
+        this.sceneManager.changeToScene(level9, {});
+      }
+
 
       if (event.type === "help") {
         this.help.setHidden(false);

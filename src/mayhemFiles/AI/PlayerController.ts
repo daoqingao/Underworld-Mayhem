@@ -67,6 +67,8 @@ export default class PlayerController
   shootingTimer: Timer;
 
   projectileAmount: number;
+  teleportEnabled: boolean = false;
+
   initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
     this.owner = owner;
     this.lookDirection = Vec2.ZERO;
@@ -164,7 +166,7 @@ export default class PlayerController
     if (item instanceof MaxHealth) {
       (<BattlerAI>this.owner._ai).maxHealth += 5;
       (<BattlerAI>this.owner._ai).health += 5;
-  
+
     }
     if (item instanceof Checkpoint) {
       this.emitter.fireEvent("checkpoint_cleared", {
@@ -172,43 +174,52 @@ export default class PlayerController
       });
     }
     else {
+      item.moveSprite(new Vec2(9999, 9999));
       this.emitter.fireEvent("newbuff", { buff: item });
     }
-    if (!(item instanceof CheckpointCleared)) {
-      item.moveSprite(new Vec2(9999, 9999));
-    }
+    // if (!(item instanceof CheckpointCleared)) {
+    //   item.moveSprite(new Vec2(9999, 9999));
+    // }
     if (item instanceof  MultiProjectile)
     {
       this.projectileAmount+=1;
     }
   }
 
-  // handlePickUpItem(): void {
-  //   for (let i = 0; i < this.items.length; i++) {
-  //     let item = this.items[i];
-  //     {
-  //       if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
-  //         {
-  //           this.handleApplyBuffEffect(item);
-  //           this.items = this.items.splice(i, 1);
-  //           break;
-  //         }
-  //
-  //       }
-  //     }
-  //   }
-  // }
 
   handlePickUpItem(): void {
-    for (let item of this.items) {
-      if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
-        {
-          this.handleApplyBuffEffect(item);
-          break;
+    for (let i = 0; i < this.items.length; i++) {
+      let item = this.items[i];
+      {
+        if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
+          {
+
+
+            let arr = this.items;
+            arr[i] = arr[arr.length-1];
+            arr.pop();
+
+            this.handleApplyBuffEffect(item);
+
+            break;
+          }
+
         }
       }
     }
   }
+
+  // handlePickUpItem(): void {
+  //   for (let item of this.items) {
+  //     if (this.owner.collisionShape.overlaps(item.sprite.boundary)) {
+  //       {
+  //         this.handleApplyBuffEffect(item);
+  //         this.items = this.items.splice(0,0);
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
   update(deltaT: number): void {
     while (this.receiver.hasNextEvent()) {
       this.handleEvent(this.receiver.getNextEvent());
@@ -226,7 +237,7 @@ export default class PlayerController
         }
       }
 
-      if (Input.isMouseJustPressed(2)) {
+      if (Input.isMouseJustPressed(2) && this.teleportEnabled) {
         this.owner.position = Input.getGlobalMousePosition();
         //this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, Input.getGlobalMousePosition(), true);
       }
@@ -237,9 +248,12 @@ export default class PlayerController
           Input.isKeyPressed("l")){
         console.log("god mode");
         this.health = 1000000;
+        this.teleportEnabled = true;
+
       }
+
+
       if (
-        // Input.isMouseJustPressed(0)
         Input.isKeyPressed("a") ||
         Input.isKeyPressed("w") ||
         Input.isKeyPressed("s") ||
@@ -281,11 +295,11 @@ export default class PlayerController
       }
 
       // Check for slot change
-      if (Input.isJustPressed("slot1")) {
-        this.inventory.changeSlot(0);
-      } else if (Input.isJustPressed("slot2")) {
-        this.inventory.changeSlot(1);
-      }
+      // if (Input.isJustPressed("slot1")) {
+      //   this.inventory.changeSlot(0);
+      // } else if (Input.isJustPressed("slot2")) {
+      //   this.inventory.changeSlot(1);
+      // }
     }
 
     //Move on path if selected
@@ -299,12 +313,6 @@ export default class PlayerController
         // );
       }
       this.handlePickUpItem();
-    } else {
-      //Target an enemy and attack
-      if (this.target != null) {
-        this.lookDirection = this.owner.position.dirTo(this.target);
-          // this.handleUseItem();
-      }
     }
   }
 

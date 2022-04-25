@@ -172,9 +172,9 @@ export default class AnimationManager {
    * @param loop Whether or not to loop the animation. False by default
    * @param onEnd The name of an event to send when this animation naturally stops playing. This only matters if loop is false.
    */
-  playIfNotAlready(animation: string, loop?: boolean, onEnd?: string): void {
+  playIfNotAlready(animation: string, loop?: boolean, onEnd?: string,data?: Map<any> | Record<string, any>): void {
     if (this.currentAnimation !== animation) {
-      this.play(animation, loop, onEnd);
+      this.play(animation, loop, onEnd,data);
     }
   }
 

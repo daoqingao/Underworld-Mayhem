@@ -436,6 +436,11 @@ export default class mainScene extends Scene {
           this.projectileBuff+= 1;
           this.projectileBuffLabel.text = "" + this.projectileBuff;
         }
+        // console.log(this.items)
+        // this.items = this.items.filter(function(ele){
+        //   return ele != buff;
+        // });
+        // console.log(this.items)
       }
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {
         let asset = this.sceneGraph.getNode(event.data.get("node"));

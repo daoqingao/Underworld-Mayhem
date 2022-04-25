@@ -20,7 +20,7 @@ export default class Level2 extends mainScene{
             "mayhemAssets/spritesheets/mainplayer.json"
         );
 
-        this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
+        this.load.spritesheet("imp", "mayhemAssets/spritesheets/slime.json");
 
         this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
         this.load.tilemap("level", "mayhemAssets/tilemaps/level2.json");

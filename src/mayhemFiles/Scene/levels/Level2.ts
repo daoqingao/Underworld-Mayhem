@@ -61,7 +61,6 @@ export default class Level2 extends mainScene{
     }
     startScene() {
         this.nextLevel=Level2;
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bgm", loop: true, holdReference: false});
         // HOMEWORK 4 - TODO
         /*
                 Modify this line if needed.

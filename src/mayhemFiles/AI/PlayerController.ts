@@ -139,8 +139,15 @@ export default class PlayerController
   ///after picking up apply the buff and destroy the item
   handleApplyBuffEffect(item: Item): void {
     if (item instanceof Healthpack) {
-      (<BattlerAI>this.owner._ai).maxHealth += 5;
       (<BattlerAI>this.owner._ai).health += 5;
+      if (
+        (<BattlerAI>this.owner._ai).health >
+        (<BattlerAI>this.owner._ai).maxHealth
+      ) {
+        (<BattlerAI>this.owner._ai).health = (<BattlerAI>(
+          this.owner._ai
+        )).maxHealth;
+      }
     }
     if (item instanceof AttackDamage) {
       this.weapon.type.damage += 5;
@@ -155,15 +162,9 @@ export default class PlayerController
     }
 
     if (item instanceof MaxHealth) {
+      (<BattlerAI>this.owner._ai).maxHealth += 5;
       (<BattlerAI>this.owner._ai).health += 5;
-      if (
-        (<BattlerAI>this.owner._ai).health >
-        (<BattlerAI>this.owner._ai).maxHealth
-      ) {
-        (<BattlerAI>this.owner._ai).health = (<BattlerAI>(
-          this.owner._ai
-        )).maxHealth;
-      }
+  
     }
     if (item instanceof Checkpoint) {
       this.emitter.fireEvent("checkpoint_cleared", {

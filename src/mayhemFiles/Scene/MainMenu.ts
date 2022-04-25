@@ -6,7 +6,8 @@ import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import mainScene from "./MainScene";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
-import Level1 from "./Level2";
+import Level1 from "./levels/Level2";
+import level1 from "./levels/Level1";
 
 export default class MainMenu extends Scene {
   // Layers, for multiple main menu screens\
@@ -426,7 +427,7 @@ export default class MainMenu extends Scene {
         this.selectLevelScreen.setHidden(false);
       }
       if (event.type === "chooselevel") {
-        this.sceneManager.changeToScene(mainScene, {});
+        this.sceneManager.changeToScene(level1, {});
       }
 
       if (event.type === "help") {

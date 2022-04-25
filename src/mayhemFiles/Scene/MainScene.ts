@@ -38,44 +38,47 @@ import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import UIElement from "../../Wolfie2D/Nodes/UIElement";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MultiProjectile from "../GameSystems/items/MultiProjectile";
-import Level2 from "./Level2";
+// import Level2 from "./levels/Level2";
+// import Level2 from "./levels/Level2";
 
 export default class mainScene extends Scene {
   // The player
-  private mainPlayer: AnimatedSprite;
+
+  protected nextLevel: new (...args: any) => mainScene;
+  protected mainPlayer: AnimatedSprite;
 
   // A list of enemies
-  private enemies: Array<AnimatedSprite>;
+  protected enemies: Array<AnimatedSprite>;
 
   // The wall layer of the tilemap to use for bullet visualization
-  private walls: OrthogonalTilemap;
+  protected walls: OrthogonalTilemap;
 
   // The position graph for the navmesh
   private graph: PositionGraph;
 
   // A list of items in the scene
-  private items: Array<Item>;
+  protected items: Array<Item>;
 
   // The battle manager for the scenes
-  private battleManager: BattleManager;
+  protected battleManager: BattleManager;
 
   // Player health
-  private healthDisplays: Label;
+  protected healthDisplays: Label;
 
   // Player Damage
-  private attackDisplays: Label;
+  protected attackDisplays: Label;
 
-  private maxhealthDisplays: Label;
+  protected maxhealthDisplays: Label;
 
-  private pauseButton: Button;
+  protected pauseButton: Button;
 
-  private playButton: Button;
+  protected playButton: Button;
 
-  private attackDamageBuff = 0;
-  private attackSpeedBuff = 0;
-  private speedBuff = 0;
-  private healthupBuff = 0;
-  private projectileBuff = 1;
+  protected attackDamageBuff = 0;
+  protected attackSpeedBuff = 0;
+  protected speedBuff = 0;
+  protected healthupBuff = 0;
+  protected projectileBuff = 1;
 
 
   attackDamageBuffLabel: Label;
@@ -91,52 +94,7 @@ export default class mainScene extends Scene {
 
   totalEnemiesKilled = 0;
   tileMapMaxSize: Vec2;
-  loadScene() {
-    // Load the player and enemy spritesheets
 
-    //there will only be one player
-    this.load.spritesheet(
-        "mainplayer",
-        "mayhemAssets/spritesheets/mainplayer.json"
-    );
-
-    this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
-
-    this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
-    this.load.tilemap("level", "mayhemAssets/tilemaps/mayhemTileJson.json");
-    this.load.tilemap("level2", "mayhemAssets/tilemaps/level2.json");
-    this.load.object("weaponData", "mayhemAssets/data/weaponData.json");
-    this.load.object("navmesh", "mayhemAssets/data/navmesh.json");
-    this.load.object("enemyData", "mayhemAssets/data/enemy.json");
-    this.load.object("itemData", "mayhemAssets/data/items.json");
-    //buffs
-    this.load.image("healthpack", "mayhemAssets/sprites/healthpack.png");
-    this.load.image("healthmax", "mayhemAssets/sprites/healthmax.png");
-    this.load.image("attackspeed", "mayhemAssets/sprites/attackspeed.png");
-    this.load.image("attackdamage", "mayhemAssets/sprites/attackdamage.png");
-    this.load.image("speed", "mayhemAssets/sprites/speed.png");
-    this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint.png");
-    this.load.image(
-        "checkpointcleared",
-        "mayhemAssets/sprites/checkpointcleared.png"
-    );
-    this.load.image(
-        "healthbarEmpty",
-        "mayhemAssets/sprites/healthbarEmpty.png"
-    );
-    this.load.image("enemyHp", "mayhemAssets/sprites/enemyhp.png");
-    this.load.image(
-        "healthbarGreen",
-        "mayhemAssets/sprites/healthbarGreen.png"
-    );
-
-    this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
-    this.load.image("knife", "mayhemAssets/sprites/knife.png");
-    this.load.image("laserGun", "mayhemAssets/sprites/laserGun.png");
-    this.load.image("pistol", "mayhemAssets/sprites/pistol.png");
-    this.load.audio("gunshot", "mayhemAssets/music/gunshot.wav");
-    this.load.audio("bgm","mayhemAssets/music/bgm.mp3")
-  }
 
   startScene() {
     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bgm", loop: true, holdReference: false});
@@ -418,7 +376,7 @@ export default class mainScene extends Scene {
         let checkpointcleared = new CheckpointCleared(sprite);
         checkpointcleared.moveSprite(event.data.get("position"));
         this.mainPlayer.visible = false;  
-        this.sceneManager.changeToScene(Level2);
+        this.sceneManager.changeToScene(this.nextLevel);
       }
       if (event.isType("pause")) {
         console.log("Pausing Game");

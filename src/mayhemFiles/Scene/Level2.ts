@@ -38,9 +38,8 @@ import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import UIElement from "../../Wolfie2D/Nodes/UIElement";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MultiProjectile from "../GameSystems/items/MultiProjectile";
-import Level2 from "./Level2";
 
-export default class mainScene extends Scene {
+export default class Level2 extends Scene {
   // The player
   private mainPlayer: AnimatedSprite;
 
@@ -104,7 +103,7 @@ export default class mainScene extends Scene {
 
     this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
     this.load.tilemap("level", "mayhemAssets/tilemaps/mayhemTileJson.json");
-    this.load.tilemap("level2", "mayhemAssets/tilemaps/level2.json");
+    this.load.tilemap("level2","mayhemAssets/tilemaps/level2.json");
     this.load.object("weaponData", "mayhemAssets/data/weaponData.json");
     this.load.object("navmesh", "mayhemAssets/data/navmesh.json");
     this.load.object("enemyData", "mayhemAssets/data/enemy.json");
@@ -156,7 +155,7 @@ export default class mainScene extends Scene {
         */
 
     // Add in the tilemap
-    let tilemapLayers = this.add.tilemap("level", new Vec2(0.5, 0.5));
+    let tilemapLayers = this.add.tilemap("level2", new Vec2(0.5, 0.5));
 
     // Get the wall layer
     this.walls = <OrthogonalTilemap>tilemapLayers[1].getItems()[0];
@@ -417,8 +416,7 @@ export default class mainScene extends Scene {
         let sprite = this.add.sprite("checkpointcleared", "primary");
         let checkpointcleared = new CheckpointCleared(sprite);
         checkpointcleared.moveSprite(event.data.get("position"));
-        this.mainPlayer.visible = false;  
-        this.sceneManager.changeToScene(Level2);
+        this.mainPlayer.visible = false;
       }
       if (event.isType("pause")) {
         console.log("Pausing Game");

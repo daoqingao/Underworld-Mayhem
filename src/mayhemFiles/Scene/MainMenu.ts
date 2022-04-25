@@ -6,6 +6,7 @@ import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import mainScene from "./MainScene";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
+import Level1 from "./Level2";
 
 export default class MainMenu extends Scene {
   // Layers, for multiple main menu screens\

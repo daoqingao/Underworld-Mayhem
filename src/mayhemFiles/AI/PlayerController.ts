@@ -231,6 +231,13 @@ export default class PlayerController
         //this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, Input.getGlobalMousePosition(), true);
       }
 
+      //the combinations for hacks iguess
+      if( Input.isKeyPressed("j")&&
+          Input.isKeyPressed("k")&&
+          Input.isKeyPressed("l")){
+        console.log("god mode");
+        this.health = 1000000;
+      }
       if (
         // Input.isMouseJustPressed(0)
         Input.isKeyPressed("a") ||

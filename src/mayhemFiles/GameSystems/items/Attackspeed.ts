@@ -4,6 +4,6 @@ import Item from "./Item";
 
 export default class AttackSpeed extends Item {
   use(user: GameNode, ...args: any): void {
-    throw new Error("Method not implemented.");
+    throw new Error("Method not implemenated.");
   }
 }

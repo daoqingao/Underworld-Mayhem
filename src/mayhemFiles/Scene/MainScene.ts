@@ -104,7 +104,6 @@ export default class mainScene extends Scene {
         "mayhemAssets/spritesheets/mainplayer.json"
     );
 
-    this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
 
     this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
     this.load.object("weaponData", "mayhemAssets/data/weaponData.json");

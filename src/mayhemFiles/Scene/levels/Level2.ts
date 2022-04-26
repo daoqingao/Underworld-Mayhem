@@ -3,6 +3,8 @@ import mainScene from "../MainScene";
 export default class Level2 extends mainScene{
     loadScene() {
         this.load.tilemap("level", "mayhemAssets/tilemaps/level2.json");
+        this.load.spritesheet("imp", "mayhemAssets/spritesheets/slime.json");
+
         super.mainLoadScene()
     }
     unloadScene() {

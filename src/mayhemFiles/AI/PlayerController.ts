@@ -177,9 +177,6 @@ export default class PlayerController
       item.moveSprite(new Vec2(9999, 9999));
       this.emitter.fireEvent("newbuff", { buff: item });
     }
-    // if (!(item instanceof CheckpointCleared)) {
-    //   item.moveSprite(new Vec2(9999, 9999));
-    // }
     if (item instanceof  MultiProjectile)
     {
       this.projectileAmount+=1;
@@ -232,15 +229,22 @@ export default class PlayerController
 
       //the combinations for hacks iguess
       if( Input.isKeyPressed("j")&&
-          Input.isKeyPressed("k")&&
-          Input.isKeyPressed("l")){
+          Input.isKeyPressed("k")){
         console.log("god mode");
         this.health = 1000000;
         this.teleportEnabled = true;
         this.weapon.cooldownTimer = new Timer(
             this.weapon.cooldownTimer.totalTime * 0.01
         );
+        if( Input.isKeyPressed("l")){
+          this.emitter.fireEvent("checkpoint_cleared", {
+            position: new Vec2(0,0),
+          });
+        }
+
       }
+
+
 
 
       if (

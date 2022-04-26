@@ -70,6 +70,8 @@ export default class mainScene extends Scene {
 
   protected maxhealthDisplays: Label;
 
+  protected enemyKilled: Label;
+
   protected pauseButton: Button;
 
   protected playButton: Button;
@@ -93,6 +95,7 @@ export default class mainScene extends Scene {
   healthbargreen: Sprite;
 
   totalEnemiesKilled = 0;
+  checkpointDropBoolean = false;
   tileMapMaxSize: Vec2;
 
   mainLoadScene(){
@@ -278,6 +281,23 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("pause");
     this.receiver.subscribe("play");
 
+
+
+    this.addUILayer("enemyKilled");
+
+    this.enemyKilled = <Label>this.add.uiElement(
+        UIElementType.LABEL,
+        "enemyKilled",
+        {
+          position: new Vec2(285, 16),
+          text:
+              "Kills: " +
+              this.totalEnemiesKilled,
+        }
+    );
+    this.enemyKilled.textColor = Color.WHITE;
+
+
     this.addUILayer("attackdamage");
     this.addUILayer("attackspeed");
     this.addUILayer("speed");
@@ -348,6 +368,11 @@ export default class mainScene extends Scene {
 
   lootGenerate(pos: Vec2) {
     // console.log(this.items);
+
+    if(this.checkpointDropBoolean==false && this.totalEnemiesKilled>=75){ //kill 75 to get to next stage
+      this.checkpointDropBoolean=true;
+      this.createCheckpoint(pos); //only 1 can be created i guess
+    }
     if(this.items.length>=30){
       return; //cannot drop more than 30 items
     }
@@ -355,7 +380,7 @@ export default class mainScene extends Scene {
       // Spawn a healthpack
       let min = 1;
       let max = 5;
-      let lootType = Math.floor(Math.random() * (max - min) + min);
+      let lootType = Math.floor(Math.random() * (max+1 - min) + min);
       // this.emitter.fireEvent("healthpack", { pos});
       if (lootType === 1) {
         this.createAttackDamage(pos);
@@ -370,7 +395,7 @@ export default class mainScene extends Scene {
         this.createMaxhealth(pos);
       }
       if (lootType === 5){
-        this.createMultiProjectile(pos);
+        //for more stuff
       }
     }
   }
@@ -396,8 +421,11 @@ export default class mainScene extends Scene {
         this.battleManager.enemies = this.battleManager.enemies.filter(
             (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
-        this.totalEnemiesKilled++;
 
+
+        this.totalEnemiesKilled++;
+        this.enemyKilled.text =
+            "Kills: " + this.totalEnemiesKilled;
         this.spawnRandomEnemy();
 
       }
@@ -824,11 +852,18 @@ export default class mainScene extends Scene {
     enemyhpbar.position.set(data.position[0] / 2, data.position[1] / 2 - 7);
     this.enemies[lastIndex].healthbar = enemyhpbar;
 
+
+    //SCALING options
+    let scalingFactor = Math.ceil((this.totalEnemiesKilled+10)/20);
+    let scaledHealth  = Math.ceil(data.health*scalingFactor);
+    weapon.type.damage= Math.ceil(weapon.type.damage*scalingFactor);
+
+
     let enemyOptions = {
       defaultMode: data.mode,
       patrolRoute: data.route, // This only matters if they're a patroller
       guardPosition: data.guardPosition, // This only matters if the're a guard
-      health: data.health,
+      health: scaledHealth,
       player1: this.mainPlayer,
       weapon: weapon,
       goal: hw4_Statuses.REACHED_GOAL,

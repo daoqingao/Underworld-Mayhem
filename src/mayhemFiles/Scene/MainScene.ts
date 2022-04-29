@@ -130,6 +130,7 @@ export default class mainScene extends Scene {
     this.load.image("laserGun", "mayhemAssets/sprites/laserGun.png");
     this.load.image("pistol", "mayhemAssets/sprites/pistol.png");
     this.load.audio("gunshot", "mayhemAssets/music/gunshot.wav");
+    this.load.audio("portalsound", "mayhemAssets/music/portalsound.wav");
   }
   mainStartScene(){
     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bgm", loop: true, holdReference: false});
@@ -335,7 +336,7 @@ export default class mainScene extends Scene {
 
   lootGenerate(pos: Vec2) {
 
-    if(this.checkpointDropBoolean==false && this.totalEnemiesKilled>=75){ //kill 75 to get to next stage
+    if(this.checkpointDropBoolean==false && this.totalEnemiesKilled>=20){ //kill 75 to get to next stage
       this.checkpointDropBoolean=true;
       this.createCheckpoint(pos); //only 1 can be created i guess
     }
@@ -401,7 +402,9 @@ export default class mainScene extends Scene {
         let checkpointcleared = new CheckpointCleared(sprite);
         checkpointcleared.moveSprite(event.data.get("position"));
         this.mainPlayer.visible = false;  
-        this.sceneManager.changeToScene(this.nextLevel);
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "bgm"});
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "portalsound", loop: false, holdReference: false});
+        // this.sceneManager.changeToScene(this.nextLevel);
       }
       if (event.isType("newbuff")) {
         var buff = event.data.get("buff");

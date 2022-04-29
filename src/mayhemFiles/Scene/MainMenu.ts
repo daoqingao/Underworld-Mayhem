@@ -238,7 +238,7 @@ export default class MainMenu extends Scene {
     (<Label>controlHeader).font = "Fantasy";
 
     const controlText1 = "WASD to move";
-    const controlText2 = "Left Click to Shoot";
+    const controlText2 = "Left Click / Right Click to Shoot";
     const controlText3 = "ESC to pause"
 
     const controlLine1 = <Label>this.add.uiElement(

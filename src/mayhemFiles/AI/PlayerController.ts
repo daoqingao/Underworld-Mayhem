@@ -71,6 +71,8 @@ export default class PlayerController
 
   hacks: boolean = false;
 
+  pause: boolean = false;
+
   initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
     this.owner = owner;
     this.lookDirection = Vec2.ZERO;
@@ -210,6 +212,16 @@ export default class PlayerController
 
     while (this.receiver.hasNextEvent()) {
       this.handleEvent(this.receiver.getNextEvent());
+    }
+    if (Input.isKeyJustPressed("escape")) {
+      if (this.inputEnabled){
+        this.inputEnabled = false
+        this.emitter.fireEvent("pause",{pause: this.inputEnabled});
+      }
+      else{
+        this.inputEnabled = true
+        this.emitter.fireEvent("pause",{pause: this.inputEnabled});
+      }
     }
     if (this.inputEnabled && this.health > 0) {
       if (Input.isMousePressed(0)) {

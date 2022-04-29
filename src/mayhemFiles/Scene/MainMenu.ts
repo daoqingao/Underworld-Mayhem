@@ -239,12 +239,13 @@ export default class MainMenu extends Scene {
 
     const controlText1 = "WASD to move";
     const controlText2 = "Left Click to Shoot";
+    const controlText3 = "ESC to pause"
 
     const controlLine1 = <Label>this.add.uiElement(
       UIElementType.LABEL,
       "control",
       {
-        position: new Vec2(center.x, center.y - 50),
+        position: new Vec2(center.x, center.y - 75),
         text: controlText1,
       }
     );
@@ -252,8 +253,17 @@ export default class MainMenu extends Scene {
       UIElementType.LABEL,
       "control",
       {
-        position: new Vec2(center.x, center.y + 50),
+        position: new Vec2(center.x, center.y),
         text: controlText2,
+      }
+    );
+
+    const controlLine3 = <Label>this.add.uiElement(
+      UIElementType.LABEL,
+      "control",
+      {
+        position: new Vec2(center.x, center.y + 75),
+        text: controlText3,
       }
     );
 

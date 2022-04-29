@@ -72,10 +72,6 @@ export default class mainScene extends Scene {
 
   protected enemyKilled: Label;
 
-  protected pauseButton: Button;
-
-  protected playButton: Button;
-
   protected attackDamageBuff = 0;
   protected attackSpeedBuff = 0;
   protected speedBuff = 0;
@@ -188,6 +184,7 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("checkpoint_cleared");
     this.receiver.subscribe("newbuff");
     this.receiver.subscribe("gunshot");
+    this.receiver.subscribe("pause");
     // this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
 
     // Spawn items into the world
@@ -245,41 +242,6 @@ export default class mainScene extends Scene {
     );
     this.attackDisplays.textColor = Color.WHITE;
 
-    this.addUILayer("pause");
-    this.addUILayer("play");
-    this.pauseButton = <Button>this.add.uiElement(
-        UIElementType.BUTTON,
-        "pause",
-        {
-          position: new Vec2(260, 16),
-          text: "Pause",
-        }
-    );
-    this.pauseButton.size.set(200, 50);
-    this.pauseButton.borderColor = Color.TRANSPARENT;
-    this.pauseButton.backgroundColor = Color.TRANSPARENT;
-    this.pauseButton.textColor = Color.WHITE;
-    this.pauseButton.onClickEventId = "pause";
-    function a(){
-      this.emitter.fireEvent("pause");
-      console.log("trying to pause fire event")
-    }
-    this.pauseButton.onClick = a;
-
-    this.playButton = <Button>this.add.uiElement(UIElementType.BUTTON, "play", {
-      position: new Vec2(230, 16),
-      text: "Play",
-    });
-    this.playButton.size.set(200, 50);
-    this.playButton.borderColor = Color.TRANSPARENT;
-    this.playButton.backgroundColor = Color.TRANSPARENT;
-    this.playButton.textColor = Color.WHITE;
-    this.playButton.onClickEventId = "play";
-
-    this.receiver.subscribe("pause");
-    this.receiver.subscribe("play");
-
-
 
     this.addUILayer("enemyKilled");
 
@@ -287,7 +249,7 @@ export default class mainScene extends Scene {
         UIElementType.LABEL,
         "enemyKilled",
         {
-          position: new Vec2(285, 16),
+          position: new Vec2(250, 16),
           text:
               "Kills: " +
               this.totalEnemiesKilled,
@@ -435,12 +397,6 @@ export default class mainScene extends Scene {
         this.mainPlayer.visible = false;  
         this.sceneManager.changeToScene(this.nextLevel);
       }
-      if (event.isType("pause")) {
-        console.log("Pausing Game");
-      }
-      if (event.isType("play")) {
-        console.log("Resume Game");
-      }
       if (event.isType("newbuff")) {
         var buff = event.data.get("buff");
         if (buff instanceof AttackDamage) {
@@ -476,6 +432,26 @@ export default class mainScene extends Scene {
       if (event.isType("gunshot")) {
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gunshot", loop: false, holdReference: false});
       }
+      if (event.isType("pause")) {
+        var pause = event.data.get("pause");
+        console.log(pause);
+        if (!(pause)){
+          for (let i = 0; i < this.enemies.length; i++) 
+          {
+            this.enemies[i].setAIActive(false, null);
+            this.enemies[i].animation.pause();
+          }
+          this.mainPlayer.animation.pause();
+        }
+        else{
+          for (let i = 0; i < this.enemies.length; i++) {
+            this.enemies[i].setAIActive(true, null);
+            this.enemies[i].animation.resume();
+          }
+          this.mainPlayer.animation.resume();
+        }
+      }
+      
     }
 
     // check health of each player
@@ -712,25 +688,6 @@ export default class mainScene extends Scene {
     (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);
   }
 
-  /**
-   * // HOMEWORK 4 - TODO
-   * This function creates the navmesh for the game world.
-   *
-   * It reads in information in the navmesh.json file.
-   * The format of the navmesh.json file is as follows
-   *
-   * {
-   *  // An array of positions on the tilemap. You can see the position of your mouse in [row, col]
-   *  // while editing a map in Tiled, and can just multiply those values by the tile size, 16x16
-   *      "nodes": [[100, 200], [50, 400], ...]
-   *
-   *  // An array of edges between nodes. The numbers here correspond to indices in the "nodes" array above.
-   *  // Note that edges are not directed here. An edge [0, 1] foes in both directions.
-   *      "edges": [[0, 1], [2, 4], ...]
-   * }
-   *
-   * The navmesh you create should be distinctly different from the one given as an example.
-   */
   createNavmesh(): void {
     // Add a layer to display the graph
     let gLayer = this.addLayer("graph");

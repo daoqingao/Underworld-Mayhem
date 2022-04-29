@@ -135,9 +135,9 @@ export default class PlayerController
       this.multiProjAttack(item);
 
       if (this.lookDirection.x > 0) {
-        this.owner.animation.play("face_right");
+        this.owner.animation.play("run_right",true);
       } else {
-        this.owner.animation.play("face_left");
+        this.owner.animation.play("run_left",true);
       }
     }
   }
@@ -229,7 +229,6 @@ export default class PlayerController
           this.lookDirection = this.owner.position.dirTo(
             Input.getGlobalMousePosition()
           );
-          // console.log("shoot")
           this.emitter.fireEvent("gunshot");
           this.handleUseItem();
           this.weapon.cooldownTimer.start();
@@ -238,7 +237,6 @@ export default class PlayerController
 
       if (Input.isMouseJustPressed(2) && this.teleportEnabled) {
         this.owner.position = Input.getGlobalMousePosition();
-        //this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, Input.getGlobalMousePosition(), true);
       } 
 
       //the combinations for hacks iguess

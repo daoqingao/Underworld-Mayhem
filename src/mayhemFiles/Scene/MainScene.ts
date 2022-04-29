@@ -26,16 +26,13 @@ import AttackAction from "../../Wolfie2D/AI/EnemyActions/AttackAction";
 import Move from "../../Wolfie2D/AI/EnemyActions/Move";
 import Retreat from "../../Wolfie2D/AI/EnemyActions/Retreat";
 import Berserk from "../../Wolfie2D/AI/EnemyActions/Berserk";
-import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import MaxHealth from "../GameSystems/items/MaxHealth";
 import Speed from "../GameSystems/items/Speed";
 import AttackSpeed from "../GameSystems/items/AttackSpeed";
 import AttackDamage from "../GameSystems/items/AttackDamage";
 import Checkpoint from "../GameSystems/items/Checkpoint";
 import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
-import NextLevel from "./NextLevel";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
-import UIElement from "../../Wolfie2D/Nodes/UIElement";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MultiProjectile from "../GameSystems/items/MultiProjectile";
 // import Level2 from "./levels/Level2";
@@ -210,6 +207,7 @@ export default class mainScene extends Scene {
       text: "Paused"
     })
     this.pauseText.textColor = Color.WHITE;
+    this.pauseText.visible = false;
 
     // Add a UI for health
     this.addUILayer("health");
@@ -339,7 +337,6 @@ export default class mainScene extends Scene {
 
     if(this.checkpointDropBoolean==false && this.totalEnemiesKilled>=75){ //kill 75 to get to next stage
       this.checkpointDropBoolean=true;
-      console.log("create");
       this.createCheckpoint(pos); //only 1 can be created i guess
     }
     if(this.items.length>=30){
@@ -428,11 +425,6 @@ export default class mainScene extends Scene {
           this.projectileBuff+= 1;
           this.projectileBuffLabel.text = "" + this.projectileBuff;
         }
-        // console.log(this.items)
-        // this.items = this.items.filter(function(ele){
-        //   return ele != buff;
-        // });
-        // console.log(this.items)
       }
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {
         let asset = this.sceneGraph.getNode(event.data.get("node"));
@@ -443,7 +435,6 @@ export default class mainScene extends Scene {
       }
       if (event.isType("pause")) {
         var pause = event.data.get("pause");
-        console.log(pause);
         if (!(pause)){
           for (let i = 0; i < this.enemies.length; i++) 
           {
@@ -499,17 +490,7 @@ export default class mainScene extends Scene {
             16,
             16
         );
-        // this.enemies[i].healthbar.text =
-        //   "" + (<EnemyAI>this.enemies[i]._ai).health;
       }
-      // data.hpdisplay= <Label>this.add.uiElement(
-      //   UIElementType.LABEL,
-      //   "primary",
-      //   {
-      //     position: new Vec2(this.enemies[i].position.x ,this.enemies[i].position.y),
-      //     text: "" + data.health
-      //   }
-      // );
     }
     var currenthp = (<PlayerController>this.mainPlayer._ai).health;
     var maxhp = (<PlayerController>this.mainPlayer._ai).maxHealth;
@@ -520,18 +501,6 @@ export default class mainScene extends Scene {
       this.getLayer("graph").setHidden(!this.getLayer("graph").isHidden());
     }
   }
-
-  // HOMEWORK 4 - TODO
-  /**
-   * This function spawns in all of the items in "items.json"
-   *
-   * You shouldn't have to put any new code here, however, you will have to modify items.json.
-   *
-   * Make sure you are spawning in 5 pistols and 5 laser guns somewhere (accessible) in your world.
-   *
-   * You'll notice that right now, some healthpacks are also spawning in. These also drop from guards.
-   * Feel free to spawn some healthpacks if you want, or you can just let the player suffer >:)
-   */
   spawnItems(): void {
     // Get the item data
     let itemData = this.load.getObject("itemData");
@@ -867,7 +836,6 @@ export default class mainScene extends Scene {
     this.spawnEnemy(JSON.parse(JSON.stringify(data)), pos);
   }
   spawnRandomEnemy(): void {
-    // console.log(this.enemies);
     let totalEnemies = this.totalEnemiesKilled;
     totalEnemies+=20;
     while((totalEnemies-=20)>=0)  //extra enemy for every 20 enemies killed

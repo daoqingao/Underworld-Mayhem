@@ -151,7 +151,7 @@ export default class MainMenu extends Scene {
     const text22 = "Daoqin Gao";
     const text23 = "Robert Rolsenic";
     const text3header = "Cheat Codes";
-    const text3 = "INVINCIBLE SKIP [NUMBER] UPGRADE [BUFF]";
+    const text3 = "INVINCIBLE: J+K NEXT LEVEl:J+K+L";
 
     const line1header = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
       position: new Vec2(center.x, center.y - 160),

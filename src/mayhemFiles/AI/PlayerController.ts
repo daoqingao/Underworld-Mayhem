@@ -69,6 +69,8 @@ export default class PlayerController
   projectileAmount: number;
   teleportEnabled: boolean = false;
 
+  hacks: boolean = false;
+
   initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
     this.owner = owner;
     this.lookDirection = Vec2.ZERO;
@@ -177,9 +179,6 @@ export default class PlayerController
       item.moveSprite(new Vec2(9999, 9999));
       this.emitter.fireEvent("newbuff", { buff: item });
     }
-    // if (!(item instanceof CheckpointCleared)) {
-    //   item.moveSprite(new Vec2(9999, 9999));
-    // }
     if (item instanceof  MultiProjectile)
     {
       this.projectileAmount+=1;
@@ -232,15 +231,33 @@ export default class PlayerController
 
       //the combinations for hacks iguess
       if( Input.isKeyPressed("j")&&
-          Input.isKeyPressed("k")&&
-          Input.isKeyPressed("l")){
-        console.log("god mode");
-        this.health = 1000000;
-        this.teleportEnabled = true;
-        this.weapon.cooldownTimer = new Timer(
-            this.weapon.cooldownTimer.totalTime * 0.01
-        );
+          Input.isKeyPressed("k")){
+        if (this.hacks){
+          this.health = this.maxHealth;
+          this.teleportEnabled = false;
+          this.weapon.cooldownTimer = new Timer(
+            this.weapon.cooldownTimer.totalTime *100
+          );
+          this.hacks = false;
+        }
+        else{
+          console.log(this.weapon.cooldownTimer)
+          this.health = 1000000;
+          this.teleportEnabled = true;
+          this.weapon.cooldownTimer = new Timer(
+              this.weapon.cooldownTimer.totalTime * 0.01
+          );
+          this.hacks = true;
+        }
+        if( Input.isKeyPressed("l")){
+          this.emitter.fireEvent("checkpoint_cleared", {
+            position: new Vec2(0,0),
+          });
+        }
+
       }
+
+
 
 
       if (

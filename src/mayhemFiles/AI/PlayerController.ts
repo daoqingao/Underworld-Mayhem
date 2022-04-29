@@ -239,11 +239,11 @@ export default class PlayerController
       if (Input.isMouseJustPressed(2) && this.teleportEnabled) {
         this.owner.position = Input.getGlobalMousePosition();
         //this.path = this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, Input.getGlobalMousePosition(), true);
-      }
+      } 
 
       //the combinations for hacks iguess
-      if( Input.isKeyPressed("j")&&
-          Input.isKeyPressed("k")){
+      if( Input.isKeyJustPressed("j")&&
+          Input.isKeyJustPressed("k")){
         if (this.hacks){
           this.health = this.maxHealth;
           this.teleportEnabled = false;
@@ -261,12 +261,10 @@ export default class PlayerController
           );
           this.hacks = true;
         }
-        if( Input.isKeyPressed("l")){
-          this.emitter.fireEvent("checkpoint_cleared", {
-            position: new Vec2(0,0),
-          });
-        }
 
+      }
+      if( Input.isKeyJustPressed("l")){
+        this.emitter.fireEvent("checkpoint_cleared", {position: new Vec2(0,0),});
       }
 
 

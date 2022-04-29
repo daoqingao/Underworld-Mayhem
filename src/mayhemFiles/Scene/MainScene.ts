@@ -94,6 +94,8 @@ export default class mainScene extends Scene {
   checkpointDropBoolean = false;
   tileMapMaxSize: Vec2;
 
+  pauseText: Label;
+
   mainLoadScene(){
     this.load.spritesheet(
         "mainplayer",
@@ -202,6 +204,13 @@ export default class mainScene extends Scene {
         (<PlayerController>this.mainPlayer._ai).health,
         16
     );
+    this.addUILayer("pauseText");
+    this.pauseText = <Label>this.add.uiElement(UIElementType.LABEL,"pauseText",{
+      position: new Vec2(150, 100),
+      text: "Paused"
+    })
+    this.pauseText.textColor = Color.WHITE;
+
     // Add a UI for health
     this.addUILayer("health");
 
@@ -442,6 +451,7 @@ export default class mainScene extends Scene {
             this.enemies[i].animation.pause();
           }
           this.mainPlayer.animation.pause();
+          this.pauseText.visible = true;
         }
         else{
           for (let i = 0; i < this.enemies.length; i++) {
@@ -449,6 +459,7 @@ export default class mainScene extends Scene {
             this.enemies[i].animation.resume();
           }
           this.mainPlayer.animation.resume();
+          this.pauseText.visible = false;
         }
       }
       

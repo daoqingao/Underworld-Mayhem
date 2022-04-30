@@ -265,9 +265,6 @@ export default class PlayerController
         this.emitter.fireEvent("checkpoint_cleared", {position: new Vec2(0,0),});
       }
 
-
-
-
       if (
         Input.isKeyPressed("a") ||
         Input.isKeyPressed("w") ||

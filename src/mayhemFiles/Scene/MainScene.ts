@@ -110,7 +110,6 @@ export default class mainScene extends Scene {
     this.load.image("attackspeed", "mayhemAssets/sprites/attackspeed.png");
     this.load.image("attackdamage", "mayhemAssets/sprites/attackdamage.png");
     this.load.image("speed", "mayhemAssets/sprites/speed.png");
-    this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint.png");
     this.load.image(
         "checkpointcleared",
         "mayhemAssets/sprites/checkpointcleared.png"
@@ -133,8 +132,8 @@ export default class mainScene extends Scene {
     this.load.audio("portalsound", "mayhemAssets/music/portalsound.wav");
   }
   mainStartScene(){
-    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bgm", loop: true, holdReference: false});
-
+    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bgm", loop: true, holdReference: true});
+    this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "portalsound"});
     let tilemapLayers = this.add.tilemap("level", new Vec2(0.5, 0.5));
 
     // Get the wall layer
@@ -336,7 +335,7 @@ export default class mainScene extends Scene {
 
   lootGenerate(pos: Vec2) {
 
-    if(this.checkpointDropBoolean==false && this.totalEnemiesKilled>=20){ //kill 75 to get to next stage
+    if(this.checkpointDropBoolean==false && this.totalEnemiesKilled>=2){ //kill 75 to get to next stage
       this.checkpointDropBoolean=true;
       this.createCheckpoint(pos); //only 1 can be created i guess
     }
@@ -398,13 +397,13 @@ export default class mainScene extends Scene {
       }
 
       if (event.isType("checkpoint_cleared")) {
-        let sprite = this.add.sprite("checkpointcleared", "primary");
-        let checkpointcleared = new CheckpointCleared(sprite);
-        checkpointcleared.moveSprite(event.data.get("position"));
-        this.mainPlayer.visible = false;  
+        // let sprite = this.add.sprite("checkpointcleared", "primary");
+        // let checkpointcleared = new CheckpointCleared(sprite);
+        // checkpointcleared.moveSprite(event.data.get("position"));
+        this.mainPlayer.visible = false; 
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "bgm"});
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "portalsound", loop: false, holdReference: false});
-        // this.sceneManager.changeToScene(this.nextLevel);
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "portalsound", loop: true, holdReference: true});
+        this.sceneManager.changeToScene(this.nextLevel);
       }
       if (event.isType("newbuff")) {
         var buff = event.data.get("buff");
@@ -504,6 +503,7 @@ export default class mainScene extends Scene {
       this.getLayer("graph").setHidden(!this.getLayer("graph").isHidden());
     }
   }
+
   spawnItems(): void {
     // Get the item data
     let itemData = this.load.getObject("itemData");

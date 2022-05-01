@@ -335,7 +335,7 @@ export default class mainScene extends Scene {
 
   lootGenerate(pos: Vec2) {
 
-    if(this.checkpointDropBoolean==false && this.totalEnemiesKilled>=2){ //kill 75 to get to next stage
+    if(this.checkpointDropBoolean==false && this.totalEnemiesKilled>=75){ //kill 75 to get to next stage
       this.checkpointDropBoolean=true;
       this.createCheckpoint(pos); //only 1 can be created i guess
     }

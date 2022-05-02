@@ -26,101 +26,102 @@ import AttackAction from "../../Wolfie2D/AI/EnemyActions/AttackAction";
 import Move from "../../Wolfie2D/AI/EnemyActions/Move";
 import Retreat from "../../Wolfie2D/AI/EnemyActions/Retreat";
 import Berserk from "../../Wolfie2D/AI/EnemyActions/Berserk";
-import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import MaxHealth from "../GameSystems/items/MaxHealth";
 import Speed from "../GameSystems/items/Speed";
 import AttackSpeed from "../GameSystems/items/AttackSpeed";
 import AttackDamage from "../GameSystems/items/AttackDamage";
 import Checkpoint from "../GameSystems/items/Checkpoint";
 import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
-import NextLevel from "./NextLevel";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
-import UIElement from "../../Wolfie2D/Nodes/UIElement";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import MultiProjectile from "../GameSystems/items/MultiProjectile";
+// import Level2 from "./levels/Level2";
+// import Level2 from "./levels/Level2";
 
 export default class mainScene extends Scene {
   // The player
-  private mainPlayer: AnimatedSprite;
+
+  protected nextLevel: new (...args: any) => mainScene;
+  protected mainPlayer: AnimatedSprite;
 
   // A list of enemies
-  private enemies: Array<AnimatedSprite>;
+  protected enemies: Array<AnimatedSprite>;
 
   // The wall layer of the tilemap to use for bullet visualization
-  private walls: OrthogonalTilemap;
+  protected walls: OrthogonalTilemap;
 
   // The position graph for the navmesh
   private graph: PositionGraph;
 
   // A list of items in the scene
-  private items: Array<Item>;
+  protected items: Array<Item>;
 
   // The battle manager for the scenes
-  private battleManager: BattleManager;
+  protected battleManager: BattleManager;
 
   // Player health
-  private healthDisplays: Label;
+  protected healthDisplays: Label;
 
   // Player Damage
-  private attackDisplays: Label;
+  protected attackDisplays: Label;
 
-  private maxhealthDisplays: Label;
+  protected maxhealthDisplays: Label;
 
-  private pauseButton: Button;
+  protected enemyKilled: Label;
 
-  private playButton: Button;
+  protected attackDamageBuff = 0;
+  protected attackSpeedBuff = 0;
+  protected speedBuff = 0;
+  protected healthupBuff = 0;
+  protected projectileBuff = 0;
 
-  private attackDamageBuff = 0;
-  private attackSpeedBuff = 0;
-  private speedBuff = 0;
-  private healthupBuff = 0;
 
   attackDamageBuffLabel: Label;
   speedBuffLabel: Label;
   attackSpeedBuffLabel: Label;
   healthupBuffLabel: Label;
+  projectileBuffLabel: Label;
+
 
   knifeEnemyClone: AnimatedSprite;
   healthbar: Label;
   healthbargreen: Sprite;
 
   totalEnemiesKilled = 0;
+  checkpointDropBoolean = false;
   tileMapMaxSize: Vec2;
-  loadScene() {
-    // Load the player and enemy spritesheets
 
-    //there will only be one player
+  pauseText: Label;
+
+  mainLoadScene(){
     this.load.spritesheet(
-      "mainplayer",
-      "mayhemAssets/spritesheets/mainplayer.json"
+        "mainplayer",
+        "mayhemAssets/spritesheets/mainplayer.json"
     );
 
-    this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
 
     this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
-    this.load.tilemap("level", "mayhemAssets/tilemaps/mayhemTileJson.json");
     this.load.object("weaponData", "mayhemAssets/data/weaponData.json");
     this.load.object("navmesh", "mayhemAssets/data/navmesh.json");
     this.load.object("enemyData", "mayhemAssets/data/enemy.json");
     this.load.object("itemData", "mayhemAssets/data/items.json");
-    //buffs
     this.load.image("healthpack", "mayhemAssets/sprites/healthpack.png");
     this.load.image("healthmax", "mayhemAssets/sprites/healthmax.png");
     this.load.image("attackspeed", "mayhemAssets/sprites/attackspeed.png");
     this.load.image("attackdamage", "mayhemAssets/sprites/attackdamage.png");
     this.load.image("speed", "mayhemAssets/sprites/speed.png");
-    this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint.png");
     this.load.image(
-      "checkpointcleared",
-      "mayhemAssets/sprites/checkpointcleared.png"
+        "checkpointcleared",
+        "mayhemAssets/sprites/checkpointcleared.png"
     );
     this.load.image(
-      "healthbarEmpty",
-      "mayhemAssets/sprites/healthbarEmpty.png"
+        "healthbarEmpty",
+        "mayhemAssets/sprites/healthbarEmpty.png"
     );
     this.load.image("enemyHp", "mayhemAssets/sprites/enemyhp.png");
     this.load.image(
-      "healthbarGreen",
-      "mayhemAssets/sprites/healthbarGreen.png"
+        "healthbarGreen",
+        "mayhemAssets/sprites/healthbarGreen.png"
     );
 
     this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
@@ -128,27 +129,11 @@ export default class mainScene extends Scene {
     this.load.image("laserGun", "mayhemAssets/sprites/laserGun.png");
     this.load.image("pistol", "mayhemAssets/sprites/pistol.png");
     this.load.audio("gunshot", "mayhemAssets/music/gunshot.wav");
-    this.load.audio("bgm","mayhemAssets/music/bgm.mp3")
+    this.load.audio("portalsound", "mayhemAssets/music/portalsound.wav");
   }
-
-  startScene() {
-    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bgm", loop: true, holdReference: false});
-    // HOMEWORK 4 - TODO
-    /*
-            Modify this line if needed.
-
-            This line is just getting the wall layer of your tilemap to use for some calculations.
-            Make sure it is still doing so.
-
-            What the line is saying is to get the first level from the bottom (tilemapLayers[1]),
-            which in my case was the Walls layer.
-
-            Also, your tilemap will be made with 32x32 tiles while the example map is made with 16x16 tiles.
-            You'll need to scale it down for our 16x16 players and enemy sprites. The code for this
-            is listed below, it's just a scaling down by 1/2 for the tilemap size.
-        */
-
-    // Add in the tilemap
+  mainStartScene(){
+    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bgm", loop: true, holdReference: true});
+    this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "portalsound"});
     let tilemapLayers = this.add.tilemap("level", new Vec2(0.5, 0.5));
 
     // Get the wall layer
@@ -189,7 +174,7 @@ export default class mainScene extends Scene {
     // Send the player and enemies to the battle manager
     this.battleManager.setPlayers([<BattlerAI>this.mainPlayer._ai]);
     this.battleManager.setEnemies(
-      this.enemies.map((enemy) => <BattlerAI>enemy._ai)
+        this.enemies.map((enemy) => <BattlerAI>enemy._ai)
     );
 
     // Subscribe to relevant events
@@ -198,6 +183,7 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("checkpoint_cleared");
     this.receiver.subscribe("newbuff");
     this.receiver.subscribe("gunshot");
+    this.receiver.subscribe("pause");
     // this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
 
     // Spawn items into the world
@@ -212,77 +198,72 @@ export default class mainScene extends Scene {
     this.healthbargreen.position.set(100, 16);
     ///(<PlayerController>this.mainPlayer._ai).health
     this.healthbargreen.size.set(
-      (<PlayerController>this.mainPlayer._ai).health,
-      16
+        (<PlayerController>this.mainPlayer._ai).health,
+        16
     );
+    this.addUILayer("pauseText");
+    this.pauseText = <Label>this.add.uiElement(UIElementType.LABEL,"pauseText",{
+      position: new Vec2(150, 100),
+      text: "Paused"
+    })
+    this.pauseText.textColor = Color.WHITE;
+    this.pauseText.visible = false;
+
     // Add a UI for health
     this.addUILayer("health");
 
     this.healthDisplays = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "health",
-      {
-        position: new Vec2(60, 16),
-        text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health,
-      }
+        UIElementType.LABEL,
+        "health",
+        {
+          position: new Vec2(60, 16),
+          text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health,
+        }
     );
     this.healthDisplays.textColor = Color.WHITE;
 
     this.addUILayer("maxhealth");
 
     this.maxhealthDisplays = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "maxhealth",
-      {
-        position: new Vec2(130, 16),
-        text:
-          "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth,
-      }
+        UIElementType.LABEL,
+        "maxhealth",
+        {
+          position: new Vec2(130, 16),
+          text:
+              "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth,
+        }
     );
     this.maxhealthDisplays.textColor = Color.WHITE;
 
     this.addUILayer("attack");
 
     this.attackDisplays = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "attack",
-      {
-        position: new Vec2(190, 16),
-        text:
-          "Attack: " +
-          (<PlayerController>this.mainPlayer._ai).weapon.type.damage,
-      }
+        UIElementType.LABEL,
+        "attack",
+        {
+          position: new Vec2(190, 16),
+          text:
+              "Attack: " +
+              (<PlayerController>this.mainPlayer._ai).weapon.type.damage,
+        }
     );
     this.attackDisplays.textColor = Color.WHITE;
 
-    this.addUILayer("pause");
-    this.addUILayer("play");
-    this.pauseButton = <Button>this.add.uiElement(
-      UIElementType.BUTTON,
-      "pause",
-      {
-        position: new Vec2(260, 16),
-        text: "Pause",
-      }
+
+    this.addUILayer("enemyKilled");
+
+    this.enemyKilled = <Label>this.add.uiElement(
+        UIElementType.LABEL,
+        "enemyKilled",
+        {
+          position: new Vec2(250, 16),
+          text:
+              "Kills: " +
+              this.totalEnemiesKilled,
+        }
     );
-    this.pauseButton.size.set(200, 50);
-    this.pauseButton.borderColor = Color.TRANSPARENT;
-    this.pauseButton.backgroundColor = Color.TRANSPARENT;
-    this.pauseButton.textColor = Color.WHITE;
-    this.pauseButton.onClickEventId = "pause";
+    this.enemyKilled.textColor = Color.WHITE;
 
-    this.playButton = <Button>this.add.uiElement(UIElementType.BUTTON, "play", {
-      position: new Vec2(230, 16),
-      text: "Play",
-    });
-    this.playButton.size.set(200, 50);
-    this.playButton.borderColor = Color.TRANSPARENT;
-    this.playButton.backgroundColor = Color.TRANSPARENT;
-    this.playButton.textColor = Color.WHITE;
-    this.playButton.onClickEventId = "play";
-
-    this.receiver.subscribe("pause");
-    this.receiver.subscribe("play");
 
     this.addUILayer("attackdamage");
     this.addUILayer("attackspeed");
@@ -297,54 +278,75 @@ export default class mainScene extends Scene {
     speedpic.position.set(280, 70);
     var healthpic = this.add.sprite("healthmax", "buffspicture");
     healthpic.position.set(280, 90);
+    var projectilePic= this.add.sprite("laserGun", "buffspicture");
+    projectilePic.position.set(280, 110);
 
     this.attackDamageBuffLabel = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "attackdamage",
-      {
-        position: new Vec2(295, 30),
-        text: "" + this.attackDamageBuff,
-      }
+        UIElementType.LABEL,
+        "attackdamage",
+        {
+          position: new Vec2(295, 30),
+          text: "" + this.attackDamageBuff,
+        }
     );
     this.attackDamageBuffLabel.textColor = Color.WHITE;
 
     this.attackSpeedBuffLabel = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "attackspeed",
-      {
-        position: new Vec2(295, 50),
-        text: "" + this.attackSpeedBuff,
-      }
+        UIElementType.LABEL,
+        "attackspeed",
+        {
+          position: new Vec2(295, 50),
+          text: "" + this.attackSpeedBuff,
+        }
     );
     this.attackSpeedBuffLabel.textColor = Color.WHITE;
 
     this.speedBuffLabel = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "speed",
-      {
-        position: new Vec2(295, 70),
-        text: "" + this.speedBuff,
-      }
+        UIElementType.LABEL,
+        "speed",
+        {
+          position: new Vec2(295, 70),
+          text: "" + this.speedBuff,
+        }
     );
     this.speedBuffLabel.textColor = Color.WHITE;
 
     this.healthupBuffLabel = <Label>this.add.uiElement(
-      UIElementType.LABEL,
-      "healthup",
-      {
-        position: new Vec2(295, 90),
-        text: "" + this.healthupBuff,
-      }
+        UIElementType.LABEL,
+        "healthup",
+        {
+          position: new Vec2(295, 90),
+          text: "" + this.healthupBuff,
+        }
     );
     this.healthupBuffLabel.textColor = Color.WHITE;
+
+    this.projectileBuffLabel = <Label>this.add.uiElement(
+        UIElementType.LABEL,
+        "healthup",
+        {
+          position: new Vec2(295, 110),
+          text: "" + this.projectileBuff,
+        }
+    );
+    this.projectileBuffLabel.textColor = Color.WHITE;
   }
 
+
   lootGenerate(pos: Vec2) {
+
+    if(this.checkpointDropBoolean==false && this.totalEnemiesKilled>=75){ //kill 75 to get to next stage
+      this.checkpointDropBoolean=true;
+      this.createCheckpoint(pos); //only 1 can be created i guess
+    }
+    if(this.items.length>=30){
+      return; //cannot drop more than 30 items
+    }
     if (Math.random() < 0.4) {
       // Spawn a healthpack
       let min = 1;
-      let max = 4;
-      let lootType = Math.floor(Math.random() * (max - min) + min);
+      let max = 5;
+      let lootType = Math.floor(Math.random() * (max+1 - min) + min);
       // this.emitter.fireEvent("healthpack", { pos});
       if (lootType === 1) {
         this.createAttackDamage(pos);
@@ -353,51 +355,55 @@ export default class mainScene extends Scene {
         this.createAttackspeed(pos);
       }
       if (lootType === 3) {
-        // this.createHealthpack(pos)
+        this.createMultiProjectile(pos);
       }
       if (lootType === 4) {
         this.createMaxhealth(pos);
+      }
+      if (lootType === 5){
+        //for more stuff
       }
     }
   }
   updateScene(deltaT: number): void {
     while (this.receiver.hasNextEvent()) {
+
       let event = this.receiver.getNextEvent();
+
+
+
       if (event.isType("healthpack")) {
         this.createHealthpack(event.data.get("position"));
       }
       if (event.isType("enemyDied")) {
-        for (let i = 0; i < this.enemies.length; i++) {
-          if (this.enemies[i] === event.data.get("enemy")) {
-            this.enemies[i].healthbar.destroy();
-          }
-        }
 
+        let enemy = <AnimatedSprite>event.data.get("enemy")
+        enemy.healthbar.destroy();
+        enemy.visible = false;
         this.lootGenerate(event.data.get("enemy").position.clone());
         this.enemies = this.enemies.filter(
-          (enemy) => enemy !== event.data.get("enemy")
+            (enemy) => enemy !== event.data.get("enemy")
         );
         this.battleManager.enemies = this.battleManager.enemies.filter(
-          (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
+            (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
+
+
         this.totalEnemiesKilled++;
+        this.enemyKilled.text =
+            "Kills: " + this.totalEnemiesKilled;
         this.spawnRandomEnemy();
-        if(this.totalEnemiesKilled===20){
-          this.spawnRandomEnemy(); //spawn more when there are more enmemies killed
-        }
+
       }
+
       if (event.isType("checkpoint_cleared")) {
-        let sprite = this.add.sprite("checkpointcleared", "primary");
-        let checkpointcleared = new CheckpointCleared(sprite);
-        checkpointcleared.moveSprite(event.data.get("position"));
-        this.mainPlayer.visible = false;
-        this.sceneManager.changeToScene(NextLevel);
-      }
-      if (event.isType("pause")) {
-        console.log("Pausing Game");
-      }
-      if (event.isType("play")) {
-        console.log("Resume Game");
+        // let sprite = this.add.sprite("checkpointcleared", "primary");
+        // let checkpointcleared = new CheckpointCleared(sprite);
+        // checkpointcleared.moveSprite(event.data.get("position"));
+        this.mainPlayer.visible = false; 
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "bgm"});
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "portalsound", loop: true, holdReference: true});
+        this.sceneManager.changeToScene(this.nextLevel);
       }
       if (event.isType("newbuff")) {
         var buff = event.data.get("buff");
@@ -417,6 +423,10 @@ export default class mainScene extends Scene {
           this.healthupBuff += 1;
           this.healthupBuffLabel.text = "" + this.healthupBuff;
         }
+        if (buff instanceof MultiProjectile) {
+          this.projectileBuff+= 1;
+          this.projectileBuffLabel.text = "" + this.projectileBuff;
+        }
       }
       if (event.isType(hw4_Events.UNLOAD_ASSET)) {
         let asset = this.sceneGraph.getNode(event.data.get("node"));
@@ -425,11 +435,35 @@ export default class mainScene extends Scene {
       if (event.isType("gunshot")) {
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gunshot", loop: false, holdReference: false});
       }
+      if (event.isType("pause")) {
+        var pause = event.data.get("pause");
+        if (!(pause)){
+          for (let i = 0; i < this.enemies.length; i++) 
+          {
+            this.enemies[i].setAIActive(false, null);
+            this.enemies[i].animation.pause();
+          }
+          this.mainPlayer.animation.pause();
+          this.pauseText.visible = true;
+        }
+        else{
+          for (let i = 0; i < this.enemies.length; i++) {
+            this.enemies[i].setAIActive(true, null);
+            this.enemies[i].animation.resume();
+          }
+          this.mainPlayer.animation.resume();
+          this.pauseText.visible = false;
+        }
+      }
+      
     }
+
     // check health of each player
     let health = (<BattlerAI>this.mainPlayer._ai).health;
 
     //If both are dead, game over
+
+
 
     if (health <= 0) {
       this.mainPlayer.position = new Vec2(-1000, -1000);
@@ -439,9 +473,9 @@ export default class mainScene extends Scene {
     // Update health gui
     this.healthDisplays.text = "Health: " + health;
     this.attackDisplays.text =
-      "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
+        "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
     this.maxhealthDisplays.text =
-      "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
+        "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
 
     //update enemy hp
 
@@ -449,26 +483,16 @@ export default class mainScene extends Scene {
       if (this.enemies[i]) {
         // (<GameNode>data.hpdisplay).destroy();
         this.enemies[i].healthbar.position = new Vec2(
-          this.enemies[i].position.x,
-          this.enemies[i].position.y - 7
+            this.enemies[i].position.x,
+            this.enemies[i].position.y - 7
         );
         this.enemies[i].healthbar.size = new Vec2(
-          ((<EnemyAI>this.enemies[i]._ai).health /
-            (<EnemyAI>this.enemies[i]._ai).maxHealth) *
+            ((<EnemyAI>this.enemies[i]._ai).health /
+                (<EnemyAI>this.enemies[i]._ai).maxHealth) *
             16,
-          16
+            16
         );
-        // this.enemies[i].healthbar.text =
-        //   "" + (<EnemyAI>this.enemies[i]._ai).health;
       }
-      // data.hpdisplay= <Label>this.add.uiElement(
-      //   UIElementType.LABEL,
-      //   "primary",
-      //   {
-      //     position: new Vec2(this.enemies[i].position.x ,this.enemies[i].position.y),
-      //     text: "" + data.health
-      //   }
-      // );
     }
     var currenthp = (<PlayerController>this.mainPlayer._ai).health;
     var maxhp = (<PlayerController>this.mainPlayer._ai).maxHealth;
@@ -480,17 +504,6 @@ export default class mainScene extends Scene {
     }
   }
 
-  // HOMEWORK 4 - TODO
-  /**
-   * This function spawns in all of the items in "items.json"
-   *
-   * You shouldn't have to put any new code here, however, you will have to modify items.json.
-   *
-   * Make sure you are spawning in 5 pistols and 5 laser guns somewhere (accessible) in your world.
-   *
-   * You'll notice that right now, some healthpacks are also spawning in. These also drop from guards.
-   * Feel free to spawn some healthpacks if you want, or you can just let the player suffer >:)
-   */
   spawnItems(): void {
     // Get the item data
     let itemData = this.load.getObject("itemData");
@@ -499,25 +512,25 @@ export default class mainScene extends Scene {
       if (item.type === "healthpack") {
         // Create a healthpack
         this.createHealthpack(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       } else if (item.type === "healthmax") {
         this.createMaxhealth(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       } else if (item.type === "attackspeed") {
         this.createAttackspeed(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       } else if (item.type === "attackdamage") {
         this.createAttackDamage(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       } else if (item.type === "speed") {
         this.createSpeed(new Vec2(item.position[0] / 2, item.position[1] / 2));
       } else if (item.type === "checkpoint") {
         this.createCheckpoint(
-          new Vec2(item.position[0] / 2, item.position[1] / 2)
+            new Vec2(item.position[0] / 2, item.position[1] / 2)
         );
       }
     }
@@ -530,7 +543,7 @@ export default class mainScene extends Scene {
    */
   createWeapon(type: string): Weapon {
     let weaponType = <WeaponType>(
-      RegistryManager.getRegistry("weaponTypes").get(type)
+        RegistryManager.getRegistry("weaponTypes").get(type)
     );
 
     let sprite = this.add.sprite(weaponType.spriteKey, "primary");
@@ -575,11 +588,18 @@ export default class mainScene extends Scene {
     this.items.push(attackspeed);
   }
 
-  createCheckpoint(position: Vec2) {
+  createCheckpoint(position: Vec2):void {
     let sprite = this.add.sprite("checkpoint", "primary");
     let checkpoint = new Checkpoint(sprite);
     checkpoint.moveSprite(position);
     this.items.push(checkpoint);
+  }
+
+  createMultiProjectile(position: Vec2): void {
+    let sprite = this.add.sprite("laserGun", "primary");
+    let maxhealth = new MultiProjectile(sprite);
+    maxhealth.moveSprite(position);
+    this.items.push(maxhealth);
   }
 
   /**
@@ -593,19 +613,23 @@ export default class mainScene extends Scene {
 
       // Get the constructor of the prototype
       let constr = RegistryManager.getRegistry("weaponTemplates").get(
-        weapon.weaponType
+          weapon.weaponType
       );
 
       // Create a weapon type
       let weaponType = new constr();
 
+
+      // weapon.enemies = this.enemies;
       // Initialize the weapon type
       weaponType.initialize(weapon);
 
+
+
       // Register the weapon type
       RegistryManager.getRegistry("weaponTypes").registerItem(
-        weapon.name,
-        weaponType
+          weapon.name,
+          weaponType
       );
     }
   }
@@ -617,13 +641,13 @@ export default class mainScene extends Scene {
   initializePlayer(): void {
     // Create the inventory
     let inventory = new InventoryManager(
-      this,
-      1,
-      "inventorySlot",
-      new Vec2(16, 16),
-      2,
-      "slots1",
-      "items1"
+        this,
+        1,
+        "inventorySlot",
+        new Vec2(16, 16),
+        2,
+        "slots1",
+        "items1"
     );
     let startingWeapon = this.createWeapon("weak_pistol");
     inventory.addItem(startingWeapon);
@@ -647,25 +671,6 @@ export default class mainScene extends Scene {
     (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);
   }
 
-  /**
-   * // HOMEWORK 4 - TODO
-   * This function creates the navmesh for the game world.
-   *
-   * It reads in information in the navmesh.json file.
-   * The format of the navmesh.json file is as follows
-   *
-   * {
-   *  // An array of positions on the tilemap. You can see the position of your mouse in [row, col]
-   *  // while editing a map in Tiled, and can just multiply those values by the tile size, 16x16
-   *      "nodes": [[100, 200], [50, 400], ...]
-   *
-   *  // An array of edges between nodes. The numbers here correspond to indices in the "nodes" array above.
-   *  // Note that edges are not directed here. An edge [0, 1] foes in both directions.
-   *      "edges": [[0, 1], [2, 4], ...]
-   * }
-   *
-   * The navmesh you create should be distinctly different from the one given as an example.
-   */
   createNavmesh(): void {
     // Add a layer to display the graph
     let gLayer = this.addLayer("graph");
@@ -711,15 +716,15 @@ export default class mainScene extends Scene {
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
     new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 100 }),
     new Retreat(
-      1,
-      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-      [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
-      { retreatDistance: 200 }
+        1,
+        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
+        [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
+        { retreatDistance: 200 }
     ),
     new Berserk(
-      1,
-      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-      [hw4_Statuses.REACHED_GOAL]
+        1,
+        [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
+        [hw4_Statuses.REACHED_GOAL]
     ),
   ];
 
@@ -739,22 +744,22 @@ export default class mainScene extends Scene {
     this.enemies.push(this.add.animatedSprite(data.type, "primary"));
     let lastIndex = this.enemies.length - 1;
     this.enemies[lastIndex].position.set(
-      data.position[0] / 2,
-      data.position[1] / 2
+        data.position[0] / 2,
+        data.position[1] / 2
     );
     this.enemies[lastIndex].animation.play("face_right");
     this.enemies[lastIndex].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
 
     if (data.route) {
       data.route = data.route.map((index: number) =>
-        this.graph.getNodePosition(index)
+          this.graph.getNodePosition(index)
       );
     }
 
     if (data.guardPosition) {
       data.guardPosition = new Vec2(
-        data.guardPosition[0] / 2,
-        data.guardPosition[1] / 2
+          data.guardPosition[0] / 2,
+          data.guardPosition[1] / 2
       );
     }
 
@@ -785,11 +790,18 @@ export default class mainScene extends Scene {
     enemyhpbar.position.set(data.position[0] / 2, data.position[1] / 2 - 7);
     this.enemies[lastIndex].healthbar = enemyhpbar;
 
+
+    //SCALING options
+    let scalingFactor = Math.ceil((this.totalEnemiesKilled+10)/20);
+    let scaledHealth  = Math.ceil(data.health*scalingFactor);
+    weapon.type.damage= Math.ceil(weapon.type.damage*scalingFactor);
+
+
     let enemyOptions = {
       defaultMode: data.mode,
       patrolRoute: data.route, // This only matters if they're a patroller
       guardPosition: data.guardPosition, // This only matters if the're a guard
-      health: data.health,
+      health: scaledHealth,
       player1: this.mainPlayer,
       weapon: weapon,
       goal: hw4_Statuses.REACHED_GOAL,
@@ -803,7 +815,7 @@ export default class mainScene extends Scene {
       this.enemies[lastIndex].position = pos.clone();
     }
     this.battleManager.setEnemies(
-      this.enemies.map((enemy) => <BattlerAI>enemy._ai)
+        this.enemies.map((enemy) => <BattlerAI>enemy._ai)
     );
     // let dir = new Vec2(0,0);
     // this.enemies[lastIndex].rotation = Vec2.UP.angleToCCW(dir);
@@ -827,9 +839,14 @@ export default class mainScene extends Scene {
     this.spawnEnemy(JSON.parse(JSON.stringify(data)), pos);
   }
   spawnRandomEnemy(): void {
-    let x = Math.random() * this.tileMapMaxSize.x;
-    let y = Math.random() * this.tileMapMaxSize.y;
-    let newPos = new Vec2(x, y);
-    this.spawnImp(newPos);
+    let totalEnemies = this.totalEnemiesKilled;
+    totalEnemies+=20;
+    while((totalEnemies-=20)>=0)  //extra enemy for every 20 enemies killed
+    {
+      let x = Math.random() * this.tileMapMaxSize.x;
+      let y = Math.random() * this.tileMapMaxSize.y;
+      let newPos = new Vec2(x, y);
+      this.spawnImp(newPos);
+    }
   }
 }

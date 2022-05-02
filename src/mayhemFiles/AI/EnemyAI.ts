@@ -19,6 +19,7 @@ import Active from "../../Wolfie2D/AI/EnemyStates/Active";
 import Guard from "../../Wolfie2D/AI/EnemyStates/Guard";
 import Patrol from "../../Wolfie2D/AI/EnemyStates/Patrol";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
+import Timer from "../../Wolfie2D/Timing/Timer";
 
 
 export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
@@ -96,6 +97,7 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
         this.initialize(EnemyStates.DEFAULT);
 
         this.getPlayerPosition();
+        this.receiver.subscribe(hw4_Events.ENEMY_DIED);
     }
 
     activate(options: Record<string, any>): void { }
@@ -109,14 +111,13 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
                 this.currentStatus.push(hw4_Statuses.LOW_HEALTH);
             }
         }
-
         // If health goes below 0, disable AI and fire enemyDied event
         if (this.health <= 0) {
+            // this.owner.animation.play("dying",null);
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
-            this.owner.visible = false;
-
-            this.emitter.fireEvent("enemyDied", {enemy: this.owner})
+            this.owner.animation.playIfNotAlready("dying", false,"enemyDied",{enemy: this.owner});
+            // this.emitter.fireEvent("enemyDied", {enemy: this.owner})
 
             // if (Math.random() < 0.2) {
             //     // Spawn a healthpack
@@ -125,6 +126,9 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
             // }
         }
     }
+
+    
+
     isPlayerVisible(pos: Vec2): Vec2{
         //Check if one player is visible, taking into account walls
 
@@ -171,7 +175,7 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
     getPlayerPosition(): Vec2 {
         //Get the position of the closest player in sight
         let pos = this.player1.position;
-        let position1 = this.isPlayerVisible(pos);
+        let position1 = pos;
 
         // Determine which player position to return
         if (position1 == null){
@@ -188,6 +192,7 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
             //get a new plan
             this.plan = this.planner.plan(hw4_Statuses.REACHED_GOAL, this.possibleActions, this.currentStatus, null);
         }
+
     }
 }
 

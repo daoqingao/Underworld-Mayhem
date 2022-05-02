@@ -80,7 +80,7 @@ export default class Timer implements Updateable {
         }
     }
 
-    protected end(){
+    end(){
         // Update the state
         this.state = TimerState.STOPPED;
         this.numRuns += 1;

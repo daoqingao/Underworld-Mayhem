@@ -1,27 +1,19 @@
 import mainScene from "../MainScene";
-import {GameEventType} from "../../../Wolfie2D/Events/GameEventType";
-import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
-import OrthogonalTilemap from "../../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
-import BattleManager from "../../GameSystems/BattleManager";
-import BattlerAI from "../../AI/BattlerAI";
-import PlayerController from "../../AI/PlayerController";
-import Label from "../../../Wolfie2D/Nodes/UIElements/Label";
-import {UIElementType} from "../../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Color from "../../../Wolfie2D/Utils/Color";
-import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
-import Level5 from "./Level5";
+export default class Level3 extends mainScene {
+  loadScene() {
+    this.load.audio("bgm", "mayhemAssets/music/bgm.mp3");
+    this.load.tilemap("level", "mayhemAssets/tilemaps/level4.json");
+    this.load.spritesheet("imp", "mayhemAssets/spritesheets/slime.json");
+    this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint2.png");
 
-export default class Level4 extends mainScene{
-    loadScene() {
-
-    }
-    unloadScene() {
-
-    }
-    startScene() {
-
-    }
-    updateScene(deltaT: number) {
-        super.updateScene(deltaT);
-    }
+    super.mainLoadScene();
+  }
+  unloadScene() {}
+  updateScene(deltaT: number) {
+    super.updateScene(deltaT);
+  }
+  startScene() {
+    this.nextLevel = Level3;
+    super.mainStartScene();
+  }
 }

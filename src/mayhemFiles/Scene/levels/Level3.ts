@@ -1,4 +1,5 @@
 import mainScene from "../MainScene";
+import Level4 from "./Level4";
 export default class Level3 extends mainScene {
   loadScene() {
     this.load.audio("bgm", "mayhemAssets/music/bgm.mp3");
@@ -13,7 +14,7 @@ export default class Level3 extends mainScene {
     super.updateScene(deltaT);
   }
   startScene() {
-    this.nextLevel = Level3;
+    this.nextLevel = Level4;
     super.mainStartScene();
   }
 }

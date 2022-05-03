@@ -1,14 +1,14 @@
 {
-  "name": "imp",
-  "spriteSheetImage": "imp.png",
+  "name": "gemstone",
+  "spriteSheetImage": "gemstone.png",
   "spriteWidth": 16,
   "spriteHeight": 16,
   "leftBuffer": 0,
   "rightBuffer": 0,
   "topBuffer": 0,
   "bottomBuffer": 0,
-  "columns": 6,
-  "rows": 5,
+  "columns": 2,
+  "rows": 3,
   "animations": [
     {
       "name": "face_left",
@@ -25,7 +25,7 @@
       "repeat": true,
       "frames": [
         {
-          "index": 6,
+          "index": 0,
           "duration": 10
         }
       ]
@@ -35,11 +35,11 @@
       "repeat": true,
       "frames": [
         {
-          "index": 12,
+          "index": 5,
           "duration": 5
         },
         {
-          "index": 13,
+          "index": 4,
           "duration": 5
         }
       ]
@@ -49,11 +49,11 @@
       "repeat": true,
       "frames": [
         {
-          "index": 18,
+          "index": 4,
           "duration": 5
         },
         {
-          "index": 19,
+          "index": 5,
           "duration": 5
         }
       ]
@@ -63,27 +63,15 @@
       "repeat": false,
       "frames": [
         {
-          "index": 24,
+          "index": 1,
           "duration": 5
         },
         {
-          "index": 25,
+          "index": 2,
           "duration": 5
         },
         {
-          "index": 26,
-          "duration": 5
-        },
-        {
-          "index": 27,
-          "duration": 5
-        },
-        {
-          "index": 28,
-          "duration": 5
-        },
-        {
-          "index": 29,
+          "index": 3,
           "duration": 5
         }
       ]

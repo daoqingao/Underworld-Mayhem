@@ -6,147 +6,147 @@
       "mode": "guard",
       "guardPosition": [336, 704],
       "health": 10,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [988, 408],
       "mode": "patrol",
       "route": [4, 5, 6, 7, 8, 9, 10, 11],
       "health": 8,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [516, 404],
       "mode": "patrol",
       "route": [11, 4, 5, 6, 7, 8, 9, 10],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [648, 164],
       "mode": "patrol",
       "route": [8, 9, 10, 11, 4, 5, 6, 7],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [144, 768],
       "mode": "patrol",
       "route": [12, 13, 14, 15],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [272, 768],
       "mode": "patrol",
       "route": [15, 12, 13, 14],
       "health": 8,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [216, 380],
       "mode": "patrol",
       "route": [16, 17, 18, 19],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [460, 648],
       "mode": "patrol",
       "route": [18, 19, 16, 17],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [432, 960],
       "mode": "patrol",
       "route": [20, 21, 22, 23, 24, 25],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [912, 864],
       "mode": "patrol",
       "route": [22, 23, 24, 25, 20, 21],
       "health": 8,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [120, 248],
       "mode": "guard",
       "guardPosition": [120, 248],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [176, 144],
       "mode": "guard",
       "guardPosition": [176, 144],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [304, 114],
       "mode": "guard",
       "guardPosition": [304, 114],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [688, 224],
       "mode": "guard",
       "guardPosition": [688, 224],
       "health": 8,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [816, 224],
       "mode": "guard",
       "guardPosition": [816, 224],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [752, 64],
       "mode": "guard",
       "guardPosition": [752, 64],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [968, 472],
       "mode": "guard",
       "guardPosition": [968, 472],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [504, 456],
       "mode": "guard",
       "guardPosition": [504, 456],
       "health": 8,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [360, 344],
       "mode": "guard",
       "guardPosition": [360, 344],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [80, 704],
       "mode": "guard",
       "guardPosition": [80, 704],
       "health": 5,
-      "type": "imp"
+      "type": "enemy"
     },
     {
       "position": [50, 1250],
       "mode": "guard",
       "guardPosition": [336, 704],
       "health": 10,
-      "type": "imp"
+      "type": "enemy"
     }
   ]
 }

@@ -6,7 +6,6 @@ import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import mainScene from "./MainScene";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
-import Level1 from "./levels/Level2";
 import level1 from "./levels/Level1";
 import level2 from "./levels/Level2";
 import level3 from "./levels/Level3";
@@ -16,7 +15,6 @@ import level6 from "./levels/Level6";
 import level7 from "./levels/Level7";
 import level8 from "./levels/Level8";
 import level9 from "./levels/Level9";
-
 
 export default class MainMenu extends Scene {
   // Layers, for multiple main menu screens\
@@ -239,7 +237,7 @@ export default class MainMenu extends Scene {
 
     const controlText1 = "WASD to move";
     const controlText2 = "Left Click / Right Click to Shoot";
-    const controlText3 = "ESC to pause"
+    const controlText3 = "ESC to pause";
 
     const controlLine1 = <Label>this.add.uiElement(
       UIElementType.LABEL,
@@ -480,7 +478,6 @@ export default class MainMenu extends Scene {
       if (event.type === "chooselevel9") {
         this.sceneManager.changeToScene(level9, {});
       }
-
 
       if (event.type === "help") {
         this.help.setHidden(false);

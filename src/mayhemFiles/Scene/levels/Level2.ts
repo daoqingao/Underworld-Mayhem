@@ -12,6 +12,7 @@ export default class Level2 extends mainScene {
   }
   unloadScene() {}
   startScene() {
+    this.currentLevel = "2";
     this.nextLevel = Level3;
     super.mainStartScene();
   }

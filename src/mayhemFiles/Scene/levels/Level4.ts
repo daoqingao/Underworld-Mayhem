@@ -14,6 +14,7 @@ export default class Level4 extends mainScene {
     super.updateScene(deltaT);
   }
   startScene() {
+    this.currentLevel = "4";
     this.nextLevel = Level5;
     super.mainStartScene();
   }

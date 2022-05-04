@@ -10,6 +10,7 @@ export default class Level5 extends mainScene {
   }
   unloadScene() {}
   startScene() {
+    this.currentLevel = "5";
     this.nextLevel = Level5;
     super.mainStartScene();
   }

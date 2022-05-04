@@ -35,6 +35,8 @@ import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MultiProjectile from "../GameSystems/items/MultiProjectile";
+import Level1 from "./levels/Level1";
+import NextLevel from "./levels/NextLevel";
 // import Level2 from "./levels/Level2";
 // import Level2 from "./levels/Level2";
 
@@ -42,6 +44,8 @@ export default class mainScene extends Scene {
   // The player
 
   protected nextLevel: new (...args: any) => mainScene;
+  protected currentLevel: String;
+
   protected mainPlayer: AnimatedSprite;
 
   // A list of enemies
@@ -650,8 +654,14 @@ export default class mainScene extends Scene {
     this.mainPlayer.position.set(4 * 8, 62 * 8);
     this.mainPlayer.addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
     //First thislayeree based, starts off with a knife and is short ranged
+    let speed;
+    if (this.currentLevel == "3") {
+      speed = 60;
+    } else {
+      speed = 100;
+    }
     this.mainPlayer.addAI(PlayerController, {
-      speed: 100,
+      speed: speed,
       health: 128, //original was 25 //
       maxHealth: 128, //adding maxhealth
       inventory: inventory,
@@ -757,6 +767,7 @@ export default class mainScene extends Scene {
     let weapon;
     let actions;
     let range;
+    let speed;
     if (data.type === "gun_enemy") {
       weapon = this.createWeapon("weak_pistol");
       actions = this.actionsGun;
@@ -765,6 +776,20 @@ export default class mainScene extends Scene {
       weapon = this.createWeapon("knife");
       actions = this.actionKnife;
       range = 20;
+      if (this.currentLevel == "1") {
+        speed = 20;
+      } else if (this.currentLevel == "2") {
+        speed = 20;
+      } else if (this.currentLevel == "3") {
+        speed = 30;
+      } else if (this.currentLevel == "4") {
+        speed = 40;
+      } else if (this.currentLevel == "5") {
+        speed = 50;
+      } else if (this.currentLevel == "6") {
+        speed = 60;
+      }
+
       //ADD CODE HERE
     }
 
@@ -792,6 +817,7 @@ export default class mainScene extends Scene {
       goal: hw4_Statuses.REACHED_GOAL,
       status: this.statusArray,
       actions: actions,
+      speed: speed,
       inRange: range,
     };
     this.enemies[lastIndex].addAI(EnemyAI, enemyOptions);

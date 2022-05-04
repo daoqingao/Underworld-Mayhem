@@ -4,7 +4,6 @@ import Layer from "../../Wolfie2D/Scene/Layer";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
-import mainScene from "./MainScene";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import level1 from "./levels/Level1";
 import level2 from "./levels/Level2";
@@ -54,17 +53,6 @@ export default class MainMenu extends Scene {
     mainMenu.borderColor = Color.TRANSPARENT;
     mainMenu.backgroundColor = Color.TRANSPARENT;
     mainMenu.onClickEventId = "menu";
-
-    //*################# TODO: dao added this, quick play, remove later// starts at first level immediately
-    // const quickPlay = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {
-    //   position: new Vec2(center.x, center.y),
-    //   text: "Quick Start to LV 1",
-    // });
-    // quickPlay.size.set(200, 50);
-    // quickPlay.borderWidth = 2;
-    // quickPlay.borderColor = Color.WHITE;
-    // quickPlay.backgroundColor = Color.TRANSPARENT;
-    // quickPlay.onClickEventId = "chooselevel";
 
     //################The Menu Screen
     this.mainMenu = this.addUILayer("mainMenu");
@@ -149,7 +137,7 @@ export default class MainMenu extends Scene {
     const text22 = "Daoqin Gao";
     const text23 = "Robert Rolsenic";
     const text3header = "Cheat Codes";
-    const text3 = "INVINCIBLE: J+K NEXT LEVEl:L";
+    const text3 = "INVINCIBLE: J+K NEXT LEVEL:L";
 
     const line1header = <Label>this.add.uiElement(UIElementType.LABEL, "help", {
       position: new Vec2(center.x, center.y - 160),

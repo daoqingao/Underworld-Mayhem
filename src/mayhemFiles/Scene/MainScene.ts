@@ -31,14 +31,9 @@ import Speed from "../GameSystems/items/Speed";
 import AttackSpeed from "../GameSystems/items/AttackSpeed";
 import AttackDamage from "../GameSystems/items/AttackDamage";
 import Checkpoint from "../GameSystems/items/Checkpoint";
-import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MultiProjectile from "../GameSystems/items/MultiProjectile";
-import Level1 from "./levels/Level1";
-import NextLevel from "./levels/NextLevel";
-// import Level2 from "./levels/Level2";
-// import Level2 from "./levels/Level2";
 
 export default class mainScene extends Scene {
   // The player

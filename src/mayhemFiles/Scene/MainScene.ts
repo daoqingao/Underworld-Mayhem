@@ -390,7 +390,15 @@ export default class mainScene extends Scene {
 
         this.totalEnemiesKilled++;
         this.enemyKilled.text = "Kills: " + this.totalEnemiesKilled;
-        this.spawnRandomEnemy();
+        if (this.currentLevel == "2") {
+          this.spawnNewEnemy(new Vec2(enemy.position.x, enemy.position.y));
+          this.spawnNewEnemy(
+            new Vec2(enemy.position.x + 20, enemy.position.y - 20)
+          );
+          this.spawnNewEnemy(new Vec2(enemy.position.x + 40, enemy.position.y));
+        } else {
+          this.spawnRandomEnemy();
+        }
       }
 
       if (event.isType("checkpoint_cleared")) {

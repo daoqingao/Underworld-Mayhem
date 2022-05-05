@@ -192,10 +192,10 @@ export default class mainScene extends Scene {
     ///adding healthbar
     this.addUILayer("healthbar");
     var healthbar = this.add.sprite("healthbarEmpty", "healthbar");
-    healthbar.position.set(100, 16);
+    healthbar.position.set(90, 16);
 
     this.healthbargreen = this.add.sprite("healthbarGreen", "healthbar");
-    this.healthbargreen.position.set(100, 16);
+    this.healthbargreen.position.set(90, 16);
     ///(<PlayerController>this.mainPlayer._ai).health
     this.healthbargreen.size.set(
       (<PlayerController>this.mainPlayer._ai).health,
@@ -220,7 +220,7 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "health",
       {
-        position: new Vec2(60, 16),
+        position: new Vec2(50, 16),
         text: "Health: " + (<BattlerAI>this.mainPlayer._ai).health,
       }
     );
@@ -232,7 +232,7 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "maxhealth",
       {
-        position: new Vec2(130, 16),
+        position: new Vec2(120, 16),
         text:
           "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth,
       }
@@ -259,7 +259,7 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "enemyKilled",
       {
-        position: new Vec2(250, 16),
+        position: new Vec2(240, 16),
         text: "Kills: " + this.totalEnemiesKilled,
       }
     );
@@ -271,21 +271,21 @@ export default class mainScene extends Scene {
     this.addUILayer("healthup");
     this.addUILayer("buffspicture").setDepth(100);
     var attackdamagepic = this.add.sprite("attackdamage", "buffspicture");
-    attackdamagepic.position.set(280, 30);
+    attackdamagepic.position.set(280, 40);
     var attackspeedpic = this.add.sprite("attackspeed", "buffspicture");
-    attackspeedpic.position.set(280, 50);
+    attackspeedpic.position.set(280, 70);
     var speedpic = this.add.sprite("speed", "buffspicture");
-    speedpic.position.set(280, 70);
+    speedpic.position.set(280, 100);
     var healthpic = this.add.sprite("healthmax", "buffspicture");
-    healthpic.position.set(280, 90);
+    healthpic.position.set(280, 130);
     var projectilePic = this.add.sprite("laserGun", "buffspicture");
-    projectilePic.position.set(280, 110);
+    projectilePic.position.set(280, 160);
 
     this.attackDamageBuffLabel = <Label>this.add.uiElement(
       UIElementType.LABEL,
       "attackdamage",
       {
-        position: new Vec2(295, 30),
+        position: new Vec2(295, 40),
         text: "" + this.attackDamageBuff,
       }
     );
@@ -295,7 +295,7 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "attackspeed",
       {
-        position: new Vec2(295, 50),
+        position: new Vec2(295, 70),
         text: "" + this.attackSpeedBuff,
       }
     );
@@ -305,7 +305,7 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "speed",
       {
-        position: new Vec2(295, 70),
+        position: new Vec2(295, 100),
         text: "" + this.speedBuff,
       }
     );
@@ -315,7 +315,7 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "healthup",
       {
-        position: new Vec2(295, 90),
+        position: new Vec2(295, 130),
         text: "" + this.healthupBuff,
       }
     );
@@ -325,7 +325,7 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "healthup",
       {
-        position: new Vec2(295, 110),
+        position: new Vec2(295, 160),
         text: "" + this.projectileBuff,
       }
     );
@@ -644,7 +644,7 @@ export default class mainScene extends Scene {
       this,
       1,
       "inventorySlot",
-      new Vec2(16, 16),
+      new Vec2(9999, 9999),
       2,
       "slots1",
       "items1"

@@ -205,23 +205,30 @@ export default class mainScene extends Scene {
     );
     this.addUILayer("pauseText");
     let text;
+    let size;
     if (this.currentLevel == "1") {
       text = "Paused - Flame Imps";
+      size = new Vec2(270, 100);
     }
     if (this.currentLevel == "2") {
-      text = "Paused - Slimes - Mutiple on Kill";
+      text = "Paused - Slimes - Mutiply (Death) ";
+      size = new Vec2(420, 100);
     }
     if (this.currentLevel == "3") {
-      text = "Paused - Fish - Attacks Slow Player";
+      text = "Paused - Fish - Slow Player (Attack) ";
+      size = new Vec2(440, 100);
     }
     if (this.currentLevel == "4") {
-      text = "Paused - Gemstones - Ranged Attack";
+      text = "Paused - Gemstones - Ranged (Attack) ";
+      size = new Vec2(500, 100);
     }
     if (this.currentLevel == "5") {
-      text = "Paused - Rock Worm - Fast Movement";
+      text = "Paused - Rock Worm - Fast (Movement) ";
+      size = new Vec2(500, 100);
     }
     if (this.currentLevel == "6") {
       text = "Paused - Rock Worm - Fast Movement";
+      size = new Vec2(440, 100);
     }
     this.pauseText = <Label>this.add.uiElement(
       UIElementType.LABEL,
@@ -232,7 +239,8 @@ export default class mainScene extends Scene {
       }
     );
     this.pauseText.textColor = Color.BLACK;
-    this.pauseText.backgroundColor = Color.WHITE;
+    this.pauseText.size = size;
+    this.pauseText.backgroundColor = new Color(220, 220, 220);
     this.pauseText.borderColor = Color.BLACK;
     this.pauseText.visible = false;
 

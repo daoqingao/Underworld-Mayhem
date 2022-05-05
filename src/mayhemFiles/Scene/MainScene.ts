@@ -206,22 +206,22 @@ export default class mainScene extends Scene {
     this.addUILayer("pauseText");
     let text;
     if (this.currentLevel == "1") {
-      text = "Pause - Flame Imps";
+      text = "Paused - Flame Imps";
     }
     if (this.currentLevel == "2") {
-      text = "Pause - Slimes - Mutiple on Kill";
+      text = "Paused - Slimes - Mutiple on Kill";
     }
     if (this.currentLevel == "3") {
-      text = "Pause - Fish - Slow Player";
+      text = "Paused - Fish - Attacks Slow Player";
     }
     if (this.currentLevel == "4") {
-      text = "Pause - Gemstones - Ranged Attack";
+      text = "Paused - Gemstones - Ranged Attack";
     }
     if (this.currentLevel == "5") {
-      text = "Pause - Rock Worm - Fast Movement";
+      text = "Paused - Rock Worm - Fast Movement";
     }
     if (this.currentLevel == "6") {
-      text = "Pause - Rock Worm - Fast Movement";
+      text = "Paused - Rock Worm - Fast Movement";
     }
     this.pauseText = <Label>this.add.uiElement(
       UIElementType.LABEL,

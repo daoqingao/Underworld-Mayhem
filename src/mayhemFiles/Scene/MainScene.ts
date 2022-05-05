@@ -184,6 +184,8 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("newbuff");
     this.receiver.subscribe("gunshot");
     this.receiver.subscribe("pause");
+    this.receiver.subscribe("playerdamage");
+
     // this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
 
     // Spawn items into the world
@@ -202,15 +204,36 @@ export default class mainScene extends Scene {
       16
     );
     this.addUILayer("pauseText");
+    let text;
+    if (this.currentLevel == "1") {
+      text = "Pause - Flame Imps";
+    }
+    if (this.currentLevel == "2") {
+      text = "Pause - Slimes - Mutiple on Kill";
+    }
+    if (this.currentLevel == "3") {
+      text = "Pause - Fish - Slow Player";
+    }
+    if (this.currentLevel == "4") {
+      text = "Pause - Gemstones - Ranged Attack";
+    }
+    if (this.currentLevel == "5") {
+      text = "Pause - Rock Worm - Fast Movement";
+    }
+    if (this.currentLevel == "6") {
+      text = "Pause - Rock Worm - Fast Movement";
+    }
     this.pauseText = <Label>this.add.uiElement(
       UIElementType.LABEL,
       "pauseText",
       {
         position: new Vec2(150, 100),
-        text: "Paused",
+        text: text,
       }
     );
-    this.pauseText.textColor = Color.WHITE;
+    this.pauseText.textColor = Color.BLACK;
+    this.pauseText.backgroundColor = Color.WHITE;
+    this.pauseText.borderColor = Color.BLACK;
     this.pauseText.visible = false;
 
     // Add a UI for health
@@ -395,7 +418,11 @@ export default class mainScene extends Scene {
           this.spawnRandomEnemy();
         }
       }
-
+      if (event.isType("playerdamage")) {
+        if (this.currentLevel == "3") {
+          this.emitter.fireEvent("slowplayer");
+        }
+      }
       if (event.isType("checkpoint_cleared")) {
         // let sprite = this.add.sprite("checkpointcleared", "primary");
         // let checkpointcleared = new CheckpointCleared(sprite);
@@ -657,12 +684,12 @@ export default class mainScene extends Scene {
     this.mainPlayer.position.set(4 * 8, 62 * 8);
     this.mainPlayer.addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
     //First thislayeree based, starts off with a knife and is short ranged
-    let speed;
-    if (this.currentLevel == "3") {
-      speed = 60;
-    } else {
-      speed = 100;
-    }
+    let speed = 100;
+    // if (this.currentLevel == "3") {
+    //   speed = 60;
+    // } else {
+    //   speed = 100;
+    // }
     this.mainPlayer.addAI(PlayerController, {
       speed: speed,
       health: 128, //original was 25 //
@@ -772,8 +799,6 @@ export default class mainScene extends Scene {
     let range;
     let speed;
     if (data.type === "gun_enemy") {
-      weapon = this.createWeapon("weak_pistol");
-      actions = this.actionsGun;
       range = 100;
     } else if (data.type === "enemy") {
       weapon = this.createWeapon("knife");
@@ -786,7 +811,10 @@ export default class mainScene extends Scene {
       } else if (this.currentLevel == "3") {
         speed = 30;
       } else if (this.currentLevel == "4") {
+        weapon = this.createWeapon("weak_pistol");
+        actions = this.actionsGun;
         speed = 40;
+        range = 100;
       } else if (this.currentLevel == "5") {
         speed = 50;
       } else if (this.currentLevel == "6") {

@@ -752,18 +752,7 @@ export default class mainScene extends Scene {
   ];
   actionsGun = [
     new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
-    new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 100 }),
-    new Retreat(
-      1,
-      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT],
-      [hw4_Statuses.REACHED_GOAL, hw4_Statuses.CAN_BERSERK],
-      { retreatDistance: 200 }
-    ),
-    new Berserk(
-      1,
-      [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK],
-      [hw4_Statuses.REACHED_GOAL]
-    ),
+    new Move(2, [], [hw4_Statuses.IN_RANGE], { inRange: 50 }),
   ];
 
   statusArray: Array<string> = [
@@ -806,9 +795,12 @@ export default class mainScene extends Scene {
     let actions;
     let range;
     let speed;
-    if (data.type === "gun_enemy") {
-      range = 100;
-    } else if (data.type === "enemy") {
+    if (this.currentLevel == "4") {
+      weapon = this.createWeapon("weak_pistol");
+      actions = this.actionsGun;
+      speed = 40;
+      range = 50;
+    } else {
       weapon = this.createWeapon("knife");
       actions = this.actionKnife;
       range = 20;
@@ -818,24 +810,12 @@ export default class mainScene extends Scene {
         speed = 20;
       } else if (this.currentLevel == "3") {
         speed = 30;
-      } else if (this.currentLevel == "4") {
-        weapon = this.createWeapon("weak_pistol");
-        actions = this.actionsGun;
-        speed = 40;
-        range = 100;
       } else if (this.currentLevel == "5") {
         speed = 50;
       } else if (this.currentLevel == "6") {
         speed = 60;
       }
-
-      //ADD CODE HERE
     }
-
-    // var enemyhp = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {
-    //   position: new Vec2(data.position[0] / 2, data.position[1] / 2),
-    //   text: "" + data.health,
-    // });
 
     var enemyhpbar = this.add.sprite("enemyHp", "primary");
     enemyhpbar.position.set(data.position[0] / 2, data.position[1] / 2 - 7);

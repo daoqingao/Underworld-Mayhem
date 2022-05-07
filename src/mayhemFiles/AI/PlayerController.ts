@@ -51,6 +51,8 @@ export default class PlayerController
   // Used for swapping control between both players
   inputEnabled: boolean;
 
+  currentSlowed: boolean;
+
   // The inventory of the player
   inventory: InventoryManager;
 
@@ -59,7 +61,7 @@ export default class PlayerController
 
   // Movement
   private speed: number;
-
+  private oldspeed: number;
   private lookDirection: Vec2;
   private path: NavigationPath;
 
@@ -78,6 +80,10 @@ export default class PlayerController
 
   burningTimer: Timer;
   burningTotal: number;
+
+  slowTimer: Timer;
+  slowTotal: number;
+
   system: ParticleSystem;
 
   initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
@@ -349,7 +355,22 @@ export default class PlayerController
         this.damage(1);
         this.burningTimer.start(1000);
       }
+    }
+    if (this.burningTotal == -1){
+      this.emitter.fireEvent("nomoreburn");
+    }
 
+    if(this.slowTotal>=0){
+      if(this.slowTimer.isStopped())
+      {
+        this.slowTotal--;
+        this.slowTimer.start(1000);
+      }
+    }
+    if (this.slowTotal == -1){
+      this.emitter.fireEvent("nomoreslow");
+      this.speed = this.oldspeed;
+      this.currentSlowed = false;
     }
   }
 
@@ -372,7 +393,16 @@ export default class PlayerController
       // this.system.startSystem(1000,  1,this.owner.position.clone());
 
     }
-    this.emitter.fireEvent("playerdamage", { speed: this.speed,enemyType: enemyType });
+    if (enemyType === "slime"){
+      if (!(this.currentSlowed)){
+        this.oldspeed = this.speed;
+        this.slowTotal = 5;
+        this.speed = 50;
+        this.slowTimer = new Timer(1000);
+        this.currentSlowed = true;
+      }
+    }
+    this.emitter.fireEvent("playerdamage", { speed: this.speed,enemyType: enemyType});
   }
 
   destroy() {}

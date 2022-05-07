@@ -80,6 +80,8 @@ export default class mainScene extends Scene {
   attackSpeedBuffLabel: Label;
   healthupBuffLabel: Label;
   projectileBuffLabel: Label;
+  burn : Sprite;
+  slow : Sprite;
 
   knifeEnemyClone: AnimatedSprite;
   healthbar: Label;
@@ -111,6 +113,8 @@ export default class mainScene extends Scene {
     this.load.object("itemData", "mayhemAssets/data/items.json");
     this.load.image("healthpack", "mayhemAssets/sprites/healthpack.png");
     this.load.image("healthmax", "mayhemAssets/sprites/healthmax.png");
+    this.load.image("slow", "mayhemAssets/sprites/slow.png");
+    this.load.image("burning", "mayhemAssets/sprites/burning.png");
     this.load.image("attackspeed", "mayhemAssets/sprites/attackspeed.png");
     this.load.image("attackdamage", "mayhemAssets/sprites/attackdamage.png");
     this.load.image("speed", "mayhemAssets/sprites/speed.png");
@@ -130,7 +134,7 @@ export default class mainScene extends Scene {
 
     this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
     this.load.image("knife", "mayhemAssets/sprites/knife.png");
-    this.load.image("laserGun", "mayhemAssets/sprites/laserGun.png");
+    this.load.image("multishot", "mayhemAssets/sprites/multishot.png");
     this.load.image("pistol", "mayhemAssets/sprites/pistol.png");
     this.load.audio("gunshot", "mayhemAssets/music/gunshot.wav");
     this.load.audio("portalsound", "mayhemAssets/music/portalsound.wav");
@@ -193,6 +197,9 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("gunshot");
     this.receiver.subscribe("pause");
     this.receiver.subscribe("playerdamage");
+    this.receiver.subscribe("nomoreburn");
+    this.receiver.subscribe("nomoreslow");
+    
 
     // this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
 
@@ -211,34 +218,45 @@ export default class mainScene extends Scene {
       (<PlayerController>this.mainPlayer._ai).health,
       16
     );
+
+    this.burn =  this.add.sprite("burning", "healthbar");
+    this.burn.position.set(160, 16);
+    this.burn.visible = false;
+    
+    this.slow =  this.add.sprite("slow", "healthbar");
+    this.slow.position.set(170, 16);
+    this.slow.visible = false;
+
+
     this.addUILayer("pauseText");
     let text;
     let size;
+    console.log(this.currentLevel)
     if (this.currentLevel == "1") {
-      text = "Paused - Flame Imps";
+      text = "Paused - Flame Imps - Burns (Attack)";
       size = new Vec2(270, 100);
     }
-    if (this.currentLevel == "2") {
+    else if (this.currentLevel == "2") {
       text = "Paused - Slimes - Mutiply (Death) ";
       size = new Vec2(420, 100);
     }
-    if (this.currentLevel == "3") {
+    else if (this.currentLevel == "3") {
       text = "Paused - Fish - Slow Player (Attack) ";
       size = new Vec2(440, 100);
     }
-    if (this.currentLevel == "4") {
+    else if (this.currentLevel == "4") {
       text = "Paused - Gemstones - Ranged (Attack) ";
       size = new Vec2(500, 100);
     }
-    if (this.currentLevel == "5") {
+    else if (this.currentLevel == "5") {
       text = "Paused - Rock Worm - Fast (Movement) ";
       size = new Vec2(500, 100);
     }
-    if (this.currentLevel == "6") {
+    else if (this.currentLevel == "6") {
       text = "Paused - Rock Worm - Fast Movement";
       size = new Vec2(440, 100);
     }
-    else{
+    else {
       text = "Paused - Rock Worm - Fast Movement";
       size = new Vec2(440, 100);
     }
@@ -288,7 +306,7 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "attack",
       {
-        position: new Vec2(190, 16),
+        position: new Vec2(200, 16),
         text:
           "Attack: " +
           (<PlayerController>this.mainPlayer._ai).weapon.type.damage,
@@ -302,7 +320,7 @@ export default class mainScene extends Scene {
       UIElementType.LABEL,
       "enemyKilled",
       {
-        position: new Vec2(240, 16),
+        position: new Vec2(250, 16),
         text: "Kills: " + this.totalEnemiesKilled,
       }
     );
@@ -321,7 +339,7 @@ export default class mainScene extends Scene {
     speedpic.position.set(280, 100);
     var healthpic = this.add.sprite("healthmax", "buffspicture");
     healthpic.position.set(280, 130);
-    var projectilePic = this.add.sprite("laserGun", "buffspicture");
+    var projectilePic = this.add.sprite("multishot", "buffspicture");
     projectilePic.position.set(280, 160);
 
     this.attackDamageBuffLabel = <Label>this.add.uiElement(
@@ -428,7 +446,6 @@ export default class mainScene extends Scene {
 
         this.totalEnemiesKilled++;
         this.enemyKilled.text = "Kills: " + this.totalEnemiesKilled;
-        console.log(enemy)
         let enemyType = (<EnemyAI>enemy._ai).enemyType
         // if (this.currentLevel == "2") {
         if(enemyType==="slime"){
@@ -441,11 +458,22 @@ export default class mainScene extends Scene {
           this.spawnRandomEnemy();
         }
       }
+      
       if (event.isType("playerdamage")) {
         let enemyType = event.data.get("enemyType")
         if (this.currentLevel == "3") {
-          this.emitter.fireEvent("slowplayer");
+          this.slow.visible = true;
         }
+        else if (this.currentLevel == "1"){
+          this.burn.visible = true;
+        }
+      }
+      if (event.isType("nomoreburn")) {
+        this.burn.visible = false;
+      }
+      if (event.isType("nomoreslow")) {
+        console.log("no more slow");
+        this.slow.visible = false;
       }
       if (event.isType("checkpoint_cleared")) {
         // let sprite = this.add.sprite("checkpointcleared", "primary");
@@ -650,7 +678,7 @@ export default class mainScene extends Scene {
   }
 
   createMultiProjectile(position: Vec2): void {
-    let sprite = this.add.sprite("laserGun", "primary");
+    let sprite = this.add.sprite("multishot", "primary");
     let maxhealth = new MultiProjectile(sprite);
     maxhealth.moveSprite(position);
     this.items.push(maxhealth);
@@ -815,8 +843,8 @@ export default class mainScene extends Scene {
     data=this.changeEnemySpawnType(data)
 
     // // Create an enemy
-    console.log("this is where we are creating and spawning new enemies")
-    console.log(data)
+    // console.log("this is where we are creating and spawning new enemies")
+    // console.log(data)
 
     this.enemies.push(this.add.animatedSprite(data.type, "primary"));
     let lastIndex = this.enemies.length - 1;

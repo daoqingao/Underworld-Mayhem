@@ -24,6 +24,9 @@ import CheckpointCleared from "../GameSystems/items/CheckpointCleared";
 import Emitter from "../../Wolfie2D/Events/Emitter";
 import StateMachineGoapAI from "../../Wolfie2D/AI/StateMachineGoapAI";
 import MultiProjectile from "../GameSystems/items/MultiProjectile";
+import Particle from "../../Wolfie2D/Nodes/Graphics/Particle";
+import RandUtils from "../../Wolfie2D/Utils/RandUtils";
+import ParticleSystem from "../../Wolfie2D/Rendering/Animations/ParticleSystem";
 
 export default class PlayerController
   extends StateMachineGoapAI
@@ -73,7 +76,14 @@ export default class PlayerController
 
   pause: boolean = false;
 
+  burningTimer: Timer;
+  burningTotal: number;
+  system: ParticleSystem;
+
   initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
+
+
+
     this.owner = owner;
     this.lookDirection = Vec2.ZERO;
     this.speed = options.speed;
@@ -90,6 +100,7 @@ export default class PlayerController
     this.shootingTimer = this.weapon.cooldownTimer;
     this.projectileAmount = 1;
     this.receiver.subscribe("slowplayer");
+    this.system = options.system;
   }
 
   activate(options: Record<string, any>): void {}
@@ -330,11 +341,37 @@ export default class PlayerController
       }
       this.handlePickUpItem();
     }
+
+    if(this.burningTotal>=0){
+      if(this.burningTimer.isStopped())
+      {
+        this.burningTotal--;
+        this.damage(1);
+        this.burningTimer.start(1000);
+      }
+
+    }
   }
+
+  // setParticleAnimation(particle: Particle) {
+  //   particle.vel = RandUtils.randVec(-50, 50, -100, 100);
+  //   particle.tweens.add("active", {
+  //     startDelay: 0,
+  //     duration: 100,
+  //     effects: []
+  //   });
+  // }
 
   damage(damage: number, enemyType?:any): void {
     this.health -= damage;
-    console.log(enemyType)
+    // console.log(enemyType)
+    if(enemyType === "imp"){
+      //giving imps a burning effect
+      this.burningTotal=5; //5 ticks in total
+      this.burningTimer = new Timer(1000);
+      // this.system.startSystem(1000,  1,this.owner.position.clone());
+
+    }
     this.emitter.fireEvent("playerdamage", { speed: this.speed,enemyType: enemyType });
   }
 

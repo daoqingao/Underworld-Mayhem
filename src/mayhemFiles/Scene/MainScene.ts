@@ -34,6 +34,7 @@ import Checkpoint from "../GameSystems/items/Checkpoint";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MultiProjectile from "../GameSystems/items/MultiProjectile";
+import ParticleSystem from "../../Wolfie2D/Rendering/Animations/ParticleSystem";
 
 export default class mainScene extends Scene {
   // The player
@@ -89,6 +90,7 @@ export default class mainScene extends Scene {
   tileMapMaxSize: Vec2;
 
   pauseText: Label;
+  system:ParticleSystem
 
   mainLoadScene() {
     this.load.spritesheet(
@@ -712,6 +714,10 @@ export default class mainScene extends Scene {
     // } else {
     //   speed = 100;
     // }
+
+
+    this.system = new ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
+    this.system.initializePool(this, "primary");
     this.mainPlayer.addAI(PlayerController, {
       speed: speed,
       health: 128, //original was 25 //
@@ -721,6 +727,7 @@ export default class mainScene extends Scene {
       inputEnabled: true,
       range: 150, //weak pistol range
       weapon: startingWeapon,
+      system:this.system
     });
     this.mainPlayer.animation.play("face_right");
     (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);

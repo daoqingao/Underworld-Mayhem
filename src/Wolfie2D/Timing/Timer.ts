@@ -21,7 +21,7 @@ export default class Timer implements Updateable {
     protected timeLeft: number;
 
     /** The number of times this timer has been run */
-    protected numRuns: number;
+    numRuns: number;
 
     constructor(time: number, onEnd?: Function, loop: boolean = false){
         // Register this timer

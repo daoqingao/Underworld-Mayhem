@@ -33,7 +33,7 @@ export default class Level9 extends mainScene{
 
     loadScene() {
         this.load.audio("bgm", "mayhemAssets/music/bgm.mp3");
-        this.load.tilemap("level", "mayhemAssets/tilemaps/level5.json");
+        this.load.tilemap("level", "mayhemAssets/tilemaps/level9.json");
         // this.load.spritesheet("enemy", "mayhemAssets/spritesheets/cave.json");
         this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint2.png");
         super.mainLoadScene();

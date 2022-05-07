@@ -24,7 +24,7 @@ export default class Level7 extends mainScene{
 
     loadScene() {
         this.load.audio("bgm", "mayhemAssets/music/bgm.mp3");
-        this.load.tilemap("level", "mayhemAssets/tilemaps/level5.json");
+        this.load.tilemap("level", "mayhemAssets/tilemaps/level7.json");
         this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint2.png");
         super.mainLoadScene();
     }

@@ -6,8 +6,7 @@ export default class Level6 extends mainScene {
   //THIS IS where you left off, feel free to add enemy spawn types
   //at level 6 this is just a demo of how we can have multiple enemies be spawned together
   changeEnemySpawnType(data:any):any{
-    let enemySpawnType = (this.totalEnemiesKilled % 4);
-    console.log(enemySpawnType)
+    let enemySpawnType = ((this.enemies.length + this.totalEnemiesKilled) % 5);
     if(enemySpawnType === 1){
       data.type = "imp"
     }
@@ -18,6 +17,9 @@ export default class Level6 extends mainScene {
     else if(enemySpawnType === 3) {
       data.type = "gemstone"
 
+    }
+    else if (enemySpawnType ===4){
+      data.type = "jellyfish"
     }
     else{
       data.type = "caveEnemy"

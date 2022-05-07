@@ -3,21 +3,23 @@ import Level8 from "./Level8";
 
 export default class Level7 extends mainScene{
     changeEnemySpawnType(data:any):any{
-        let enemySpawnType = (this.totalEnemiesKilled % 4);
-        console.log(enemySpawnType)
+        let enemySpawnType = ((this.enemies.length + this.totalEnemiesKilled) % 5);
         if(enemySpawnType === 1){
-            data.type = "imp"
+          data.type = "imp"
         }
         else if(enemySpawnType === 2){
-            data.type = "slime"
-
+          data.type = "slime"
+    
         }
         else if(enemySpawnType === 3) {
-            data.type = "gemstone"
-
+          data.type = "gemstone"
+    
+        }
+        else if (enemySpawnType ===4){
+          data.type = "jellyfish"
         }
         else{
-            data.type = "caveEnemy"
+          data.type = "caveEnemy"
         }
         return data
     }

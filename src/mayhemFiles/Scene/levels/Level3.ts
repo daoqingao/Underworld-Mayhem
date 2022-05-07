@@ -4,7 +4,7 @@ export default class Level3 extends mainScene {
 
   //SLIME SLOW with WATER level
   changeEnemySpawnType(data:any):any{
-    data.type = "slime"
+    data.type = "jellyfish"
     return data
   }
   loadScene() {

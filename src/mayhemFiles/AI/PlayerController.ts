@@ -393,7 +393,7 @@ export default class PlayerController
       // this.system.startSystem(1000,  1,this.owner.position.clone());
 
     }
-    if (enemyType === "slime"){
+    if (enemyType === "jellyfish"){
       if (!(this.currentSlowed)){
         this.oldspeed = this.speed;
         this.slowTotal = 5;

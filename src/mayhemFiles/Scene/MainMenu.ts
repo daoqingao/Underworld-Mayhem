@@ -309,7 +309,7 @@ export default class MainMenu extends Scene {
       UIElementType.BUTTON,
       "selectLevelScreen",
       {
-        position: new Vec2(center.x + 100, center.y - 90),
+        position: new Vec2(center.x + 110, center.y - 90),
         text: "Level 2",
       }
     );
@@ -349,7 +349,7 @@ export default class MainMenu extends Scene {
       UIElementType.BUTTON,
       "selectLevelScreen",
       {
-        position: new Vec2(center.x + 100, center.y + 90),
+        position: new Vec2(center.x + 110, center.y + 90),
         text: "Level 5",
       }
     );
@@ -362,7 +362,7 @@ export default class MainMenu extends Scene {
       UIElementType.BUTTON,
       "selectLevelScreen",
       {
-        position: new Vec2(center.x - 100, center.y + 90),
+        position: new Vec2(center.x - 110, center.y + 90),
         text: "Level 6",
       }
     );
@@ -401,7 +401,7 @@ export default class MainMenu extends Scene {
       UIElementType.BUTTON,
       "selectLevelScreen",
       {
-        position: new Vec2(center.x - 100, center.y - 90),
+        position: new Vec2(center.x - 110, center.y - 90),
         text: "Level 9",
       }
     );

@@ -9,24 +9,27 @@ import Label from "../../../Wolfie2D/Nodes/UIElements/Label";
 import {UIElementType} from "../../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Color from "../../../Wolfie2D/Utils/Color";
 import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
+import Won from "../Won";
 
 export default class Level9 extends mainScene{
     changeEnemySpawnType(data:any):any{
-        let enemySpawnType = (this.totalEnemiesKilled % 4);
-        console.log(enemySpawnType)
+        let enemySpawnType = ((this.enemies.length + this.totalEnemiesKilled) % 5);
         if(enemySpawnType === 1){
-            data.type = "imp"
+          data.type = "imp"
         }
         else if(enemySpawnType === 2){
-            data.type = "slime"
-
+          data.type = "slime"
+    
         }
         else if(enemySpawnType === 3) {
-            data.type = "gemstone"
-
+          data.type = "gemstone"
+    
+        }
+        else if (enemySpawnType ===4){
+          data.type = "jellyfish"
         }
         else{
-            data.type = "caveEnemy"
+          data.type = "caveEnemy"
         }
         return data
     }

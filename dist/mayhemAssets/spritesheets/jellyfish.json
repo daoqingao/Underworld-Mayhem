@@ -1,0 +1,124 @@
+{
+	"name": "jellyfish",
+	"spriteSheetImage": "jellyfish_spritesheet.png",
+	"spriteWidth": 16,
+	"spriteHeight": 16,
+	"leftBuffer": 0,
+	"rightBuffer": 0,
+	"topBuffer": 0,
+	"bottomBuffer": 0,
+	"columns": 6,
+	"rows": 5,
+	"animations": [
+		{
+			"name": "face_left",
+			"repeat": true,
+			"frames": [
+				{
+					"index": 0,
+					"duration": 10
+				}
+			]
+		},
+		{
+			"name": "face_right",
+			"repeat": true,
+			"frames": [
+				{
+					"index": 6,
+					"duration": 10
+				}
+			]
+		},
+		{
+			"name": "run_left",
+			"repeat": true,
+			"frames": [
+				{
+					"index": 12,
+					"duration": 5
+				},
+				{
+					"index": 13,
+					"duration": 5
+				},
+				{
+					"index": 14,
+					"duration": 5
+				},
+				{
+					"index": 15,
+					"duration": 5
+				},
+				{
+					"index": 16,
+					"duration": 5
+				},
+				{
+					"index": 17,
+					"duration": 5
+				}
+			]
+		},
+		{
+			"name": "run_right",
+			"repeat": true,
+			"frames": [
+				{
+					"index": 18,
+					"duration": 5
+				},
+				{
+					"index": 19,
+					"duration": 5
+				},
+				{
+					"index": 20,
+					"duration": 5
+				},
+				{
+					"index": 21,
+					"duration": 5
+				},
+				{
+					"index": 22,
+					"duration": 5
+				},
+				{
+					"index": 23,
+					"duration": 5
+				}
+			]
+		},
+		{
+			"name": "dying",
+			"repeat": true,
+			"frames": [
+				{
+					"index": 24,
+					"duration": 5
+				},
+				{
+					"index": 25,
+					"duration": 5
+				},
+				{
+					"index": 26,
+					"duration": 5
+				},
+				{
+					"index": 27,
+					"duration": 5
+				},
+				{
+					"index": 28,
+					"duration": 5
+				},
+				{
+					"index": 29,
+					"duration": 5
+				}
+			]
+		}
+	]
+}

@@ -35,6 +35,7 @@ import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MultiProjectile from "../GameSystems/items/MultiProjectile";
 import ParticleSystem from "../../Wolfie2D/Rendering/Animations/ParticleSystem";
+import Won from "./Won";
 
 export default class mainScene extends Scene {
   // The player
@@ -88,6 +89,7 @@ export default class mainScene extends Scene {
   healthbargreen: Sprite;
 
   totalEnemiesKilled = 0;
+  enemiesNeeded = 0;
   checkpointDropBoolean = false;
   tileMapMaxSize: Vec2;
 
@@ -102,8 +104,10 @@ export default class mainScene extends Scene {
 
     this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
     this.load.spritesheet("slime", "mayhemAssets/spritesheets/slime.json");
+    this.load.spritesheet("jellyfish", "mayhemAssets/spritesheets/jellyfish.json");
     this.load.spritesheet("gemstone", "mayhemAssets/spritesheets/gemstone.json");
     this.load.spritesheet("caveEnemy", "mayhemAssets/spritesheets/cave.json");
+
 
 
     this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
@@ -233,32 +237,49 @@ export default class mainScene extends Scene {
     let size;
     console.log(this.currentLevel)
     if (this.currentLevel == "1") {
-      text = "Paused - Flame Imps - Burns (Attack)";
-      size = new Vec2(270, 100);
+      text = "Paused - Flame Imps - Burns (Attack) - Kill 10";
+      size = new Vec2(550, 100);
+      this.enemiesNeeded = 10;
     }
     else if (this.currentLevel == "2") {
-      text = "Paused - Slimes - Mutiply (Death) ";
-      size = new Vec2(420, 100);
+      text = "Paused - Slimes - Mutiply (Death) - Kill 20";
+      size = new Vec2(550, 100);
+      this.enemiesNeeded = 20;
     }
     else if (this.currentLevel == "3") {
-      text = "Paused - Fish - Slow Player (Attack) ";
-      size = new Vec2(440, 100);
+      text = "Paused - JellyFish - Slow Player (Attack) - Kill 30 ";
+      size = new Vec2(590, 100);
+      this.enemiesNeeded = 30;
     }
     else if (this.currentLevel == "4") {
-      text = "Paused - Gemstones - Ranged (Attack) ";
-      size = new Vec2(500, 100);
+      text = "Paused - Gemstones - Ranged (Attack) - Kill 40";
+      size = new Vec2(570, 100);
+      this.enemiesNeeded = 40;
     }
     else if (this.currentLevel == "5") {
-      text = "Paused - Rock Worm - Fast (Movement) ";
-      size = new Vec2(500, 100);
+      text = "Paused - Rock Worm - Fast (Movement) - Kill 50";
+      size = new Vec2(580, 100);
+      this.enemiesNeeded = 50;
     }
     else if (this.currentLevel == "6") {
-      text = "Paused - Rock Worm - Fast Movement";
-      size = new Vec2(440, 100);
+      text = "Paused - Mix - Kill 60";
+      size = new Vec2(300, 100);
+      this.enemiesNeeded = 60;
     }
-    else {
-      text = "Paused - Rock Worm - Fast Movement";
-      size = new Vec2(440, 100);
+    else if (this.currentLevel == "7") {
+      text = "Paused - Mix - Kill 70";
+      size = new Vec2(300, 100);
+      this.enemiesNeeded = 70;
+    }
+    else if (this.currentLevel == "8") {
+      text = "Paused - Mix - Kill 80";
+      size = new Vec2(300, 100);
+      this.enemiesNeeded = 80;
+    }
+    else{
+      text = "Paused - Boss"
+      size = new Vec2(300, 100);
+      this.enemiesNeeded = 1;
     }
     this.pauseText = <Label>this.add.uiElement(
       UIElementType.LABEL,
@@ -394,8 +415,7 @@ export default class mainScene extends Scene {
   }
 
   lootGenerate(pos: Vec2) {
-    if (this.checkpointDropBoolean == false && this.totalEnemiesKilled >= 75) {
-      //kill 75 to get to next stage
+    if (this.checkpointDropBoolean == false && this.totalEnemiesKilled >= this.enemiesNeeded) {
       this.checkpointDropBoolean = true;
       this.createCheckpoint(pos); //only 1 can be created i guess
     }
@@ -461,10 +481,10 @@ export default class mainScene extends Scene {
       
       if (event.isType("playerdamage")) {
         let enemyType = event.data.get("enemyType")
-        if (this.currentLevel == "3") {
+        if (enemyType == "jellyfish") {
           this.slow.visible = true;
         }
-        else if (this.currentLevel == "1"){
+        else if (enemyType == "imp"){
           this.burn.visible = true;
         }
       }
@@ -472,7 +492,6 @@ export default class mainScene extends Scene {
         this.burn.visible = false;
       }
       if (event.isType("nomoreslow")) {
-        console.log("no more slow");
         this.slow.visible = false;
       }
       if (event.isType("checkpoint_cleared")) {
@@ -486,7 +505,12 @@ export default class mainScene extends Scene {
           loop: true,
           holdReference: true,
         });
-        this.sceneManager.changeToScene(this.nextLevel);
+        if (this.currentLevel == "9"){
+          this.sceneManager.changeToScene(Won);
+        }
+        else{
+          this.sceneManager.changeToScene(this.nextLevel);
+        }
       }
       if (event.isType("newbuff")) {
         var buff = event.data.get("buff");
@@ -888,7 +912,19 @@ export default class mainScene extends Scene {
         speed = 50;
       } else if (this.currentLevel == "6") {
         speed = 60;
-      } else speed = 100
+      } 
+      else if (this.currentLevel == "7") {
+        speed = 70;
+      } 
+      else if (this.currentLevel == "8") {
+        speed = 80;
+      } 
+      else if (this.currentLevel == "9") {
+        speed = 90;
+      } 
+      else{
+        speed = 100;
+      }
 
     var enemyhpbar = this.add.sprite("enemyHp", "primary");
     enemyhpbar.position.set(data.position[0] / 2, data.position[1] / 2 - 7);

@@ -1,0 +1,112 @@
+{
+	"name": "devil",
+	"spriteSheetImage": "devil_spritesheet.png",
+	"spriteWidth": 74,
+	"spriteHeight": 70,
+	"leftBuffer": 0,
+	"rightBuffer": 0,
+	"topBuffer": 0,
+	"bottomBuffer": 0,
+	"columns": 9,
+	"rows": 5,
+	"animations": [
+		{
+			"name": "face_left",
+			"repeat": true,
+			"frames": [
+				{
+					"index": 0,
+					"duration": 10
+				}
+			]
+		},
+		{
+			"name": "face_right",
+			"repeat": true,
+			"frames": [
+				{
+					"index": 9,
+					"duration": 10
+				}
+			]
+		},
+		{
+			"name": "run_left",
+			"repeat": true,
+			"frames": [
+				{
+					"index": 18,
+					"duration": 15
+				},
+				{
+					"index": 19,
+					"duration": 15
+				},
+				{
+					"index": 20,
+					"duration": 15
+				}
+			]
+		},
+		{
+			"name": "run_right",
+			"repeat": false,
+			"frames": [
+				{
+					"index": 27,
+					"duration": 15
+				},
+				{
+					"index": 28,
+					"duration": 15
+				},
+				{
+					"index": 29,
+					"duration": 15
+				}
+			]
+		},
+		{
+			"name": "dying",
+			"repeat": false,
+			"frames": [
+				{
+					"index": 36,
+					"duration": 15
+				},
+				{
+					"index": 37,
+					"duration": 15
+				},
+				{
+					"index": 38,
+					"duration": 15
+				},
+				{
+					"index": 39,
+					"duration": 15
+				},
+				{
+					"index": 40,
+					"duration": 15
+				},
+				{
+					"index": 41,
+					"duration": 15
+				},
+				{
+					"index": 42,
+					"duration": 15
+				},
+				{
+					"index": 43,
+					"duration": 15
+				},
+				{
+					"index": 44,
+					"duration": 15
+				}
+			]
+		}
+	]
+}

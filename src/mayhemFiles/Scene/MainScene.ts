@@ -107,7 +107,7 @@ export default class mainScene extends Scene {
     this.load.spritesheet("jellyfish", "mayhemAssets/spritesheets/jellyfish.json");
     this.load.spritesheet("gemstone", "mayhemAssets/spritesheets/gemstone.json");
     this.load.spritesheet("caveEnemy", "mayhemAssets/spritesheets/cave.json");
-
+    this.load.spritesheet("devil", "mayhemAssets/spritesheets/devil.json");
 
 
     this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
@@ -419,29 +419,31 @@ export default class mainScene extends Scene {
       this.checkpointDropBoolean = true;
       this.createCheckpoint(pos); //only 1 can be created i guess
     }
-    if (this.items.length >= 30) {
-      return; //cannot drop more than 30 items
-    }
-    if (Math.random() < 0.4) {
-      // Spawn a healthpack
-      let min = 1;
-      let max = 5;
-      let lootType = Math.floor(Math.random() * (max + 1 - min) + min);
-      // this.emitter.fireEvent("healthpack", { pos});
-      if (lootType === 1) {
-        this.createAttackDamage(pos);
+    else{
+      if (this.items.length >= 30) {
+        return; //cannot drop more than 30 items
       }
-      if (lootType === 2) {
-        this.createAttackspeed(pos);
-      }
-      if (lootType === 3) {
-        this.createMultiProjectile(pos);
-      }
-      if (lootType === 4) {
-        this.createMaxhealth(pos);
-      }
-      if (lootType === 5) {
-        //for more stuff
+      if (Math.random() < 0.4) {
+        // Spawn a healthpack
+        let min = 1;
+        let max = 5;
+        let lootType = Math.floor(Math.random() * (max + 1 - min) + min);
+        // this.emitter.fireEvent("healthpack", { pos});
+        if (lootType === 1) {
+          this.createAttackDamage(pos);
+        }
+        if (lootType === 2) {
+          this.createAttackspeed(pos);
+        }
+        if (lootType === 3) {
+          this.createMultiProjectile(pos);
+        }
+        if (lootType === 4) {
+          this.createMaxhealth(pos);
+        }
+        if (lootType === 5) {
+          this.createSpeed(pos);
+        }
       }
     }
   }
@@ -456,6 +458,7 @@ export default class mainScene extends Scene {
         let enemy = <AnimatedSprite>event.data.get("enemy");
         enemy.healthbar.destroy();
         enemy.visible = false;
+        this.totalEnemiesKilled++;
         this.lootGenerate(event.data.get("enemy").position.clone());
         this.enemies = this.enemies.filter(
           (enemy) => enemy !== event.data.get("enemy")
@@ -464,11 +467,12 @@ export default class mainScene extends Scene {
           (enemy) => enemy !== <BattlerAI>event.data.get("enemy")._ai
         );
 
-        this.totalEnemiesKilled++;
+
         this.enemyKilled.text = "Kills: " + this.totalEnemiesKilled;
         let enemyType = (<EnemyAI>enemy._ai).enemyType
-        // if (this.currentLevel == "2") {
-        if(enemyType==="slime"){
+        if (enemyType==="devil") {
+        }
+        else if (enemyType==="slime"){
           this.spawnNewEnemy(new Vec2(enemy.position.x, enemy.position.y));
           this.spawnNewEnemy(
             new Vec2(enemy.position.x + 20, enemy.position.y - 20)
@@ -962,9 +966,15 @@ export default class mainScene extends Scene {
   initializeEnemies() {
     this.enemies = new Array(0);
     const enemyData = this.load.getObject("enemyData");
-    for (let i = 0; i < enemyData.numEnemies; i++) {
-      let data = enemyData.enemies[i];
+    if (this.currentLevel == "9"){
+      let data = enemyData.enemies[0];
       this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
+    }
+    else{
+      for (let i = 0; i < enemyData.numEnemies; i++) {
+        let data = enemyData.enemies[i];
+        this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
+      }
     }
   }
 

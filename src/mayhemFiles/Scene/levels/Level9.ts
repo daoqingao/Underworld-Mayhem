@@ -13,24 +13,7 @@ import Won from "../Won";
 
 export default class Level9 extends mainScene{
     changeEnemySpawnType(data:any):any{
-        let enemySpawnType = ((this.enemies.length + this.totalEnemiesKilled) % 5);
-        if(enemySpawnType === 1){
-          data.type = "imp"
-        }
-        else if(enemySpawnType === 2){
-          data.type = "slime"
-    
-        }
-        else if(enemySpawnType === 3) {
-          data.type = "gemstone"
-    
-        }
-        else if (enemySpawnType ===4){
-          data.type = "jellyfish"
-        }
-        else{
-          data.type = "caveEnemy"
-        }
+        data.type = "devil";
         return data
     }
 
@@ -38,7 +21,7 @@ export default class Level9 extends mainScene{
         this.load.audio("bgm", "mayhemAssets/music/bgm.mp3");
         this.load.tilemap("level", "mayhemAssets/tilemaps/level9.json");
         // this.load.spritesheet("enemy", "mayhemAssets/spritesheets/cave.json");
-        this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint2.png");
+        this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint9.png");
         super.mainLoadScene();
     }
     unloadScene() {}

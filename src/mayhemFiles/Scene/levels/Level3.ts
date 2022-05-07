@@ -10,7 +10,7 @@ export default class Level3 extends mainScene {
   loadScene() {
     this.load.audio("bgm", "mayhemAssets/music/bgm.mp3");
     this.load.tilemap("level", "mayhemAssets/tilemaps/level3.json");
-    this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint2.png");
+    this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint3.png");
 
     super.mainLoadScene();
   }

@@ -37,7 +37,7 @@ export default class Level8 extends mainScene{
         this.load.audio("bgm", "mayhemAssets/music/bgm.mp3");
         this.load.tilemap("level", "mayhemAssets/tilemaps/level8.json");
         // this.load.spritesheet("enemy", "mayhemAssets/spritesheets/cave.json");
-        this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint2.png");
+        this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint8.png");
         super.mainLoadScene();
     }
     unloadScene() {}

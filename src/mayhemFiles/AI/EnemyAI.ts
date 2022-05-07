@@ -58,6 +58,8 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
   // Path away from player
   retreatPath: NavigationPath;
 
+  enemyType: String;
+
   initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
     this.owner = owner;
 
@@ -95,6 +97,8 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
     this.currentStatus = options.status;
 
     this.possibleActions = options.actions;
+
+    this.enemyType = options.enemyType;
 
     this.plan = new Stack<GoapAction>();
 

@@ -19,7 +19,7 @@ export default class BattleManager {
             // Check for collision with player
             for (let player of this.players) {
                 if (weapon.hits(player.owner)) {
-                    player.damage(weapon.type.damage);
+                    player.damage(weapon.type.damage,attackerType);
                 }
             }
         }

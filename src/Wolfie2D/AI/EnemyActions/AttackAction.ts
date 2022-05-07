@@ -41,7 +41,8 @@ export default class AttackAction extends GoapAction {
         .clone()
         .sub(enemy.owner.position)
         .normalize();
-      if (enemy.weapon.use(enemy.owner, "enemy", dir)) {
+      let enemyType = <string>enemy.enemyType
+      if (enemy.weapon.use(enemy.owner, enemyType, dir)) {
           // let dir = enemy.getPlayerPosition().clone().sub(enemy.owner.position).normalize();
           // enemy.owner.rotation = Vec2.UP.angleToCCW(dir);
       }

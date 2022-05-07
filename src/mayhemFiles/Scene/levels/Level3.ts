@@ -1,10 +1,15 @@
 import mainScene from "../MainScene";
 import Level4 from "./Level4";
 export default class Level3 extends mainScene {
+
+  //SLIME SLOW with WATER level
+  changeEnemySpawnType(data:any):any{
+    data.type = "slime"
+    return data
+  }
   loadScene() {
     this.load.audio("bgm", "mayhemAssets/music/bgm.mp3");
     this.load.tilemap("level", "mayhemAssets/tilemaps/level3.json");
-    this.load.spritesheet("enemy", "mayhemAssets/spritesheets/slime.json");
     this.load.image("checkpoint", "mayhemAssets/sprites/checkpoint2.png");
 
     super.mainLoadScene();

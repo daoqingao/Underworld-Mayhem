@@ -96,6 +96,12 @@ export default class mainScene extends Scene {
       "mayhemAssets/spritesheets/mainplayer.json"
     );
 
+    this.load.spritesheet("imp", "mayhemAssets/spritesheets/imp.json");
+    this.load.spritesheet("slime", "mayhemAssets/spritesheets/slime.json");
+    this.load.spritesheet("gemstone", "mayhemAssets/spritesheets/gemstone.json");
+    this.load.spritesheet("caveEnemy", "mayhemAssets/spritesheets/cave.json");
+
+
     this.load.spritesheet("slice", "mayhemAssets/spritesheets/slice.json");
     this.load.object("weaponData", "mayhemAssets/data/weaponData.json");
     this.load.object("navmesh", "mayhemAssets/data/navmesh.json");
@@ -227,6 +233,10 @@ export default class mainScene extends Scene {
       size = new Vec2(500, 100);
     }
     if (this.currentLevel == "6") {
+      text = "Paused - Rock Worm - Fast Movement";
+      size = new Vec2(440, 100);
+    }
+    else{
       text = "Paused - Rock Worm - Fast Movement";
       size = new Vec2(440, 100);
     }
@@ -416,7 +426,10 @@ export default class mainScene extends Scene {
 
         this.totalEnemiesKilled++;
         this.enemyKilled.text = "Kills: " + this.totalEnemiesKilled;
-        if (this.currentLevel == "2") {
+        console.log(enemy)
+        let enemyType = (<EnemyAI>enemy._ai).enemyType
+        // if (this.currentLevel == "2") {
+        if(enemyType==="slime"){
           this.spawnNewEnemy(new Vec2(enemy.position.x, enemy.position.y));
           this.spawnNewEnemy(
             new Vec2(enemy.position.x + 20, enemy.position.y - 20)
@@ -427,6 +440,7 @@ export default class mainScene extends Scene {
         }
       }
       if (event.isType("playerdamage")) {
+        let enemyType = event.data.get("enemyType")
         if (this.currentLevel == "3") {
           this.emitter.fireEvent("slowplayer");
         }
@@ -760,11 +774,42 @@ export default class mainScene extends Scene {
     hw4_Statuses.CAN_BERSERK,
   ];
 
+
+  changeEnemySpawnType(data:any):any{
+      if(this.enemies.length===1){
+        data.type= "slime"
+      }
+      else if(this.enemies.length === 2){
+        data.type = "gemstone"
+      }
+      else if(this.enemies.length === 3){
+        data.type = "caveEnemy"
+      }
+      else{
+        data.type = "imp"
+      }
+      return data
+  }
+  applyEnemyEffects(enemy: AnimatedSprite){
+    let enemyAi = (<EnemyAI>enemy._ai)
+    let enemyType = enemyAi.enemyType
+
+    if(enemyType==="gemstone"){
+      enemyAi.weapon = this.createWeapon("weak_pistol");
+      enemyAi.possibleActions = this.actionsGun;
+      enemyAi.speed = 40;
+      enemyAi.inRange = 50;
+    }
+  }
   spawnEnemy(data: any, pos: Vec2) {
     if (this.enemies.length >= 60) {
       return; //hard limit on the max enemies there can be in this game
     }
-    // Create an enemy
+    data=this.changeEnemySpawnType(data)
+
+    // // Create an enemy
+    console.log("this is where we are creating and spawning new enemies")
+    console.log(data)
 
     this.enemies.push(this.add.animatedSprite(data.type, "primary"));
     let lastIndex = this.enemies.length - 1;
@@ -794,13 +839,7 @@ export default class mainScene extends Scene {
     let weapon;
     let actions;
     let range;
-    let speed;
-    if (this.currentLevel == "4") {
-      weapon = this.createWeapon("weak_pistol");
-      actions = this.actionsGun;
-      speed = 40;
-      range = 50;
-    } else {
+    let speed=100;
       weapon = this.createWeapon("knife");
       actions = this.actionKnife;
       range = 20;
@@ -814,8 +853,7 @@ export default class mainScene extends Scene {
         speed = 50;
       } else if (this.currentLevel == "6") {
         speed = 60;
-      }
-    }
+      } else speed = 100
 
     var enemyhpbar = this.add.sprite("enemyHp", "primary");
     enemyhpbar.position.set(data.position[0] / 2, data.position[1] / 2 - 7);
@@ -838,17 +876,17 @@ export default class mainScene extends Scene {
       actions: actions,
       speed: speed,
       inRange: range,
+      enemyType: data.type
     };
     this.enemies[lastIndex].addAI(EnemyAI, enemyOptions);
-
     if (pos !== null) {
       this.enemies[lastIndex].position = pos.clone();
     }
     this.battleManager.setEnemies(
       this.enemies.map((enemy) => <BattlerAI>enemy._ai)
     );
-    // let dir = new Vec2(0,0);
-    // this.enemies[lastIndex].rotation = Vec2.UP.angleToCCW(dir);
+
+    this.applyEnemyEffects(this.enemies[lastIndex]);
   }
   initializeEnemies() {
     this.enemies = new Array(0);
@@ -857,9 +895,6 @@ export default class mainScene extends Scene {
       let data = enemyData.enemies[i];
       this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
     }
-    // for (let x = 0;x<100;x++){
-    //
-    // }
   }
 
   //this spawns in the a copy of first enemy of the enemy.json data at the set location

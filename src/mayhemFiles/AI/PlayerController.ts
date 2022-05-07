@@ -245,7 +245,7 @@ export default class PlayerController
       }
 
       //the combinations for hacks iguess
-      if (Input.isKeyJustPressed("j") && Input.isKeyJustPressed("k")) {
+      if (Input.isKeyPressed("j") && Input.isKeyPressed("k")) {
         if (this.hacks) {
           this.health = this.maxHealth;
           this.teleportEnabled = false;
@@ -332,9 +332,10 @@ export default class PlayerController
     }
   }
 
-  damage(damage: number): void {
+  damage(damage: number, enemyType?:any): void {
     this.health -= damage;
-    this.emitter.fireEvent("playerdamage", { speed: this.speed });
+    console.log(enemyType)
+    this.emitter.fireEvent("playerdamage", { speed: this.speed,enemyType: enemyType });
   }
 
   destroy() {}

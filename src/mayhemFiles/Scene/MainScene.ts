@@ -429,7 +429,7 @@ export default class mainScene extends Scene {
       if (this.items.length >= 30) {
         return; //cannot drop more than 30 items
       }
-      if (Math.random() < 0.4) {
+      if (Math.random() < .9) {
         // Spawn a healthpack
         let min = 1;
         let max = 5;

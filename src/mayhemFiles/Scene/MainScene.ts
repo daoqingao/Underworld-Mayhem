@@ -115,6 +115,7 @@ export default class mainScene extends Scene {
   bossSpawnOn = false;
 
   mainLoadScene() {
+    document.getElementById("game-window").style.cursor = "none";
     this.load.spritesheet(
       "mainplayer",
       "mayhemAssets/spritesheets/mainplayer.json"

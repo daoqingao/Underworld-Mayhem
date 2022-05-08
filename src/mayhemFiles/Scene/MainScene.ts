@@ -45,11 +45,15 @@ export default class mainScene extends Scene {
 
   protected mainPlayer: AnimatedSprite;
 
+  protected jackson: AnimatedSprite;
+
   // A list of enemies
   protected enemies: Array<AnimatedSprite>;
 
   // The wall layer of the tilemap to use for bullet visualization
   protected walls: OrthogonalTilemap;
+
+  protected nextText: String;
 
   // The position graph for the navmesh
   private graph: PositionGraph;
@@ -114,6 +118,7 @@ export default class mainScene extends Scene {
     this.load.object("weaponData", "mayhemAssets/data/weaponData.json");
     this.load.object("navmesh", "mayhemAssets/data/navmesh.json");
     this.load.object("enemyData", "mayhemAssets/data/enemy.json");
+    this.load.object("bossData", "mayhemAssets/data/boss.json");
     this.load.object("itemData", "mayhemAssets/data/items.json");
     this.load.image("healthpack", "mayhemAssets/sprites/healthpack.png");
     this.load.image("healthmax", "mayhemAssets/sprites/healthmax.png");
@@ -203,6 +208,7 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("playerdamage");
     this.receiver.subscribe("nomoreburn");
     this.receiver.subscribe("nomoreslow");
+    this.receiver.subscribe("changeText");
     
 
     // this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
@@ -454,6 +460,10 @@ export default class mainScene extends Scene {
       if (event.isType("healthpack")) {
         this.createHealthpack(event.data.get("position"));
       }
+      if (event.isType("changeText")) {
+        let text = event.data.get("text")
+        console.log(text);
+      }
       if (event.isType("enemyDied")) {
         let enemy = <AnimatedSprite>event.data.get("enemy");
         enemy.healthbar.destroy();
@@ -608,6 +618,16 @@ export default class mainScene extends Scene {
     var maxhp = (<PlayerController>this.mainPlayer._ai).maxHealth;
     this.healthbargreen.size.set((currenthp / maxhp) * 128, 16);
 
+    if(this.jackson){
+      if (this.mainPlayer.collisionShape.overlaps(this.jackson.boundary)){
+        const enemyData = this.load.getObject("bossData");
+        let data = enemyData.enemies[0];
+        this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
+        this.jackson.destroy(); 
+        console.log(this.jackson);
+        this.jackson = null;
+      }
+    }
     // Debug mode graph
     if (Input.isKeyJustPressed("g")) {
       this.getLayer("graph").setHidden(!this.getLayer("graph").isHidden());
@@ -774,6 +794,12 @@ export default class mainScene extends Scene {
 
     this.system = new ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
     this.system.initializePool(this, "primary");
+    if (this.currentLevel == "9"){
+      this.jackson = this.add.animatedSprite("mainplayer", "primary")
+      this.jackson = this.add.animatedSprite("mainplayer", "primary");
+      this.jackson.position.set(200, 496);
+      this.jackson.addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
+    }
     this.mainPlayer.addAI(PlayerController, {
       speed: speed,
       health: 128, //original was 25 //
@@ -783,7 +809,7 @@ export default class mainScene extends Scene {
       inputEnabled: true,
       range: 150, //weak pistol range
       weapon: startingWeapon,
-      system:this.system
+      system:this.system,
     });
     this.mainPlayer.animation.play("face_right");
     (<PlayerController>this.mainPlayer._ai).inventory.setActive(true);
@@ -880,7 +906,7 @@ export default class mainScene extends Scene {
       data.position[0] / 2,
       data.position[1] / 2
     );
-    this.enemies[lastIndex].animation.play("face_right");
+    this.enemies[lastIndex].animation.play("face_left");
     this.enemies[lastIndex].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
 
     if (data.route) {
@@ -925,6 +951,7 @@ export default class mainScene extends Scene {
       } 
       else if (this.currentLevel == "9") {
         speed = 90;
+        weapon.type.damage = 10;
       } 
       else{
         speed = 100;
@@ -967,8 +994,6 @@ export default class mainScene extends Scene {
     this.enemies = new Array(0);
     const enemyData = this.load.getObject("enemyData");
     if (this.currentLevel == "9"){
-      let data = enemyData.enemies[0];
-      this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
     }
     else{
       for (let i = 0; i < enemyData.numEnemies; i++) {

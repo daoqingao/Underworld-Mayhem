@@ -97,7 +97,7 @@ export default class PlayerController
     this.maxHealth = options.maxHealth;
     this.inputEnabled = options.inputEnabled;
     this.range = options.range;
-
+    
     this.items = options.items;
     this.inventory = options.inventory;
 
@@ -105,7 +105,6 @@ export default class PlayerController
     this.weapon = options.weapon;
     this.shootingTimer = this.weapon.cooldownTimer;
     this.projectileAmount = 1;
-    this.receiver.subscribe("slowplayer");
     this.system = options.system;
   }
 
@@ -327,12 +326,6 @@ export default class PlayerController
         }
       }
 
-      // Check for slot change
-      // if (Input.isJustPressed("slot1")) {
-      //   this.inventory.changeSlot(0);
-      // } else if (Input.isJustPressed("slot2")) {
-      //   this.inventory.changeSlot(1);
-      // }
     }
 
     //Move on path if selected

@@ -5,15 +5,15 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
-import level1 from "./levels/Level1";
-import level2 from "./levels/Level2";
-import level3 from "./levels/Level3";
-import level4 from "./levels/Level4";
-import level5 from "./levels/Level5";
-import level6 from "./levels/Level6";
-import level7 from "./levels/Level7";
-import level8 from "./levels/Level8";
-import level9 from "./levels/Level9";
+import Level1 from "./levels/Level1";
+import Level2 from "./levels/Level2";
+import Level3 from "./levels/Level3";
+import Level4 from "./levels/Level4";
+import Level5 from "./levels/Level5";
+import Level6 from "./levels/Level6";
+import Level7 from "./levels/Level7";
+import Level8 from "./levels/Level8";
+import Level9 from "./levels/Level9";
 
 export default class MainMenu extends Scene {
   // Layers, for multiple main menu screens\
@@ -440,31 +440,31 @@ export default class MainMenu extends Scene {
         this.selectLevelScreen.setHidden(false);
       }
       if (event.type === "chooselevel1") {
-        this.sceneManager.changeToScene(level1, {});
+        this.sceneManager.changeToScene(Level1, {});
       }
       if (event.type === "chooselevel2") {
-        this.sceneManager.changeToScene(level2, {});
+        this.sceneManager.changeToScene(Level2, {});
       }
       if (event.type === "chooselevel3") {
-        this.sceneManager.changeToScene(level3, {});
+        this.sceneManager.changeToScene(Level3, {});
       }
       if (event.type === "chooselevel4") {
-        this.sceneManager.changeToScene(level4, {});
+        this.sceneManager.changeToScene(Level4, {});
       }
       if (event.type === "chooselevel5") {
-        this.sceneManager.changeToScene(level5, {});
+        this.sceneManager.changeToScene(Level5, {});
       }
       if (event.type === "chooselevel6") {
-        this.sceneManager.changeToScene(level6, {});
+        this.sceneManager.changeToScene(Level6, {});
       }
       if (event.type === "chooselevel7") {
-        this.sceneManager.changeToScene(level7, {});
+        this.sceneManager.changeToScene(Level7, {});
       }
       if (event.type === "chooselevel8") {
-        this.sceneManager.changeToScene(level8, {});
+        this.sceneManager.changeToScene(Level8, {});
       }
       if (event.type === "chooselevel9") {
-        this.sceneManager.changeToScene(level9, {});
+        this.sceneManager.changeToScene(Level9, {});
       }
 
       if (event.type === "help") {

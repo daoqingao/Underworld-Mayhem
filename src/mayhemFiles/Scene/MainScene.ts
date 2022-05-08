@@ -36,6 +36,7 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MultiProjectile from "../GameSystems/items/MultiProjectile";
 import ParticleSystem from "../../Wolfie2D/Rendering/Animations/ParticleSystem";
 import Won from "./Won";
+import Timer from "../../Wolfie2D/Timing/Timer";
 
 export default class mainScene extends Scene {
   // The player
@@ -46,6 +47,11 @@ export default class mainScene extends Scene {
   protected mainPlayer: AnimatedSprite;
 
   protected jackson: AnimatedSprite;
+
+  protected dialogueTimer = new Timer(10000);
+  protected dialogueOn = false;
+
+  protected dialogueNumber = 0;
 
   // A list of enemies
   protected enemies: Array<AnimatedSprite>;
@@ -73,6 +79,8 @@ export default class mainScene extends Scene {
   protected maxhealthDisplays: Label;
 
   protected enemyKilled: Label;
+
+  protected dialogue: Label;
 
   protected attackDamageBuff = 0;
   protected attackSpeedBuff = 0;
@@ -283,10 +291,26 @@ export default class mainScene extends Scene {
       this.enemiesNeeded = 80;
     }
     else{
+      let dialogue = this.addUILayer("dialogue");
+      dialogue.setDepth(100);
       text = "Paused - Boss"
       size = new Vec2(300, 100);
       this.enemiesNeeded = 1;
+      this.dialogue = <Label>this.add.uiElement(
+        UIElementType.LABEL,
+        "dialogue",
+        {
+          position: new Vec2(150, 100),
+          text: "HEY JACKSON",
+        }
+      );
+      this.dialogue.visible = false;
+      this.dialogue.backgroundColor = Color.BLACK;
+      this.dialogue.textColor = Color.WHITE;
+      this.dialogue.size = new Vec2(1400,800);
     }
+    
+
     this.pauseText = <Label>this.add.uiElement(
       UIElementType.LABEL,
       "pauseText",
@@ -353,11 +377,11 @@ export default class mainScene extends Scene {
     );
     this.enemyKilled.textColor = Color.WHITE;
 
-    this.addUILayer("attackdamage");
-    this.addUILayer("attackspeed");
-    this.addUILayer("speed");
-    this.addUILayer("healthup");
-    this.addUILayer("buffspicture").setDepth(100);
+    this.addUILayer("attackdamage").setDepth(1);
+    this.addUILayer("attackspeed").setDepth(1);
+    this.addUILayer("speed").setDepth(1);
+    this.addUILayer("healthup").setDepth(1);
+    this.addUILayer("buffspicture").setDepth(1);
     var attackdamagepic = this.add.sprite("attackdamage", "buffspicture");
     attackdamagepic.position.set(280, 40);
     var attackspeedpic = this.add.sprite("attackspeed", "buffspicture");
@@ -620,15 +644,53 @@ export default class mainScene extends Scene {
     var currenthp = (<PlayerController>this.mainPlayer._ai).health;
     var maxhp = (<PlayerController>this.mainPlayer._ai).maxHealth;
     this.healthbargreen.size.set((currenthp / maxhp) * 128, 16);
+    if (this.dialogueOn){
+      if(this.dialogueNumber<4){
+        if(this.dialogueTimer.isStopped())
+        {
+          this.dialogueNumber++;
+          if (this.dialogueNumber == 1){
+            this.dialogue.text = "TELL ME WHAT HAPPENED";
+            this.dialogue.visible = true;
+          }
+          if (this.dialogueNumber == 2){
+            this.dialogue.text = "I DIDN'T MEAN TO";
+            this.dialogue.visible = true;
+          }
+          if (this.dialogueNumber == 3){
+            this.dialogue.text = "ARGH ARGH";
+            this.dialogue.visible = true;
+          }
+          this.dialogueTimer.start(2000);
+        }
+      }
+      else{
+        this.dialogueOn = false;
+        this.dialogue.visible = false;
+        for (let i = 0; i < this.enemies.length; i++) {
+          this.enemies[i].setAIActive(true, null);
+          this.enemies[i].animation.resume();
+        }
+        this.emitter.fireEvent("noplayercontrol",{enable : true});
+      }
+    }
 
     if(this.jackson){
       if (this.mainPlayer.collisionShape.overlaps(this.jackson.boundary)){
         const enemyData = this.load.getObject("bossData");
         let data = enemyData.enemies[0];
         this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
-        this.jackson.destroy(); 
-        console.log(this.jackson);
+        this.jackson.destroy();
         this.jackson = null;
+          for (let i = 0; i < this.enemies.length; i++) {
+          this.enemies[i].setAIActive(false, null);
+          this.enemies[i].animation.pause();
+        }
+        this.mainPlayer.animation.pause();
+        this.emitter.fireEvent("noplayercontrol",{enable : false});
+        this.dialogue.visible = true;
+        this.dialogueTimer.start(2000);
+        this.dialogueOn = true;
       }
     }
     // Debug mode graph

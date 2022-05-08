@@ -106,6 +106,7 @@ export default class PlayerController
     this.shootingTimer = this.weapon.cooldownTimer;
     this.projectileAmount = 1;
     this.system = options.system;
+    this.receiver.subscribe("noplayercontrol");
   }
 
   activate(options: Record<string, any>): void {}
@@ -227,10 +228,9 @@ export default class PlayerController
   update(deltaT: number): void {
     while (this.receiver.hasNextEvent()) {
       let event = this.receiver.getNextEvent();
-      if (event.isType("slowplayer")) {
-        if (this.speed > 50) {
-          this.speed -= 5;
-        }
+      if (event.isType("noplayercontrol")) {
+        this.inputEnabled = event.data.get("enable");
+        console.log("inputdisabled");
       } else {
         this.handleEvent(this.receiver.getNextEvent());
       }

@@ -652,10 +652,16 @@ export default class mainScene extends Scene {
           }
           this.mainPlayer.animation.pause();
           this.pauseText.visible = true;
+          if (this.currentLevel == "9"){
+            this.bossSpawnOn = false;
+          }
         } else {
           for (let i = 0; i < this.enemies.length; i++) {
             this.enemies[i].setAIActive(true, null);
             this.enemies[i].animation.resume();
+          }
+          if (this.currentLevel == "9"){
+            this.bossSpawnOn = true;
           }
           this.mainPlayer.animation.resume();
           this.pauseText.visible = false;
@@ -753,6 +759,14 @@ export default class mainScene extends Scene {
       if (this.bossSpawnTimer.isStopped()){
         console.log('SUMMONING')
         let enemy = this.enemies[0];
+        if (this.mainPlayer.position.x > enemy.position.x){
+          console.log("facing right");
+        }
+        else{
+          console.log("facing left");
+        }
+        // var direction = path.getMoveDirection(enemy);
+        // console.log(direction);
         this.bossSpawnEnemy(new Vec2(enemy.position.x, enemy.position.y));
         this.bossSpawnEnemy(
           new Vec2(enemy.position.x + 20, enemy.position.y - 20)

@@ -429,10 +429,10 @@ export default class mainScene extends Scene {
       if (this.items.length >= 30) {
         return; //cannot drop more than 30 items
       }
-      if (Math.random() < .9) {
+      if (Math.random() < .8) {
         // Spawn a healthpack
         let min = 1;
-        let max = 5;
+        let max = 6;
         let lootType = Math.floor(Math.random() * (max + 1 - min) + min);
         // this.emitter.fireEvent("healthpack", { pos});
         if (lootType === 1) {
@@ -449,6 +449,9 @@ export default class mainScene extends Scene {
         }
         if (lootType === 5) {
           this.createSpeed(pos);
+        }
+        if (lootType === 6){
+          this.createHealthpack(pos)
         }
       }
     }

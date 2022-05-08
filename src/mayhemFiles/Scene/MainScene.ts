@@ -50,7 +50,7 @@ export default class mainScene extends Scene {
 
   protected dialogueTimer = new Timer(10000);
   protected dialogueOn = false;
-  protected toolTipTimer = new Timer(4000);
+  protected toolTipTimer = new Timer(9000);
   protected toolTipOn = false;
   protected toolTip: Label;
   protected dialogueNumber = 0;
@@ -159,14 +159,15 @@ export default class mainScene extends Scene {
     this.load.image("pistol", "mayhemAssets/sprites/pistol.png");
     this.load.audio("gunshot", "mayhemAssets/music/gunshot.wav");
     this.load.audio("portalsound", "mayhemAssets/music/portalsound.wav");
+    this.load.audio("dialoguesound", "mayhemAssets/music/dialogue.wav");
   }
   mainStartScene() {
     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
-      key: "bgm",
+      key: "dialoguesound",
       loop: true,
       holdReference: true,
     });
-    this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "portalsound" });
+
     let tilemapLayers = this.add.tilemap("level", new Vec2(0.5, 0.5));
 
     // Get the wall layer
@@ -548,6 +549,9 @@ export default class mainScene extends Scene {
             this.createCheckpoint(event.data.get("enemy").position.clone()); 
             this.bossSpawnOn = false;
           }
+          else{
+            this.lootGenerate(event.data.get("enemy").position.clone());
+          }
         }
         else if (enemyType==="slime"){
           this.spawnNewEnemy(new Vec2(enemy.position.x, enemy.position.y));
@@ -704,7 +708,7 @@ export default class mainScene extends Scene {
             this.dialogue.text = "ARGH ARGH";
             this.dialogue.visible = true;
           }
-          this.dialogueTimer.start(2000);
+          this.dialogueTimer.start(5000);
         }
       }
       else{
@@ -718,13 +722,15 @@ export default class mainScene extends Scene {
         this.bossSpawnTimer.start();
         this.bossSpawnOn = true;
         let enemy = this.enemies[0];
-        const enemyData = this.load.getObject("enemyData");
-        let data = enemyData.enemies[0];
-        this.bossSpawnEnemy(new Vec2(enemy.position.x, enemy.position.y));
-        this.bossSpawnEnemy(
-          new Vec2(enemy.position.x + 20, enemy.position.y - 20)
-        );
-        this.bossSpawnEnemy(new Vec2(enemy.position.x + 40, enemy.position.y));
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {
+          key: "dialoguesound",
+        });
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
+          key: "bgm",
+          loop: true,
+          holdReference: true,
+        });
+        this.bossSpawnTimer.start();
       }
     }
     if (this.bossSpawnOn){
@@ -748,6 +754,14 @@ export default class mainScene extends Scene {
           this.enemies[i].animation.resume();
         }
         this.emitter.fireEvent("noplayercontrol",{enable : true});
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {
+          key: "dialoguesound",
+        });
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
+          key: "bgm",
+          loop: true,
+          holdReference: true,
+        });
       }
     }
     if(this.jackson){

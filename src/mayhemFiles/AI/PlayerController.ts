@@ -173,7 +173,7 @@ export default class PlayerController
       if (
         (<BattlerAI>this.owner._ai).health >
         (<BattlerAI>this.owner._ai).maxHealth
-      ) {
+      && !(this.hacks)) {
         (<BattlerAI>this.owner._ai).health = (<BattlerAI>(
           this.owner._ai
         )).maxHealth;

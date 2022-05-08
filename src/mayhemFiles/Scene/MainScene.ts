@@ -50,8 +50,11 @@ export default class mainScene extends Scene {
 
   protected dialogueTimer = new Timer(10000);
   protected dialogueOn = false;
-
+  protected toolTipTimer = new Timer(4000);
+  protected toolTipOn = false;
+  protected toolTip: Label;
   protected dialogueNumber = 0;
+  protected bossSpawnTimer = new Timer(10000);
 
   // A list of enemies
   protected enemies: Array<AnimatedSprite>;
@@ -107,6 +110,7 @@ export default class mainScene extends Scene {
 
   pauseText: Label;
   system:ParticleSystem
+  bossSpawnOn = false;
 
   mainLoadScene() {
     this.load.spritesheet(
@@ -249,53 +253,61 @@ export default class mainScene extends Scene {
     this.addUILayer("pauseText");
     let text;
     let size;
-    console.log(this.currentLevel)
+    let tooltiptext;
     if (this.currentLevel == "1") {
       text = "Paused - Flame Imps - Burns (Attack) - Kill 10";
       size = new Vec2(550, 100);
       this.enemiesNeeded = 10;
+      tooltiptext = "Hey, nice to meet you Jackson"
     }
     else if (this.currentLevel == "2") {
       text = "Paused - Slimes - Mutiply (Death) - Kill 20";
       size = new Vec2(550, 100);
       this.enemiesNeeded = 20;
+      tooltiptext = "Brother, that was one hell of a fight"
     }
     else if (this.currentLevel == "3") {
       text = "Paused - JellyFish - Slow Player (Attack) - Kill 30 ";
       size = new Vec2(590, 100);
       this.enemiesNeeded = 30;
+      tooltiptext = "Hooray, we are the victors!!!!"
     }
     else if (this.currentLevel == "4") {
       text = "Paused - Gemstones - Ranged (Attack) - Kill 40";
       size = new Vec2(570, 100);
       this.enemiesNeeded = 40;
+      tooltiptext = "Dear Jackson, where have you been?"
     }
     else if (this.currentLevel == "5") {
       text = "Paused - Rock Worm - Fast (Movement) - Kill 50";
       size = new Vec2(580, 100);
       this.enemiesNeeded = 50;
+      tooltiptext = "My condolensces, your comrade Jackson has been executed"
     }
     else if (this.currentLevel == "6") {
       text = "Paused - Mix - Kill 60";
       size = new Vec2(300, 100);
       this.enemiesNeeded = 60;
+      tooltiptext = "Dear Jackson, I miss all the laughs we used to have"
     }
     else if (this.currentLevel == "7") {
       text = "Paused - Mix - Kill 70";
       size = new Vec2(300, 100);
       this.enemiesNeeded = 70;
+      tooltiptext = "Jackson!! Tell me!!!"
     }
     else if (this.currentLevel == "8") {
       text = "Paused - Mix - Kill 80";
       size = new Vec2(300, 100);
       this.enemiesNeeded = 80;
+      tooltiptext = "Jackson, please please, what happened???"
     }
     else{
       let dialogue = this.addUILayer("dialogue");
       dialogue.setDepth(100);
       text = "Paused - Boss"
       size = new Vec2(300, 100);
-      this.enemiesNeeded = 1;
+      this.enemiesNeeded = 999999999999999999999999999999999999999;
       this.dialogue = <Label>this.add.uiElement(
         UIElementType.LABEL,
         "dialogue",
@@ -309,6 +321,7 @@ export default class mainScene extends Scene {
       this.dialogue.textColor = Color.WHITE;
       this.dialogue.size = new Vec2(1400,800);
     }
+
     
 
     this.pauseText = <Label>this.add.uiElement(
@@ -442,6 +455,29 @@ export default class mainScene extends Scene {
       }
     );
     this.projectileBuffLabel.textColor = Color.WHITE;
+    if (!(this.currentLevel == "9")){
+      let toolTip = this.addUILayer("toolTip");
+      toolTip.setDepth(100);
+      this.toolTip = <Label>this.add.uiElement(
+        UIElementType.LABEL,
+        "toolTip",
+        {
+          position: new Vec2(150, 100),
+          text: tooltiptext,
+        }
+      );
+      this.toolTip.visible = true;
+      this.toolTip.backgroundColor = Color.BLACK;
+      this.toolTip.textColor = Color.WHITE;
+      this.toolTip.size = new Vec2(1400,800);
+      this.toolTipTimer.start();
+      this.toolTipOn = true;
+      for (let i = 0; i < this.enemies.length; i++) {
+        this.enemies[i].setAIActive(false, null);
+        this.enemies[i].animation.pause();
+      }
+      this.emitter.fireEvent("noplayercontrol",{enable:false})
+      }
   }
 
   lootGenerate(pos: Vec2) {
@@ -496,7 +532,6 @@ export default class mainScene extends Scene {
         enemy.healthbar.destroy();
         enemy.visible = false;
         this.totalEnemiesKilled++;
-        this.lootGenerate(event.data.get("enemy").position.clone());
         this.enemies = this.enemies.filter(
           (enemy) => enemy !== event.data.get("enemy")
         );
@@ -507,7 +542,12 @@ export default class mainScene extends Scene {
 
         this.enemyKilled.text = "Kills: " + this.totalEnemiesKilled;
         let enemyType = (<EnemyAI>enemy._ai).enemyType
-        if (enemyType==="devil") {
+        if (this.currentLevel == "9"){
+          if (enemyType == "devil"){
+            this.checkpointDropBoolean = true;
+            this.createCheckpoint(event.data.get("enemy").position.clone()); 
+            this.bossSpawnOn = false;
+          }
         }
         else if (enemyType==="slime"){
           this.spawnNewEnemy(new Vec2(enemy.position.x, enemy.position.y));
@@ -515,8 +555,10 @@ export default class mainScene extends Scene {
             new Vec2(enemy.position.x + 20, enemy.position.y - 20)
           );
           this.spawnNewEnemy(new Vec2(enemy.position.x + 40, enemy.position.y));
+          this.lootGenerate(event.data.get("enemy").position.clone());
         } else {
           this.spawnRandomEnemy();
+          this.lootGenerate(event.data.get("enemy").position.clone());
         }
       }
       
@@ -607,6 +649,7 @@ export default class mainScene extends Scene {
       }
     }
 
+
     // check health of each player
     let health = (<BattlerAI>this.mainPlayer._ai).health;
 
@@ -672,9 +715,41 @@ export default class mainScene extends Scene {
           this.enemies[i].animation.resume();
         }
         this.emitter.fireEvent("noplayercontrol",{enable : true});
+        this.bossSpawnTimer.start();
+        this.bossSpawnOn = true;
+        let enemy = this.enemies[0];
+        const enemyData = this.load.getObject("enemyData");
+        let data = enemyData.enemies[0];
+        this.bossSpawnEnemy(new Vec2(enemy.position.x, enemy.position.y));
+        this.bossSpawnEnemy(
+          new Vec2(enemy.position.x + 20, enemy.position.y - 20)
+        );
+        this.bossSpawnEnemy(new Vec2(enemy.position.x + 40, enemy.position.y));
       }
     }
-
+    if (this.bossSpawnOn){
+      if (this.bossSpawnTimer.isStopped()){
+        console.log('SUMMONING')
+        let enemy = this.enemies[0];
+        this.bossSpawnEnemy(new Vec2(enemy.position.x, enemy.position.y));
+        this.bossSpawnEnemy(
+          new Vec2(enemy.position.x + 20, enemy.position.y - 20)
+        );
+        this.bossSpawnEnemy(new Vec2(enemy.position.x + 40, enemy.position.y));
+        this.bossSpawnTimer.start();
+      }
+    }
+    if (this.toolTipOn){
+      if (this.toolTipTimer.isStopped()){
+        this.toolTip.visible = false;
+        this.toolTipOn = false;
+        for (let i = 0; i < this.enemies.length; i++) {
+          this.enemies[i].setAIActive(true, null);
+          this.enemies[i].animation.resume();
+        }
+        this.emitter.fireEvent("noplayercontrol",{enable : true});
+      }
+    }
     if(this.jackson){
       if (this.mainPlayer.collisionShape.overlaps(this.jackson.boundary)){
         const enemyData = this.load.getObject("bossData");
@@ -960,7 +1035,6 @@ export default class mainScene extends Scene {
       return; //hard limit on the max enemies there can be in this game
     }
     data=this.changeEnemySpawnType(data)
-
     // // Create an enemy
     // console.log("this is where we are creating and spawning new enemies")
     // console.log(data)
@@ -1055,6 +1129,7 @@ export default class mainScene extends Scene {
 
     this.applyEnemyEffects(this.enemies[lastIndex]);
   }
+  
   initializeEnemies() {
     this.enemies = new Array(0);
     const enemyData = this.load.getObject("enemyData");
@@ -1084,5 +1159,102 @@ export default class mainScene extends Scene {
       let newPos = new Vec2(x, y);
       this.spawnNewEnemy(newPos);
     }
+  }
+
+  bossSpawnEnemy(pos: Vec2) {
+    const enemyData = this.load.getObject("enemyData");
+    let data = enemyData.enemies[0];
+    if (this.enemies.length >= 60) {
+      return; //hard limit on the max enemies there can be in this game
+    }
+    let enemySpawnType = ((this.enemies.length + this.totalEnemiesKilled) % 5);
+        if(enemySpawnType === 1){
+          data.type = "imp"
+        }
+        else if(enemySpawnType === 2){
+          data.type = "slime"
+    
+        }
+        else if(enemySpawnType === 3) {
+          data.type = "gemstone"
+    
+        }
+        else if (enemySpawnType ===4){
+          data.type = "jellyfish"
+        }
+        else{
+          data.type = "caveEnemy"
+        }
+    // // Create an enemy
+    // console.log("this is where we are creating and spawning new enemies")
+    // console.log(data)
+
+    this.enemies.push(this.add.animatedSprite(data.type, "primary"));
+    let lastIndex = this.enemies.length - 1;
+    this.enemies[lastIndex].position.set(
+      data.position[0] / 2,
+      data.position[1] / 2
+    );
+    this.enemies[lastIndex].animation.play("face_left");
+    this.enemies[lastIndex].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
+
+    if (data.route) {
+      data.route = data.route.map((index: number) =>
+        this.graph.getNodePosition(index)
+      );
+    }
+
+    if (data.guardPosition) {
+      data.guardPosition = new Vec2(
+        data.guardPosition[0] / 2,
+        data.guardPosition[1] / 2
+      );
+    }
+
+    /*initalize status and actions for each enemy. This can be edited if you want your custom enemies to start out with
+          different statuses, but dont remove these statuses for the original two enemies*/
+
+    let weapon;
+    let actions;
+    let range;
+    let speed=100;
+      weapon = this.createWeapon("knife");
+      actions = this.actionKnife;
+      range = 20;
+      speed = 90;
+      weapon.type.damage = 5;
+
+    var enemyhpbar = this.add.sprite("enemyHp", "primary");
+    enemyhpbar.position.set(data.position[0] / 2, data.position[1] / 2 - 7);
+    this.enemies[lastIndex].healthbar = enemyhpbar;
+
+    //SCALING options
+    let scalingFactor = Math.ceil((this.totalEnemiesKilled + 10) / 20);
+    let scaledHealth = Math.ceil(data.health * scalingFactor);
+    weapon.type.damage = Math.ceil(weapon.type.damage * scalingFactor);
+
+    let enemyOptions = {
+      defaultMode: data.mode,
+      patrolRoute: data.route, // This only matters if they're a patroller
+      guardPosition: data.guardPosition, // This only matters if the're a guard
+      health: scaledHealth,
+      player1: this.mainPlayer,
+      weapon: weapon,
+      goal: hw4_Statuses.REACHED_GOAL,
+      status: this.statusArray,
+      actions: actions,
+      speed: speed,
+      inRange: range,
+      enemyType: data.type
+    };
+    this.enemies[lastIndex].addAI(EnemyAI, enemyOptions);
+    if (pos !== null) {
+      this.enemies[lastIndex].position = pos.clone();
+    }
+    this.battleManager.setEnemies(
+      this.enemies.map((enemy) => <BattlerAI>enemy._ai)
+    );
+
+    this.applyEnemyEffects(this.enemies[lastIndex]);
   }
 }

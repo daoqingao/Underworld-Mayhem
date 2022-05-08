@@ -76,6 +76,8 @@ export default class mainScene extends Scene {
   // Player health
   protected healthDisplays: Label;
 
+  protected shootTimer: Sprite;
+
   // Player Damage
   protected attackDisplays: Label;
 
@@ -153,6 +155,10 @@ export default class mainScene extends Scene {
       "mayhemAssets/sprites/healthbarGreen.png"
     );
 
+    this.load.image(
+      "crosshair",
+      "mayhemAssets/sprites/crosshair.png"
+    );
     this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
     this.load.image("knife", "mayhemAssets/sprites/knife.png");
     this.load.image("multishot", "mayhemAssets/sprites/multishot.png");
@@ -378,6 +384,10 @@ export default class mainScene extends Scene {
       }
     );
     this.attackDisplays.textColor = Color.WHITE;
+
+    this.addUILayer("attackcd");
+
+    this.shootTimer = this.add.sprite("crosshair", "attackcd");
 
     this.addUILayer("enemyKilled");
 
@@ -670,7 +680,13 @@ export default class mainScene extends Scene {
       "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
     this.maxhealthDisplays.text =
       "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
-
+    if((<PlayerController>this.mainPlayer._ai).weapon.cooldownTimer.isStopped()){
+      this.shootTimer.visible = true;
+      this.shootTimer.position = new Vec2(Input.getMousePosition().x, Input.getMousePosition().y);
+    }
+    else{
+      this.shootTimer.visible = false;
+    }
     //update enemy hp
 
     for (let i = 0; i < this.enemies.length; i++) {

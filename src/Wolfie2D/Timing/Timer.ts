@@ -42,7 +42,9 @@ export default class Timer implements Updateable {
     isPaused(){
         return this.state === TimerState.PAUSED;
     }
-
+    getTimeLeft(): number{
+        return this.timeLeft;
+    }
     /**
      * Returns whether or not this timer has been run before
      * @returns true if it has been run at least once (after the latest reset), and false otherwise

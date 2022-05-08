@@ -37,6 +37,8 @@ import MultiProjectile from "../GameSystems/items/MultiProjectile";
 import ParticleSystem from "../../Wolfie2D/Rendering/Animations/ParticleSystem";
 import Won from "./Won";
 import Timer from "../../Wolfie2D/Timing/Timer";
+import {TweenableProperties} from "../../Wolfie2D/Nodes/GameNode";
+import {EaseFunctionType} from "../../Wolfie2D/Utils/EaseFunctions";
 
 export default class mainScene extends Scene {
   // The player
@@ -77,6 +79,7 @@ export default class mainScene extends Scene {
   protected healthDisplays: Label;
 
   protected shootTimer: Sprite;
+  protected shootTimerScale: Vec2;
 
   // Player Damage
   protected attackDisplays: Label;
@@ -389,6 +392,7 @@ export default class mainScene extends Scene {
     this.addUILayer("attackcd");
 
     this.shootTimer = this.add.sprite("crosshair", "attackcd");
+    this.shootTimerScale = this.shootTimer.scale.clone()
 
     this.addUILayer("enemyKilled");
 
@@ -501,8 +505,7 @@ export default class mainScene extends Scene {
       if (this.items.length >= 30) {
         return; //cannot drop more than 30 items
       }
-      if (Math.random() < .8) {
-        // Spawn a healthpack
+      if (Math.random() < .5) {
         let min = 1;
         let max = 6;
         let lootType = Math.floor(Math.random() * (max + 1 - min) + min);
@@ -523,12 +526,16 @@ export default class mainScene extends Scene {
           this.createSpeed(pos);
         }
         if (lootType === 6){
-          this.createHealthpack(pos)
+          // this.createHealthpack(pos)
+          //we did not make the helthpacks ourselves, so lets not drop that
         }
       }
     }
   }
   updateScene(deltaT: number): void {
+    if (Input.isMousePressed( 0)){
+      this.toolTipTimer.end();
+    }
     while (this.receiver.hasNextEvent()) {
       let event = this.receiver.getNextEvent();
 
@@ -687,12 +694,17 @@ export default class mainScene extends Scene {
       "Attack: " + (<PlayerController>this.mainPlayer._ai).weapon.type.damage;
     this.maxhealthDisplays.text =
       "Max Health: " + (<PlayerController>this.mainPlayer._ai).maxHealth;
-    if((<PlayerController>this.mainPlayer._ai).weapon.cooldownTimer.isStopped()){
+
+    if((<PlayerController>this.mainPlayer._ai).weapon.cooldownTimer.getTimeLeft()< 250){
       this.shootTimer.visible = true;
+      this.shootTimer.scale = this.shootTimerScale.clone()
       this.shootTimer.position = new Vec2(Input.getMousePosition().x, Input.getMousePosition().y);
     }
     else{
-      this.shootTimer.visible = false;
+
+      this.shootTimer.scale = this.shootTimer.scale.clone().scale(0.99,0.99);
+      this.shootTimer.position = new Vec2(Input.getMousePosition().x, Input.getMousePosition().y);
+
     }
     //update enemy hp
 

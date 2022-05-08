@@ -158,8 +158,8 @@ export default class mainScene extends Scene {
     this.load.image("multishot", "mayhemAssets/sprites/multishot.png");
     this.load.image("pistol", "mayhemAssets/sprites/pistol.png");
     this.load.audio("gunshot", "mayhemAssets/music/gunshot.wav");
-    this.load.audio("portalsound", "mayhemAssets/music/portalsound.wav");
-    this.load.audio("dialoguesound", "mayhemAssets/music/dialogue.wav");
+    this.load.audio("dialoguesound", "mayhemAssets/music/dialogue.mp3");
+    this.load.audio("bossmusic", "mayhemAssets/music/bossmusic.mp3");
   }
   mainStartScene() {
     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
@@ -726,7 +726,7 @@ export default class mainScene extends Scene {
           key: "dialoguesound",
         });
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
-          key: "bgm",
+          key: "bossmusic",
           loop: true,
           holdReference: true,
         });

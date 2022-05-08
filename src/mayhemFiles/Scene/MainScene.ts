@@ -79,6 +79,7 @@ export default class mainScene extends Scene {
   protected healthDisplays: Label;
 
   protected shootTimer: Sprite;
+  protected crosshairGray: Sprite;
   protected shootTimerScale: Vec2;
 
   // Player Damage
@@ -162,6 +163,10 @@ export default class mainScene extends Scene {
     this.load.image(
       "crosshair",
       "mayhemAssets/sprites/crosshair.png"
+    );
+    this.load.image(
+      "crosshairempty",
+      "mayhemAssets/sprites/crosshairempty.png"
     );
     this.load.image("inventorySlot", "mayhemAssets/sprites/inventory.png");
     this.load.image("knife", "mayhemAssets/sprites/knife.png");
@@ -392,6 +397,7 @@ export default class mainScene extends Scene {
     this.addUILayer("attackcd");
 
     this.shootTimer = this.add.sprite("crosshair", "attackcd");
+    this.crosshairGray = this.add.sprite("crosshairempty", "attackcd");
     this.shootTimerScale = this.shootTimer.scale.clone()
 
     this.addUILayer("enemyKilled");
@@ -697,12 +703,14 @@ export default class mainScene extends Scene {
 
     if((<PlayerController>this.mainPlayer._ai).weapon.cooldownTimer.getTimeLeft()< 250){
       this.shootTimer.visible = true;
-      this.shootTimer.scale = this.shootTimerScale.clone()
+      this.crosshairGray.visible = false;
+      this.crosshairGray.position = new Vec2(Input.getMousePosition().x, Input.getMousePosition().y);
       this.shootTimer.position = new Vec2(Input.getMousePosition().x, Input.getMousePosition().y);
     }
     else{
-
-      this.shootTimer.scale = this.shootTimer.scale.clone().scale(0.99,0.99);
+      this.shootTimer.visible = false;
+      this.crosshairGray.visible = true;
+      this.crosshairGray.position = new Vec2(Input.getMousePosition().x, Input.getMousePosition().y);
       this.shootTimer.position = new Vec2(Input.getMousePosition().x, Input.getMousePosition().y);
 
     }

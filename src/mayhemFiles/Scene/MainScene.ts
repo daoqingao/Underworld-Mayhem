@@ -237,6 +237,7 @@ export default class mainScene extends Scene {
     this.receiver.subscribe("nomoreburn");
     this.receiver.subscribe("nomoreslow");
     this.receiver.subscribe("changeText");
+    this.receiver.subscribe("bosssummon");
     
 
     // this.receiver.subscribe(hw4_Events.UNLOAD_ASSET);
@@ -682,6 +683,27 @@ export default class mainScene extends Scene {
           this.pauseText.visible = false;
         }
       }
+      if (event.isType("bosssummon")){
+
+        let direction = event.data.get("direction");
+        if (direction == "left"){
+          let enemy = this.enemies[0];
+          this.bossSpawnEnemy(new Vec2(enemy.position.x-40, enemy.position.y - 20));
+          this.bossSpawnEnemy(
+            new Vec2(enemy.position.x -40, enemy.position.y)
+          );
+          this.bossSpawnEnemy(new Vec2(enemy.position.x -40, enemy.position.y+ 20));
+        }
+        else{
+          let enemy = this.enemies[0];
+          this.bossSpawnEnemy(new Vec2(enemy.position.x+40, enemy.position.y - 20));
+          this.bossSpawnEnemy(
+            new Vec2(enemy.position.x + 40, enemy.position.y)
+          );
+          this.bossSpawnEnemy(new Vec2(enemy.position.x + 40, enemy.position.y+ 20));
+        }
+        this.bossSpawnTimer.start();
+      }
     }
 
 
@@ -781,21 +803,11 @@ export default class mainScene extends Scene {
       if (this.bossSpawnTimer.isStopped()){
         let enemy = this.enemies[0];
         if (this.mainPlayer.position.x > enemy.position.x){
-          console.log("summonrigh")
-          enemy.animation.play("summon_right");
+          enemy.animation.playIfNotAlready("summon_right", false,"bosssummon", {direction:"right"});
         }
         else{
-          console.log("summonleft")
-          enemy.animation.play("summon_left");
+          enemy.animation.playIfNotAlready("summon_left", false, "bosssummon",{direction:"left"});
         }
-        // var direction = path.getMoveDirection(enemy);
-        // console.log(direction);
-        this.bossSpawnEnemy(new Vec2(enemy.position.x, enemy.position.y));
-        this.bossSpawnEnemy(
-          new Vec2(enemy.position.x + 20, enemy.position.y - 20)
-        );
-        this.bossSpawnEnemy(new Vec2(enemy.position.x + 40, enemy.position.y));
-        this.bossSpawnTimer.start();
       }
     }
     if (this.toolTipOn){

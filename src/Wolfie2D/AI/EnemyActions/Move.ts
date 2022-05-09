@@ -44,13 +44,33 @@ export default class Move extends GoapAction {
       this.path = enemy.path;
       //Otherwise move on path
       var direction = this.path.getMoveDirection(enemy.owner);
-      if  (enemy.health >=0) {
-        if (direction.x > 0) {
-          enemy.owner.animation.playIfNotAlready("run_right", true);
-        } else {
-          enemy.owner.animation.playIfNotAlready("run_left", true);
+
+      if((<EnemyAI>enemy.owner._ai).enemyType==="devil" ){
+        console.log("check for moving")
+        if(enemy.owner.animation.getCurrentAnimation()!== "summon_left" && enemy.owner.animation.getCurrentAnimation()!== "summon_right" ) {
+          if  (enemy.health >=0) {
+            if (direction.x > 0) {
+              enemy.owner.animation.playIfNotAlready("run_right", true);
+            } else {
+              enemy.owner.animation.playIfNotAlready("run_left", true);
+            }
+          }
+        }
+        else{
+          return null; //summon means dont move
+        }
+
+      }
+      else{
+        if  (enemy.health >=0) {
+          if (direction.x > 0) {
+            enemy.owner.animation.playIfNotAlready("run_right", true);
+          } else {
+            enemy.owner.animation.playIfNotAlready("run_left", true);
+          }
         }
       }
+
       enemy.owner.moveOnPath(enemy.speed * deltaT, this.path);
       return null;
     }

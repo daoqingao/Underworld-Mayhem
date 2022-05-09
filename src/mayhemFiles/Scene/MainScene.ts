@@ -815,6 +815,8 @@ export default class mainScene extends Scene {
 
 
     if (this.bossSpawnOn){
+      // console.log("this is the time left")
+      // console.log(this.bossSpawnTimer.getTimeLeft())
       if (this.bossSpawnTimer.isStopped()){
         let enemy = this.enemies[0];
         if (this.mainPlayer.position.x > enemy.position.x){

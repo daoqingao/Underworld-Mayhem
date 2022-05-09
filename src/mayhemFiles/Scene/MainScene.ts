@@ -541,6 +541,7 @@ export default class mainScene extends Scene {
   updateScene(deltaT: number): void {
     if (Input.isMousePressed( 0)){
       this.toolTipTimer.end();
+      this.dialogueTimer.end();
     }
     while (this.receiver.hasNextEvent()) {
       let event = this.receiver.getNextEvent();
@@ -778,13 +779,14 @@ export default class mainScene extends Scene {
     }
     if (this.bossSpawnOn){
       if (this.bossSpawnTimer.isStopped()){
-        console.log('SUMMONING')
         let enemy = this.enemies[0];
         if (this.mainPlayer.position.x > enemy.position.x){
-          console.log("facing right");
+          console.log("summonrigh")
+          enemy.animation.play("summon_right");
         }
         else{
-          console.log("facing left");
+          console.log("summonleft")
+          enemy.animation.play("summon_left");
         }
         // var direction = path.getMoveDirection(enemy);
         // console.log(direction);

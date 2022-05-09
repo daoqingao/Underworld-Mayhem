@@ -67,7 +67,7 @@
 			]
 		},
 		{
-			"name": "dying",
+			"name": "summon_left",
 			"repeat": false,
 			"frames": [
 				{
@@ -104,6 +104,133 @@
 				},
 				{
 					"index": 44,
+					"duration": 15
+				}
+			]
+		},
+		{
+			"name": "summon_right",
+			"repeat": false,
+			"frames": [
+				{
+					"index": 45,
+					"duration": 15
+				},
+				{
+					"index": 46,
+					"duration": 15
+				},
+				{
+					"index": 47,
+					"duration": 15
+				},
+				{
+					"index": 48,
+					"duration": 15
+				},
+				{
+					"index": 49,
+					"duration": 15
+				},
+				{
+					"index": 50,
+					"duration": 15
+				},
+				{
+					"index": 51,
+					"duration": 15
+				},
+				{
+					"index": 52,
+					"duration": 15
+				},
+				{
+					"index": 53,
+					"duration": 15
+				}
+			]
+		},
+		
+		{
+			"name": "dying_left",
+			"repeat": false,
+			"frames": [
+				{
+					"index": 54,
+					"duration": 15
+				},
+				{
+					"index": 55,
+					"duration": 15
+				},
+				{
+					"index": 56,
+					"duration": 15
+				},
+				{
+					"index": 57,
+					"duration": 15
+				},
+				{
+					"index": 58,
+					"duration": 15
+				},
+				{
+					"index": 59,
+					"duration": 15
+				},
+				{
+					"index": 60,
+					"duration": 15
+				},
+				{
+					"index": 61,
+					"duration": 15
+				},
+				{
+					"index": 62,
+					"duration": 15
+				}
+			]
+		},
+		{
+			"name": "dying_right",
+			"repeat": false,
+			"frames": [
+				{
+					"index": 63,
+					"duration": 15
+				},
+				{
+					"index": 64,
+					"duration": 15
+				},
+				{
+					"index": 65,
+					"duration": 15
+				},
+				{
+					"index": 66,
+					"duration": 15
+				},
+				{
+					"index": 67,
+					"duration": 15
+				},
+				{
+					"index": 68,
+					"duration": 15
+				},
+				{
+					"index": 69,
+					"duration": 15
+				},
+				{
+					"index": 70,
+					"duration": 15
+				},
+				{
+					"index": 71,
 					"duration": 15
 				}
 			]

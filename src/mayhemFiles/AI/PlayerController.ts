@@ -270,7 +270,6 @@ export default class PlayerController
           );
           this.hacks = false;
         } else {
-          console.log(this.weapon.cooldownTimer);
           this.health = 1000000;
           this.teleportEnabled = true;
           this.weapon.cooldownTimer = new Timer(

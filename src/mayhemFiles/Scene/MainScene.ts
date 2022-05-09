@@ -279,49 +279,49 @@ export default class mainScene extends Scene {
       text = "Paused - Flame Imps - Burns (Attack) - Kill 10";
       size = new Vec2(550, 100);
       this.enemiesNeeded = 10;
-      tooltiptext = "Hey, nice to meet you Jackson"
+      tooltiptext = "I've finally made my way to hell, lets see where is Jackson at"
     }
     else if (this.currentLevel == "2") {
       text = "Paused - Slimes - Mutiply (Death) - Kill 20";
       size = new Vec2(550, 100);
       this.enemiesNeeded = 20;
-      tooltiptext = "Brother, that was one hell of a fight"
+      tooltiptext = "Jackson is no where to be found, hopefully he's not one of the Imps I have just killed"
     }
     else if (this.currentLevel == "3") {
       text = "Paused - JellyFish - Slow Player (Attack) - Kill 30 ";
       size = new Vec2(590, 100);
       this.enemiesNeeded = 30;
-      tooltiptext = "Hooray, we are the victors!!!!"
+      tooltiptext = "These slimes get messy real quick, it better not get any worst than this later on"
     }
     else if (this.currentLevel == "4") {
       text = "Paused - Gemstones - Ranged (Attack) - Kill 40";
       size = new Vec2(570, 100);
       this.enemiesNeeded = 40;
-      tooltiptext = "Dear Jackson, where have you been?"
+      tooltiptext = "I barely made it out alive from that, never knew crystals can shoot lasers"
     }
     else if (this.currentLevel == "5") {
       text = "Paused - Rock Worm - Fast (Movement) - Kill 50";
       size = new Vec2(580, 100);
       this.enemiesNeeded = 50;
-      tooltiptext = "My condolensces, your comrade Jackson has been executed"
+      tooltiptext = "I have been here for so long, where is Jackson at?"
     }
     else if (this.currentLevel == "6") {
       text = "Paused - Mix - Kill 60";
       size = new Vec2(300, 100);
       this.enemiesNeeded = 60;
-      tooltiptext = "Dear Jackson, I miss all the laughs we used to have"
+      tooltiptext = "I didn't know that these guys can all gang up on me, please I can't hold on any longer"
     }
     else if (this.currentLevel == "7") {
       text = "Paused - Mix - Kill 70";
       size = new Vec2(300, 100);
       this.enemiesNeeded = 70;
-      tooltiptext = "Jackson!! Tell me!!!"
+      tooltiptext = "I can't do this anymore, I am at my limit"
     }
     else if (this.currentLevel == "8") {
       text = "Paused - Mix - Kill 80";
       size = new Vec2(300, 100);
       this.enemiesNeeded = 80;
-      tooltiptext = "Jackson, please please, what happened???"
+      tooltiptext = "Jackson please"
     }
     else{
       let dialogue = this.addUILayer("dialogue");

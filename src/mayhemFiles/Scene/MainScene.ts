@@ -575,7 +575,7 @@ export default class mainScene extends Scene {
         let enemyType = (<EnemyAI>enemy._ai).enemyType
         if (this.currentLevel == "9"){
           if (enemyType == "devil"){
-            console.log("boss has died and this is where we create our checkpoint right")
+            // console.log("boss has died and this is where we create our checkpoint right")
             this.checkpointDropBoolean = true;
             this.createCheckpoint(event.data.get("enemy").position.clone()); 
             this.bossSpawnOn = false;

@@ -707,6 +707,8 @@ export default class mainScene extends Scene {
           );
           this.bossSpawnEnemy(new Vec2(enemy.position.x + 40, enemy.position.y+ 20));
         }
+        let enemy = this.enemies[0];
+        enemy.animation.play("run_right");
         this.bossSpawnTimer.start();
       }
     }

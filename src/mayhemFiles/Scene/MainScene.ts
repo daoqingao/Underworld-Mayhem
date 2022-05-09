@@ -1188,7 +1188,7 @@ export default class mainScene extends Scene {
         speed = 80;
       } 
       else if (this.currentLevel == "9") {
-        speed = 90;
+        speed = 80;
         weapon.type.damage = 10;
       } 
       else{

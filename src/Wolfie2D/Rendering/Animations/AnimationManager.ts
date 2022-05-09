@@ -123,7 +123,7 @@ export default class AnimationManager {
       this.frameProgress += 1;
       if (
         this.frameProgress >=
-        currentAnimation.frames[this.currentFrame].duration
+          (currentAnimation.frames[this.currentFrame].duration*1.5)
       ) {
         // We have been on this frame for its whole duration, go to the next one
         this.frameProgress = 0;

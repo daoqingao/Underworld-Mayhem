@@ -571,6 +571,7 @@ export default class mainScene extends Scene {
         let enemyType = (<EnemyAI>enemy._ai).enemyType
         if (this.currentLevel == "9"){
           if (enemyType == "devil"){
+            console.log("boss has died and this is where we create our checkpoint right")
             this.checkpointDropBoolean = true;
             this.createCheckpoint(event.data.get("enemy").position.clone()); 
             this.bossSpawnOn = false;
@@ -799,6 +800,8 @@ export default class mainScene extends Scene {
         this.bossSpawnTimer.start();
       }
     }
+
+
     if (this.bossSpawnOn){
       if (this.bossSpawnTimer.isStopped()){
         let enemy = this.enemies[0];
@@ -810,6 +813,27 @@ export default class mainScene extends Scene {
         }
       }
     }
+
+    if(this.jackson){
+      if (this.mainPlayer.collisionShape.overlaps(this.jackson.boundary)){
+        const enemyData = this.load.getObject("bossData");
+        let data = enemyData.enemies[0];
+        this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
+        this.jackson.destroy();
+        this.jackson = null;
+          for (let i = 0; i < this.enemies.length; i++) {
+          this.enemies[i].setAIActive(false, null);
+          this.enemies[i].animation.pause();
+        }
+        this.mainPlayer.animation.pause();
+        this.emitter.fireEvent("noplayercontrol",{enable : false});
+        this.dialogue.visible = true;
+        this.dialogueTimer.start(2000);
+        this.dialogueOn = true;
+      }
+    }
+
+
     if (this.toolTipOn){
       if (this.toolTipTimer.isStopped()){
         this.toolTip.visible = false;
@@ -829,24 +853,7 @@ export default class mainScene extends Scene {
         });
       }
     }
-    if(this.jackson){
-      if (this.mainPlayer.collisionShape.overlaps(this.jackson.boundary)){
-        const enemyData = this.load.getObject("bossData");
-        let data = enemyData.enemies[0];
-        this.spawnEnemy(JSON.parse(JSON.stringify(data)), null);
-        this.jackson.destroy();
-        this.jackson = null;
-          for (let i = 0; i < this.enemies.length; i++) {
-          this.enemies[i].setAIActive(false, null);
-          this.enemies[i].animation.pause();
-        }
-        this.mainPlayer.animation.pause();
-        this.emitter.fireEvent("noplayercontrol",{enable : false});
-        this.dialogue.visible = true;
-        this.dialogueTimer.start(2000);
-        this.dialogueOn = true;
-      }
-    }
+
     // Debug mode graph
     if (Input.isKeyJustPressed("g")) {
       this.getLayer("graph").setHidden(!this.getLayer("graph").isHidden());

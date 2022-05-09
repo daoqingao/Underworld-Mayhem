@@ -128,9 +128,31 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
       // this.owner.animation.play("dying",null);
       this.owner.setAIActive(false, {});
       this.owner.isCollidable = false;
-      this.owner.animation.playIfNotAlready("dying", false, "enemyDied", {
-        enemy: this.owner,
-      });
+
+      if(this.enemyType==="devil"){
+        let player = this.getPlayerPosition();
+        let ownerPos= this.owner.position;
+
+          if(this.owner.animation.getCurrentAnimation()!== "dying_left" && this.owner.animation.getCurrentAnimation()!== "dying_right" ) {
+            if(player.x - ownerPos.x <=0) {
+              this.owner.animation.playIfNotAlready("dying_left", false, "enemyDied", {
+                enemy: this.owner,
+              });
+            }
+            else {
+              this.owner.animation.playIfNotAlready("dying_right", false, "enemyDied", {
+                enemy: this.owner,
+              });
+            }
+          }
+
+
+      }
+      else{
+        this.owner.animation.playIfNotAlready("dying", false, "enemyDied", {
+          enemy: this.owner,
+        });
+      }
       // this.emitter.fireEvent("enemyDied", {enemy: this.owner})
 
       // if (Math.random() < 0.2) {

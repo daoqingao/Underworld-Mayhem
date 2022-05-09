@@ -691,6 +691,9 @@ export default class mainScene extends Scene {
       if (event.isType("bosssummon")){
 
         let direction = event.data.get("direction");
+
+        let enemy = this.enemies[0];
+
         if (direction == "left"){
           let enemy = this.enemies[0];
           this.bossSpawnEnemy(new Vec2(enemy.position.x-40, enemy.position.y - 20));
@@ -698,6 +701,8 @@ export default class mainScene extends Scene {
             new Vec2(enemy.position.x -40, enemy.position.y)
           );
           this.bossSpawnEnemy(new Vec2(enemy.position.x -40, enemy.position.y+ 20));
+          enemy.animation.play("run_left");
+
         }
         else{
           let enemy = this.enemies[0];
@@ -706,9 +711,10 @@ export default class mainScene extends Scene {
             new Vec2(enemy.position.x + 40, enemy.position.y)
           );
           this.bossSpawnEnemy(new Vec2(enemy.position.x + 40, enemy.position.y+ 20));
+          enemy.animation.play("run_right");
+
         }
-        let enemy = this.enemies[0];
-        enemy.animation.play("run_right");
+
         this.bossSpawnTimer.start();
       }
     }

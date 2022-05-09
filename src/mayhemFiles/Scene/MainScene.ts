@@ -48,7 +48,7 @@ export default class mainScene extends Scene {
 
   protected mainPlayer: AnimatedSprite;
 
-  protected jackson: AnimatedSprite;
+  protected jackson: Sprite;
 
   protected dialogueTimer = new Timer(10000);
   protected dialogueOn = false;
@@ -149,6 +149,10 @@ export default class mainScene extends Scene {
     this.load.image(
       "checkpointcleared",
       "mayhemAssets/sprites/checkpointcleared.png"
+    );
+    this.load.image(
+      "jackson",
+      "mayhemAssets/sprites/jackson.png"
     );
     this.load.image(
       "healthbarEmpty",
@@ -1021,8 +1025,7 @@ export default class mainScene extends Scene {
     this.system = new ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
     this.system.initializePool(this, "primary");
     if (this.currentLevel == "9"){
-      this.jackson = this.add.animatedSprite("mainplayer", "primary")
-      this.jackson = this.add.animatedSprite("mainplayer", "primary");
+      this.jackson = this.add.sprite("jackson", "primary")
       this.jackson.position.set(200, 496);
       this.jackson.addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
     }
